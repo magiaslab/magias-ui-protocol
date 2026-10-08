@@ -1,6 +1,6 @@
 # Stato delle verifiche
 
-8 ottobre 2026; candidata 0.1.0-beta.1, nucleo v0.2.
+Aggiornato il 9 ottobre 2026; beta 0.1.0-beta.1, nucleo v0.2.
 
 | Area | Stato | Evidenza e limite |
 |---|---|---|
@@ -10,7 +10,7 @@
 | Codex CLI 0.160.0 | PASS nel campione documentale | Skill invocata, file pertinenti letti, risposta osservata e giudizio registrati |
 | Claude Code 2.1.226 | BLOCCATO da autenticazione | Sessione OAuth scaduta, rinnovo non riuscito; nessuna risposta della skill |
 | Claude.ai / API | NON VERIFICATO | Non installati/caricati |
-| CI GitHub | NON VERIFICATO | Workflow preparato, nessun run remoto |
+| CI GitHub | PASS remoto | Run 37850941100 del 9 ottobre 2026: validazione e confezionamento riusciti sul commit 11b7769 |
 
 ## Prova Codex
 
