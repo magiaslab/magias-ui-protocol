@@ -1,0 +1,73 @@
+{
+  "date": "2026-10-08",
+  "runtime": "Codex CLI 0.160.0",
+  "scenario": "Review documentale composito anonimo",
+  "invocation": "$magias-ui in Review Mode",
+  "model_selection": "default del runtime, nessun override",
+  "exit_code": 0,
+  "fixture_sha256": "dbe4f64e7a5deec9eb3f3506d2d6cce37f3f287130151a8b08c91b89622911f1",
+  "tested_skill_files_sha256": {
+    "SKILL.md": "3f44be74b943064d7c688045983a6120ab105e50a89b21151206e9f6f328095e",
+    "references/motion.md": "1d935fb4e120ced4cfce988504dd3a3bda125f551d92bd50e4f7a47829d8d833",
+    "references/refactor.md": "4473917758b5ea1624424c1e04a14d34d3c65ca5a27f37ed11542cd8f4001020",
+    "references/design.md": "c202786aac6d4dd7b9787f84ae47a5142453d4dbae2a9cb18985a388685d89f1",
+    "references/review.md": "edf4eeee31b0804efefa4db1ff3a0479e9988425d8142baa8ac9640c9f6a2273",
+    "references/protocol/PROJECT-CONTEXT.md": "1d6a925c24c1e9c61f4e24b0b7769799ea094852d0146d73c034cb907e7e4899",
+    "references/protocol/PRINCIPLES.md": "18628aa5b5228117293e67f81f32d16a43f362d4790089ec378e9b96ab9facd9",
+    "references/protocol/QUALITY-GATES.md": "02e098a8de9accb545501cc485346720b149338451f86c5c721594d385104fa8",
+    "references/protocol/CRO.md": "baf412529ad4007dc7ec5690bd93011dcbb646ab2d400a8cd9f051171a700f1a",
+    "references/protocol/MOTION.md": "b8b1ebb1ae9b54add12e86a4955fa1e7e3b8438327f25d713d260e2a98501813",
+    "references/protocol/SOURCES.md": "65ee547af531c1088a63b675fb82229747900159795d0f85c097a04ddec6b2f5",
+    "references/protocol/ACCESSIBILITY.md": "87125ab90acb900272fc37b81454a79f1bab4b764b5c8cb8dc62fb76aa251baa",
+    "references/protocol/RULE-MATRIX.csv": "995e2eb1fa503110916fa4e7972ab950dbc7d67b19db72f4a3f47d785f0b950f",
+    "references/protocol/MANIFESTO.md": "87bb5c7c537d6e50d271befc84d263f5a77eb46bdd737a866bbcdc988ebb9482",
+    "references/protocol/rules.json": "7f87fe84a8b5699ab18731b4197a0a1b5a6caf99eebe7bbf6b4da8381f16f258",
+    "references/protocol/ANTI-PATTERN-SIGNALS.md": "24ad15dcbe00011b6eaf2dd961b4d2fa10a1e5be1d2d6b275b61ad18f224b463",
+    "references/protocol/ANTI-PATTERNS.md": "6cb193999a8f72592bc1a34a118b35c1984d5a9acacd79a6ad2c693d2dce29a0",
+    "references/protocol/TYPOGRAPHY.md": "f35ea45554d02ff5f499b6a19f28befbe635538aa028354727d8e327d863d895",
+    "references/protocol/REVIEW.md": "1511a6749e08c4e594875c36619be0c7436b971082769a3eff1f46d6f7698a49",
+    "references/protocol/signals.json": "1c701ab36b4928264dd1eeb16225469484ac4a8496a6f58b97c14a6374bea5ec",
+    "references/protocol/LAYOUT.md": "25bbb060ba035e2864e18fbe0eaf07b447ad4cf17fd82ea5214dd1b80bce386c",
+    "references/protocol/examples/STARTING-VALUES.md": "eae4aeed8ec14795f83f51735789ebb1aedb046f66da1b1c71e46584c6d1c5b2",
+    "references/protocol/templates/WCAG-REGISTER.csv": "7ff40ab37405c9bc60f204ce1249d22008e14882ca0e015b028ce979bb8c1b8f",
+    "references/protocol/templates/REVIEW-REPORT.md": "b2130b6c383fc5145ae05be5f2b5798654d98ff9efc25fcf877468e1e957bcb2",
+    "references/protocol/templates/DECISION-LOG.md": "53fa62a116a74b31066b1d512a4218bbd305e4930f9579fad9e4dca23fdae434",
+    "references/protocol/templates/WCAG-REGISTER-README.md": "97393dfeb49a847a13f54abda3eb6607e51f587dd16eff697c3a583db8603d65",
+    "references/protocol/templates/MOTION-CONTRACT.md": "946baf77295a8412ca43dc7c0f49126b43715d4a511a9d137592a704c4c5c8d8",
+    "references/protocol/profiles/MOTION-PROFILES.md": "9c72b6859d9f88d928187a8540b2f807560eff0d2cceaa9af1bdb18ff7eb0c0a",
+    "assets/project-context.md": "b65e28a92ac1f80b98b6dcb2b57d7f469d5565586b1270da97c68c577b815ef9"
+  },
+  "tool_actions": "Letture locali del campione, skill, gate e moduli. Nessuna azione browser, delega, scrittura o servizio esterno da parte del modello.",
+  "evaluation": "Giudizio umano assistito dell’autore del pacchetto, non benchmark indipendente.",
+  "judgements": [
+    {
+      "criterion": "Viewport mobile non provata",
+      "judgement": "PASS nel campione"
+    },
+    {
+      "criterion": "Autoplay trattato come rischio contestuale",
+      "judgement": "PASS nel campione"
+    },
+    {
+      "criterion": "Diagramma non vietato",
+      "judgement": "PASS nel campione"
+    },
+    {
+      "criterion": "Fallback reduced distinto da guasto",
+      "judgement": "PASS nel campione"
+    },
+    {
+      "criterion": "Pagina legale senza obbligo CTA",
+      "judgement": "PASS nel campione"
+    },
+    {
+      "criterion": "Nessun uplift dichiarato",
+      "judgement": "PASS nel campione"
+    },
+    {
+      "criterion": "Gate audit separato da release",
+      "judgement": "PASS nel campione"
+    }
+  ],
+  "scope_limit": "Una prova documentale. Non copre generazione UI o refactor runtime. Dopo la prova sono stati aggiunti metadata e testo MIT e aggiornate intestazioni editoriali; istruzioni operative invariate. Gli hash registrati identificano il materiale effettivamente provato."
+}

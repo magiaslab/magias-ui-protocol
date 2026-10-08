@@ -1,0 +1,155 @@
+[
+  {
+    "id": "N04",
+    "label": "N04 / 9 · tre card",
+    "strength": "SHOULD",
+    "scope": "Ripetizione del medesimo layout",
+    "exceptions": "Entità autonome, confronto, raggruppamento significativo",
+    "method": "Verificare se formato segue contenuto e compito; conteggio non bloccante",
+    "automation": "H"
+  },
+  {
+    "id": "N05",
+    "label": "N05 / 10 · bento",
+    "strength": "SHOULD",
+    "scope": "Modularità e priorità",
+    "exceptions": "Moduli indipendenti leggibili",
+    "method": "Ordine di lettura, salienza, responsive e comprensione",
+    "automation": "S"
+  },
+  {
+    "id": "N06",
+    "label": "N06 / 11 · effetti",
+    "strength": "SHOULD",
+    "scope": "Gradienti, glow, glass, orb",
+    "exceptions": "Identità, separazione, rappresentazione pertinente",
+    "method": "Contrasto, costi e funzione; presenza non FAIL",
+    "automation": "S"
+  },
+  {
+    "id": "N07",
+    "label": "N07 / 12 · pill",
+    "strength": "SHOULD",
+    "scope": "Tag, filtri, stati, azioni",
+    "exceptions": "Raggruppamento e semantica riconoscibili",
+    "method": "Distinzione controlli/dati e task test",
+    "automation": "H"
+  },
+  {
+    "id": "N08",
+    "label": "N08 / 13 · icone",
+    "strength": "SHOULD",
+    "scope": "Segni aggiuntivi",
+    "exceptions": "Riconoscimento rapido, densità, supporto linguistico",
+    "method": "Comprensione, nome accessibile e ridondanza utile",
+    "automation": "S"
+  },
+  {
+    "id": "N09",
+    "label": "N09 / 14 · hero vaga",
+    "strength": "MUST",
+    "scope": "Apertura commerciale",
+    "exceptions": "Narrazione/arte con scopo diverso",
+    "method": "C02: persona riconosce offerta e azione pertinente",
+    "automation": "H"
+  },
+  {
+    "id": "N10",
+    "label": "N10 / 15 · CTA equivalenti",
+    "strength": "SHOULD",
+    "scope": "Decisione con priorità motivata",
+    "exceptions": "Scelte neutrali ed equivalenti",
+    "method": "C03: nessuna gerarchia ingannevole; comprensione delle azioni",
+    "automation": "H"
+  },
+  {
+    "id": "N11",
+    "label": "N11 / 16 · scroll motion",
+    "strength": "SHOULD",
+    "scope": "Richiami ripetuti",
+    "exceptions": "Storytelling controllabile e informazione persistente",
+    "method": "M03/M04: accesso senza reveal e preferenze rispettate",
+    "automation": "S"
+  },
+  {
+    "id": "N12",
+    "label": "N12 / 17 · grigio tenue",
+    "strength": "MUST",
+    "scope": "Contrasto pertinente",
+    "exceptions": "Eccezioni normative",
+    "method": "A02: contrasto reale negli stati, non divieto del grigio",
+    "automation": "S"
+  },
+  {
+    "id": "N13",
+    "label": "N13 / 18 · accordion ovunque",
+    "strength": "SHOULD",
+    "scope": "Comprensione dell’offerta",
+    "exceptions": "FAQ, dettagli e gruppi in cui disclosure aiuta",
+    "method": "C04: sintesi decisiva visibile e accesso al dettaglio",
+    "automation": "H"
+  },
+  {
+    "id": "N14",
+    "label": "N14 / 19 · solo hover",
+    "strength": "MUST",
+    "scope": "Informazioni e azioni",
+    "exceptions": "Hover solo arricchimento con equivalenti",
+    "method": "M06 e criteri applicabili: touch, tastiera, focus",
+    "automation": "S"
+  },
+  {
+    "id": "N15",
+    "label": "N15 / 20 · vuoti immensi",
+    "strength": "SHOULD",
+    "scope": "Distanza fra informazione e azione",
+    "exceptions": "Atmosfera e pause utili, densità di progetto",
+    "method": "P04/L07: contesto, zoom, scroll e compito",
+    "automation": "H"
+  },
+  {
+    "id": "N16",
+    "label": "N16 / 21 · colonne impilate",
+    "strength": "SHOULD",
+    "scope": "Adattamento responsive",
+    "exceptions": "Impilamento corretto se compito e gerarchia preservati",
+    "method": "L08: parità funzionale e casi estremi",
+    "automation": "S"
+  },
+  {
+    "id": "N17",
+    "label": "N17 / 22 · simboli giapponesi",
+    "strength": "SHOULD",
+    "scope": "Iconografia e attribuzioni",
+    "exceptions": "Contenuto pertinente, brand o riferimento consapevole",
+    "method": "Review culturale/editoriale; nessun lint “simbolo = errore”",
+    "automation": "H"
+  },
+  {
+    "id": "N18",
+    "label": "N18 / 23 · prove inventate",
+    "strength": "MUST",
+    "scope": "Fiducia e risultati dichiarati",
+    "exceptions": "Fiction/placeholder espliciti fuori dalle prove reali",
+    "method": "C05: fonte e uso dichiarato; qualità/provenienza umana",
+    "automation": "S"
+  },
+  {
+    "id": "N19",
+    "label": "N19 / 24 · simmetria proibita",
+    "strength": "MUST",
+    "scope": "Logica del protocollo",
+    "exceptions": "Asimmetria facoltativa; non si impone simmetria",
+    "method": "Controllo della policy: nessun FAIL basato solo sulla simmetria",
+    "automation": "D"
+  },
+  {
+    "id": "N20",
+    "label": "N20 / 25 · copy generico",
+    "strength": "SHOULD",
+    "scope": "Comprensione del pubblico",
+    "exceptions": "Voce espressiva pertinente",
+    "method": "C07: task test e review editoriale; stringhe solo indizi",
+    "automation": "H"
+  }
+]

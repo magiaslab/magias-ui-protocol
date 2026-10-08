@@ -1,0 +1,1965 @@
+{
+  "schema_version": 1,
+  "protocol_version": "0.2",
+  "status": "private-documentary-candidate",
+  "rules": [
+    {
+      "id": "P01",
+      "version": "0.2",
+      "strength": "MAY",
+      "assertion": "Suggerire profondità mediante estratti pertinenti quando aiuta il racconto; non renderla un requisito universale.",
+      "scope": "Racconto e anteprime",
+      "exceptions": "Nessun obbligo di suscitare curiosità; dati decisivi sempre espliciti",
+      "method": "Verificare accesso al dettaglio e comprensione senza hover",
+      "automation": "H",
+      "origin": "Magias heuristic/option",
+      "source": "PRINCIPLES.md",
+      "previous": {
+        "version": "0.1",
+        "file": "PRINCIPLES.md",
+        "line": 9,
+        "strength": "SHOULD/MUST"
+      },
+      "change": "La profondità suggerita è opzione espressiva, non default universale",
+      "modes": [
+        "Design",
+        "Review",
+        "Refactor"
+      ],
+      "aliases": [],
+      "dependencies": []
+    },
+    {
+      "id": "P02",
+      "version": "0.2",
+      "strength": "MAY",
+      "assertion": "Esprimere identità con scelte coerenti, anche linguistiche o funzionali; nessun gesto grafico obbligatorio.",
+      "scope": "Identità visiva",
+      "exceptions": "UI operative e sistemi esistenti possono privilegiare continuità",
+      "method": "Confronto con identità e riconoscimento delle azioni",
+      "automation": "H",
+      "origin": "Magias heuristic/option",
+      "source": "PRINCIPLES.md",
+      "previous": {
+        "version": "0.1",
+        "file": "PRINCIPLES.md",
+        "line": 10,
+        "strength": "SHOULD"
+      },
+      "change": "Nessun gesto distintivo obbligatorio",
+      "modes": [
+        "Design",
+        "Review",
+        "Refactor"
+      ],
+      "aliases": [],
+      "dependencies": []
+    },
+    {
+      "id": "P03",
+      "version": "0.2",
+      "strength": "SHOULD",
+      "assertion": "Ridurre richiami che non aggiungono comprensione, orientamento, prova o azione, preservando aiuto e contenuti necessari.",
+      "scope": "Riduzione dei richiami",
+      "exceptions": "Aiuto, dati, orientamento e confronto non sacrificabili",
+      "method": "Confrontare compito prima/dopo e inventario rimozioni",
+      "automation": "H",
+      "origin": "Magias heuristic/option",
+      "source": "PRINCIPLES.md",
+      "previous": {
+        "version": "0.1",
+        "file": "PRINCIPLES.md",
+        "line": 11,
+        "strength": "SHOULD/MUST"
+      },
+      "change": "Separare sottrazione utile da minimalismo",
+      "modes": [
+        "Design",
+        "Review",
+        "Refactor"
+      ],
+      "aliases": [],
+      "dependencies": []
+    },
+    {
+      "id": "P04",
+      "version": "0.2",
+      "strength": "SHOULD",
+      "assertion": "Usare intervalli e raggruppamenti con funzione, adattandoli al compito e alla densità.",
+      "scope": "Spaziatura e raggruppamento",
+      "exceptions": "Alta densità, viewport basso, lingue e zoom",
+      "method": "Osservare associazioni fra label, dati e azioni",
+      "automation": "H",
+      "origin": "Magias heuristic/option",
+      "source": "PRINCIPLES.md",
+      "previous": {
+        "version": "0.1",
+        "file": "PRINCIPLES.md",
+        "line": 12,
+        "strength": "SHOULD"
+      },
+      "change": "Giudicare relazioni, non quantità di vuoto",
+      "modes": [
+        "Design",
+        "Review",
+        "Refactor"
+      ],
+      "aliases": [],
+      "dependencies": []
+    },
+    {
+      "id": "P05",
+      "version": "0.2",
+      "strength": "MAY",
+      "assertion": "Usare discontinuità narrative quando utili, senza interrompere il compito.",
+      "scope": "Transizioni narrative",
+      "exceptions": "Non interrompere lettura o compito; continuità ammessa",
+      "method": "Review della sequenza e dei passaggi",
+      "automation": "H",
+      "origin": "Magias heuristic/option",
+      "source": "PRINCIPLES.md",
+      "previous": {
+        "version": "0.1",
+        "file": "PRINCIPLES.md",
+        "line": 13,
+        "strength": "SHOULD"
+      },
+      "change": "Non prescrivere un taglio a ogni sezione",
+      "modes": [
+        "Design",
+        "Review",
+        "Refactor"
+      ],
+      "aliases": [],
+      "dependencies": []
+    },
+    {
+      "id": "P06",
+      "version": "0.2",
+      "strength": "MAY",
+      "assertion": "Lasciare margine interpretativo a immagini e racconto; informazioni funzionali e condizioni decisive restano esplicite.",
+      "scope": "Immagini e racconto",
+      "exceptions": "Mai ambiguità su azioni, costi, navigazione o stati",
+      "method": "Review editoriale e test di comprensione funzionale",
+      "automation": "H",
+      "origin": "Magias heuristic/option",
+      "source": "PRINCIPLES.md",
+      "previous": {
+        "version": "0.1",
+        "file": "PRINCIPLES.md",
+        "line": 14,
+        "strength": "MAY"
+      },
+      "change": "Non attribuire un punteggio yūgen",
+      "modes": [
+        "Design",
+        "Review",
+        "Refactor"
+      ],
+      "aliases": [],
+      "dependencies": []
+    },
+    {
+      "id": "P07",
+      "version": "0.2",
+      "strength": "MUST",
+      "assertion": "Esplicitare compiti, persone e risultato utente atteso nello scope; dichiarare le ipotesi e ammettere compiti multipli o esplorativi.",
+      "scope": "Tutti i flussi coinvolti",
+      "exceptions": "Persona e compito possono essere ipotesi dichiarate o multipli",
+      "method": "Contesto esplicito con risultato utente atteso",
+      "automation": "S",
+      "origin": "Magias policy",
+      "source": "PRINCIPLES.md",
+      "previous": {
+        "version": "0.1",
+        "file": "PRINCIPLES.md",
+        "line": 18,
+        "strength": "MUST"
+      },
+      "change": "Ammettere ricerca esplorativa e più compiti",
+      "modes": [
+        "Design",
+        "Review",
+        "Refactor"
+      ],
+      "aliases": [],
+      "dependencies": []
+    },
+    {
+      "id": "P08",
+      "version": "0.2",
+      "strength": "MAY",
+      "assertion": "Usare tensione localizzata se pertinente; simmetria, continuità e più variabili sono alternative legittime.",
+      "scope": "Composizione espressiva",
+      "exceptions": "Nessuna tensione necessaria; interfacce complesse con più variabili",
+      "method": "Osservazione gerarchia, continuità e costo di lettura",
+      "automation": "H",
+      "origin": "Magias heuristic/option",
+      "source": "PRINCIPLES.md",
+      "previous": {
+        "version": "0.1",
+        "file": "PRINCIPLES.md",
+        "line": 20,
+        "strength": "SHOULD"
+      },
+      "change": "Eliminare quota di una variabile come vincolo generale",
+      "modes": [
+        "Design",
+        "Review",
+        "Refactor"
+      ],
+      "aliases": [],
+      "dependencies": []
+    },
+    {
+      "id": "P09",
+      "version": "0.2",
+      "strength": "MUST",
+      "assertion": "Rendere disponibili informazioni decisive al momento utile per il compito; nessuna tassonomia universale in tre livelli.",
+      "scope": "Informazioni decisive",
+      "exceptions": "Livelli variabili per compito; nessuna tassonomia obbligatoria in tre strati",
+      "method": "Mappa informazione→decisione; verificare disponibilità al momento utile",
+      "automation": "S",
+      "origin": "Magias policy",
+      "source": "PRINCIPLES.md",
+      "previous": {
+        "version": "0.1",
+        "file": "PRINCIPLES.md",
+        "line": 22,
+        "strength": "MUST"
+      },
+      "change": "Obbligare accesso tempestivo, non struttura a tre livelli",
+      "modes": [
+        "Design",
+        "Review",
+        "Refactor"
+      ],
+      "aliases": [],
+      "dependencies": []
+    },
+    {
+      "id": "P10",
+      "version": "0.2",
+      "strength": "MUST",
+      "assertion": "Motivare rimozioni informative/funzionali con impatto, indicando perdita accettata o ricollocazione; raggruppare decisioni equivalenti.",
+      "scope": "Rimozioni informative e funzionali",
+      "exceptions": "Decorazione e duplicazioni innocue possono avere decisione di gruppo",
+      "method": "Diff contenuti/funzioni e motivazione della perdita o ricollocazione",
+      "automation": "S",
+      "origin": "Magias policy",
+      "source": "PRINCIPLES.md",
+      "previous": {
+        "version": "0.1",
+        "file": "PRINCIPLES.md",
+        "line": 24,
+        "strength": "MUST"
+      },
+      "change": "Limitare obbligo puntuale alle rimozioni con impatto",
+      "modes": [
+        "Design",
+        "Review",
+        "Refactor"
+      ],
+      "aliases": [],
+      "dependencies": []
+    },
+    {
+      "id": "L01",
+      "version": "0.2",
+      "strength": "SHOULD",
+      "assertion": "Collegare sezioni a compito, orientamento o funzione narrativa/espressiva; la domanda utente è un’euristica.",
+      "scope": "Sezioni informative",
+      "exceptions": "Arte, gioco, esplorazione e atmosfera con funzione dichiarata",
+      "method": "Collegare sezione a compito, orientamento o espressione",
+      "automation": "H",
+      "origin": "Magias heuristic/option",
+      "source": "LAYOUT.md",
+      "previous": {
+        "version": "0.1",
+        "file": "LAYOUT.md",
+        "line": 7,
+        "strength": "MUST"
+      },
+      "change": "Domanda utente è euristica, non unica funzione legittima",
+      "modes": [
+        "Design",
+        "Review",
+        "Refactor"
+      ],
+      "aliases": [],
+      "dependencies": []
+    },
+    {
+      "id": "L02",
+      "version": "0.2",
+      "strength": "SHOULD",
+      "assertion": "Scegliere componenti per unità informative e interazioni; card, liste e griglie sono alternative, senza blacklist.",
+      "scope": "Scelta componenti",
+      "exceptions": "Card anche per raggruppamento, stato e contenuto asincrono",
+      "method": "Confrontare alternative e riconoscibilità delle unità",
+      "automation": "H",
+      "origin": "Magias heuristic/option",
+      "source": "LAYOUT.md",
+      "previous": {
+        "version": "0.1",
+        "file": "LAYOUT.md",
+        "line": 8,
+        "strength": "SHOULD"
+      },
+      "change": "Nessun divieto di card né obbligo di lista",
+      "modes": [
+        "Design",
+        "Review",
+        "Refactor"
+      ],
+      "aliases": [],
+      "dependencies": []
+    },
+    {
+      "id": "L03",
+      "version": "0.2",
+      "strength": "MUST",
+      "assertion": "Preservare ordine significativo di lettura e focus quando varia la composizione; il riordino visivo non è vietato in sé.",
+      "scope": "Ordine significativo e focus",
+      "exceptions": "Riordino visivo ammesso quando il significato e il focus restano corretti",
+      "method": "DOM, lettura e navigazione tastiera nelle varianti",
+      "automation": "S",
+      "origin": "Magias policy",
+      "source": "LAYOUT.md",
+      "previous": {
+        "version": "0.1",
+        "file": "LAYOUT.md",
+        "line": 9,
+        "strength": "MUST"
+      },
+      "change": "Coerenza significativa non identità di tutti gli ordini",
+      "modes": [
+        "Design",
+        "Review",
+        "Refactor"
+      ],
+      "aliases": [],
+      "dependencies": []
+    },
+    {
+      "id": "L04",
+      "version": "0.2",
+      "strength": "MAY",
+      "assertion": "Scegliere composizione e dominanti secondo il compito, senza quota di variazioni né divieto di simmetria.",
+      "scope": "Composizione",
+      "exceptions": "Simmetria, più gerarchie e confronto multiplo ammessi",
+      "method": "Review del compito e scansione della pagina",
+      "automation": "H",
+      "origin": "Magias heuristic/option",
+      "source": "LAYOUT.md",
+      "previous": {
+        "version": "0.1",
+        "file": "LAYOUT.md",
+        "line": 10,
+        "strength": "SHOULD"
+      },
+      "change": "Un dominante compositivo è strumento opzionale",
+      "modes": [
+        "Design",
+        "Review",
+        "Refactor"
+      ],
+      "aliases": [],
+      "dependencies": []
+    },
+    {
+      "id": "L05",
+      "version": "0.2",
+      "strength": "SHOULD",
+      "assertion": "Valutare competizione visiva per gruppo decisionale e fase del compito; non imporre conteggi di attrazioni o una sola CTA per viewport.",
+      "scope": "Gruppi decisionali commerciali",
+      "exceptions": "Dashboard, mappe, confronto, monitoraggio e compiti multipli",
+      "method": "Annotazioni screenshot e task test; quote solo indizio",
+      "automation": "H",
+      "origin": "Magias heuristic/option",
+      "source": "LAYOUT.md",
+      "previous": {
+        "version": "0.1",
+        "file": "LAYOUT.md",
+        "line": 14,
+        "strength": "SHOULD"
+      },
+      "change": "Togliere conteggio 1+1+2 dal gate; viewport non unità stabile",
+      "modes": [
+        "Design",
+        "Review",
+        "Refactor"
+      ],
+      "aliases": [],
+      "dependencies": []
+    },
+    {
+      "id": "L06",
+      "version": "0.2",
+      "strength": "SHOULD",
+      "assertion": "Usare token semantici coerenti; scegliere valori dopo contenuti, vincoli, identità e densità reali.",
+      "scope": "Token di spazio",
+      "exceptions": "Valori e unità dipendono da densità, brand, contenuti e accessibilità",
+      "method": "Inventario token e resa con testi reali, zoom e viewport basso",
+      "automation": "S",
+      "origin": "Magias heuristic/option",
+      "source": "LAYOUT.md",
+      "previous": {
+        "version": "0.1",
+        "file": "LAYOUT.md",
+        "line": 24,
+        "strength": "SHOULD"
+      },
+      "change": "Separare token semantici dai valori dimostrativi",
+      "modes": [
+        "Design",
+        "Review",
+        "Refactor"
+      ],
+      "aliases": [],
+      "dependencies": []
+    },
+    {
+      "id": "L07",
+      "version": "0.2",
+      "strength": "MUST",
+      "assertion": "Evitare testo tagliato, controlli irraggiungibili e perdite funzionali nei contenitori; altezze fisse e scroll locale sono ammessi se accessibili.",
+      "scope": "Contenitori con testo/controlli",
+      "exceptions": "Altezza fissa ammessa se adattamento o scroll accessibile evitano perdite",
+      "method": "Overflow, zoom, testi lunghi e raggiungibilità controlli",
+      "automation": "S",
+      "origin": "Magias policy",
+      "source": "LAYOUT.md",
+      "previous": {
+        "version": "0.1",
+        "file": "LAYOUT.md",
+        "line": 34,
+        "strength": "MUST"
+      },
+      "change": "Vietare perdita funzionale, non tecnica CSS",
+      "modes": [
+        "Design",
+        "Review",
+        "Refactor"
+      ],
+      "aliases": [],
+      "dependencies": []
+    },
+    {
+      "id": "L08",
+      "version": "0.2",
+      "strength": "MUST",
+      "assertion": "Preservare possibilità essenziali nel responsive e specificare ordine, immagini, navigazione e azioni; testare campioni motivati e casi estremi.",
+      "scope": "Responsive nel cambiamento",
+      "exceptions": "Schema breve per piccoli refactor; dispositivi scelti dal contesto",
+      "method": "Ordine, crop, navigazione, parità funzionale; resize continuo e casi estremi",
+      "automation": "S",
+      "origin": "Magias policy",
+      "source": "LAYOUT.md",
+      "previous": {
+        "version": "0.1",
+        "file": "LAYOUT.md",
+        "line": 38,
+        "strength": "MUST"
+      },
+      "change": "Quattro larghezze sono campioni; aggiungere orientamento e input",
+      "modes": [
+        "Design",
+        "Review",
+        "Refactor"
+      ],
+      "aliases": [],
+      "dependencies": []
+    },
+    {
+      "id": "L09",
+      "version": "0.2",
+      "strength": "MUST",
+      "assertion": "Definire e provare stati e transizioni applicabili di ogni componente coinvolto; escludere con motivo quelli non pertinenti.",
+      "scope": "Stati interattivi applicabili",
+      "exceptions": "Stati non pertinenti esplicitamente esclusi; nessun success artificiale",
+      "method": "Inventario stati e prove di transizione, errore e recupero",
+      "automation": "S",
+      "origin": "Magias policy",
+      "source": "LAYOUT.md",
+      "previous": {
+        "version": "0.1",
+        "file": "LAYOUT.md",
+        "line": 49,
+        "strength": "MUST"
+      },
+      "change": "Descrivere contratti per componente, non lista identica universale",
+      "modes": [
+        "Design",
+        "Review",
+        "Refactor"
+      ],
+      "aliases": [],
+      "dependencies": []
+    },
+    {
+      "id": "L10",
+      "version": "0.2",
+      "strength": "SHOULD",
+      "assertion": "Usare token di colore e profondità coerenti; più accenti, temi e serie dati sono legittimi con semantica e contrasto adeguati.",
+      "scope": "Token colore e profondità",
+      "exceptions": "Brand pluricromatico, serie dati, temi e sistemi preesistenti",
+      "method": "Contrasto stati, semantica e coerenza; più accenti se motivati",
+      "automation": "S",
+      "origin": "Magias heuristic/option",
+      "source": "LAYOUT.md",
+      "previous": {
+        "version": "0.1",
+        "file": "LAYOUT.md",
+        "line": 51,
+        "strength": "SHOULD"
+      },
+      "change": "Non imporre unico accento; aggiungere temi se previsti",
+      "modes": [
+        "Design",
+        "Review",
+        "Refactor"
+      ],
+      "aliases": [],
+      "dependencies": []
+    },
+    {
+      "id": "T01",
+      "version": "0.2",
+      "strength": "MUST",
+      "assertion": "Preservare struttura semantica e relazioni del testo indipendentemente dalla scala visiva; documentare i ruoli usati.",
+      "scope": "Struttura semantica del testo",
+      "exceptions": "Ruoli visivi variabili; non serve documentare ruoli non usati",
+      "method": "Titoli, relazioni e leggibilità indipendenti dalla scala",
+      "automation": "S",
+      "origin": "Magias policy",
+      "source": "TYPOGRAPHY.md",
+      "previous": {
+        "version": "0.1",
+        "file": "TYPOGRAPHY.md",
+        "line": 5,
+        "strength": "MUST"
+      },
+      "change": "Obbligo sulla semantica, catalogazione proporzionata",
+      "modes": [
+        "Design",
+        "Review",
+        "Refactor"
+      ],
+      "aliases": [],
+      "dependencies": []
+    },
+    {
+      "id": "T02",
+      "version": "0.2",
+      "strength": "SHOULD",
+      "assertion": "Scegliere famiglie, pesi e fallback leggibili per lingue e contenuti reali; verificare copertura, caricamento e diritti di utilizzo.",
+      "scope": "Font e caricamento",
+      "exceptions": "Più famiglie, alfabeti e fallback multilingue quando utili",
+      "method": "Licenza, copertura glifi, fallback, caricamento e leggibilità",
+      "automation": "S",
+      "origin": "Magias heuristic/option",
+      "source": "TYPOGRAPHY.md",
+      "previous": {
+        "version": "0.1",
+        "file": "TYPOGRAPHY.md",
+        "line": 7,
+        "strength": "SHOULD"
+      },
+      "change": "Italiano è vincolo del pilota; licenza valida requisito separato",
+      "modes": [
+        "Design",
+        "Review",
+        "Refactor"
+      ],
+      "aliases": [],
+      "dependencies": []
+    },
+    {
+      "id": "T03",
+      "version": "0.2",
+      "strength": "SHOULD",
+      "assertion": "Rendere riconoscibili i ruoli mediante scala, peso, posizione e spazio; scale compatte sono ammesse.",
+      "scope": "Gerarchia tipografica",
+      "exceptions": "UI dense e confronti numerici possono usare scale ravvicinate",
+      "method": "Distinzione dei ruoli con scala, peso, posizione e spazio",
+      "automation": "H",
+      "origin": "Magias heuristic/option",
+      "source": "TYPOGRAPHY.md",
+      "previous": {
+        "version": "0.1",
+        "file": "TYPOGRAPHY.md",
+        "line": 17,
+        "strength": "SHOULD"
+      },
+      "change": "Differenza riconoscibile non obbligo di headline grandi",
+      "modes": [
+        "Design",
+        "Review",
+        "Refactor"
+      ],
+      "aliases": [],
+      "dependencies": []
+    },
+    {
+      "id": "T04",
+      "version": "0.2",
+      "strength": "MUST",
+      "assertion": "Rispettare zoom, preferenze e contenuti estremi senza perdita di testo o funzioni; fluidità e specifiche unità CSS sono scelte tecniche.",
+      "scope": "Ridimensionamento e contenuti estremi",
+      "exceptions": "Misure fisse accessibili ammesse; fluidità non obbligatoria",
+      "method": "Zoom, preferenze, lingue, URL e parole lunghe",
+      "automation": "S",
+      "origin": "Magias policy",
+      "source": "TYPOGRAPHY.md",
+      "previous": {
+        "version": "0.1",
+        "file": "TYPOGRAPHY.md",
+        "line": 19,
+        "strength": "MUST"
+      },
+      "change": "Richiedere risultato accessibile anziché tecnica fluida",
+      "modes": [
+        "Design",
+        "Review",
+        "Refactor"
+      ],
+      "aliases": [],
+      "dependencies": []
+    },
+    {
+      "id": "T05",
+      "version": "0.2",
+      "strength": "SHOULD",
+      "assertion": "Valutare lunghezza di riga e a capo sui testi reali; gli intervalli per la prosa sono riferimenti, non soglie di conformità.",
+      "scope": "Prosa continua desktop",
+      "exceptions": "Codice, tabelle, poesia, lingue e schermi richiedono altri criteri",
+      "method": "Misura righe reali e lettura; overflow e a capo",
+      "automation": "S",
+      "origin": "Magias heuristic/option",
+      "source": "TYPOGRAPHY.md",
+      "previous": {
+        "version": "0.1",
+        "file": "TYPOGRAPHY.md",
+        "line": 21,
+        "strength": "SHOULD"
+      },
+      "change": "45–75 caratteri come riferimento per prosa, non lint bloccante",
+      "modes": [
+        "Design",
+        "Review",
+        "Refactor"
+      ],
+      "aliases": [],
+      "dependencies": []
+    },
+    {
+      "id": "T06",
+      "version": "0.2",
+      "strength": "MUST",
+      "assertion": "Rendere leggibili le informazioni essenziali e riconoscibili i link anche senza il solo colore; rispettare le eccezioni normative per immagini di testo. Maiuscolo e tracking non sono vietati in sé.",
+      "scope": "Informazioni essenziali e link",
+      "exceptions": "Maiuscolo e tracking ammessi se leggibili; immagini di testo con eccezioni WCAG",
+      "method": "Contrasto, identificazione link, zoom e comprensione",
+      "automation": "S",
+      "origin": "Magias policy",
+      "source": "TYPOGRAPHY.md",
+      "previous": {
+        "version": "0.1",
+        "file": "TYPOGRAPHY.md",
+        "line": 23,
+        "strength": "MUST"
+      },
+      "change": "Separare vincoli di accesso da preferenze su maiuscolo",
+      "modes": [
+        "Design",
+        "Review",
+        "Refactor"
+      ],
+      "aliases": [],
+      "dependencies": []
+    },
+    {
+      "id": "T07",
+      "version": "0.2",
+      "strength": "SHOULD",
+      "assertion": "Usare enfasi selettiva e supporto esplicativo dove il compito lo richiede; voce poetica/editoriale ammessa.",
+      "scope": "Enfasi e aperture commerciali",
+      "exceptions": "Poesia, editoriale, campagne e interfacce operative",
+      "method": "Review del testo e comprensione per lo scopo",
+      "automation": "H",
+      "origin": "Magias heuristic/option",
+      "source": "TYPOGRAPHY.md",
+      "previous": {
+        "version": "0.1",
+        "file": "TYPOGRAPHY.md",
+        "line": 25,
+        "strength": "SHOULD"
+      },
+      "change": "Spiegazione dell’offerta solo quando l’offerta è il compito",
+      "modes": [
+        "Design",
+        "Review",
+        "Refactor"
+      ],
+      "aliases": [],
+      "dependencies": []
+    },
+    {
+      "id": "M01",
+      "version": "0.2",
+      "strength": "SHOULD",
+      "assertion": "Motivare il movimento per feedback, spiegazione, orientamento, racconto o identità, anche a livello di famiglia di effetti.",
+      "scope": "Movimento funzionale, esplicativo, narrativo e identitario",
+      "exceptions": "Nessun obbligo di animare; espressione ammessa con controlli e accesso preservati",
+      "method": "Obiettivo e contesto, costo/beneficio osservabile e variante ridotta",
+      "automation": "H",
+      "origin": "Magias heuristic/option",
+      "source": "MOTION.md",
+      "previous": {
+        "version": "0.1",
+        "file": "MOTION.md",
+        "line": 5,
+        "strength": "MUST"
+      },
+      "change": "Ammettere identità, racconto, simulazione e spiegazione; non richiedere uplift a ogni effetto",
+      "modes": [
+        "Design",
+        "Review",
+        "Refactor"
+      ],
+      "aliases": [],
+      "dependencies": []
+    },
+    {
+      "id": "M02",
+      "version": "0.2",
+      "strength": "SHOULD",
+      "assertion": "Scegliere transizioni proporzionate al contesto, interrompibili e senza ritardi cosmetici dell’azione; nessun default fermo universale.",
+      "scope": "Transizioni e feedback secondo contesto",
+      "exceptions": "Durate libere se non bloccano accesso/azione; feedback immediato indipendente dalla fine della transizione",
+      "method": "Interruzione, ripetizione, risposta immediata e nessuna dipendenza da fine animazione",
+      "automation": "S",
+      "origin": "Magias heuristic/option",
+      "source": "MOTION.md",
+      "previous": {
+        "version": "0.1",
+        "file": "MOTION.md",
+        "line": 7,
+        "strength": "SHOULD"
+      },
+      "change": "Rimuovere default fermi universale; durate iniziali soltanto esempi",
+      "modes": [
+        "Design",
+        "Review",
+        "Refactor"
+      ],
+      "aliases": [],
+      "dependencies": []
+    },
+    {
+      "id": "M03",
+      "version": "0.2",
+      "strength": "MUST",
+      "assertion": "Preservare controllo dell’interazione e accesso al compito; pinning e scroll-linked ammessi senza percorso coercitivo. Definire degrado appropriato se script/animazione falliscono.",
+      "scope": "Contenuti e interazioni essenziali",
+      "exceptions": "Scroll-linked e pinning ammessi se mantengono controllo, accesso diretto e percorso equivalente; app JS con degrado dichiarato",
+      "method": "Scroll veloce/inverso, ancore, focus e fail script; nessuna lettura/azione coercitiva",
+      "automation": "S",
+      "origin": "Magias policy",
+      "source": "MOTION.md",
+      "previous": {
+        "version": "0.1",
+        "file": "MOTION.md",
+        "line": 9,
+        "strength": "MUST"
+      },
+      "change": "Distinguere scroll hijacking coercitivo da narrazione collegata allo scroll",
+      "modes": [
+        "Design",
+        "Review",
+        "Refactor"
+      ],
+      "aliases": [],
+      "dependencies": [
+        "MX02",
+        "MX03"
+      ]
+    },
+    {
+      "id": "M04",
+      "version": "0.2",
+      "strength": "MUST",
+      "assertion": "Rispettare la preferenza di movimento ridotto mediante riduzione, sostituzione o rimozione appropriata, conservando contenuti, stati e funzioni.",
+      "scope": "Preferenze movimento",
+      "exceptions": "Ridurre, sostituire o rimuovere secondo effetto; movimento essenziale con alternativa appropriata",
+      "method": "Verificare preferenza: testi, funzioni e stati equivalenti, animazioni ridotte e nessuna scomparsa",
+      "automation": "S",
+      "origin": "Magias policy",
+      "source": "MOTION.md",
+      "previous": {
+        "version": "0.1",
+        "file": "MOTION.md",
+        "line": 11,
+        "strength": "MUST"
+      },
+      "change": "Variante equivalente con attenuazione/sostituzione; non azzeramento stilistico automatico",
+      "modes": [
+        "Design",
+        "Review",
+        "Refactor"
+      ],
+      "aliases": [
+        "MX04"
+      ],
+      "dependencies": []
+    },
+    {
+      "id": "M05",
+      "version": "0.2",
+      "strength": "SHOULD",
+      "assertion": "Valutare interferenza fra movimenti durante il compito; effetti coordinati multipli ammessi senza tetto numerico universale.",
+      "scope": "Competizione fra movimenti durante un compito",
+      "exceptions": "Più effetti coordinati ammessi; niente tetto numerico universale",
+      "method": "Leggibilità durante movimento, controllabilità loop/media e stabilità del task",
+      "automation": "S",
+      "origin": "Magias heuristic/option",
+      "source": "MOTION.md",
+      "previous": {
+        "version": "0.1",
+        "file": "MOTION.md",
+        "line": 13,
+        "strength": "SHOULD"
+      },
+      "change": "Eliminare quota massimo uno; valutare interferenza effettiva",
+      "modes": [
+        "Design",
+        "Review",
+        "Refactor"
+      ],
+      "aliases": [],
+      "dependencies": [
+        "MX07",
+        "MX09"
+      ]
+    },
+    {
+      "id": "M06",
+      "version": "0.2",
+      "strength": "MUST",
+      "assertion": "Offrire accesso alle informazioni e azioni essenziali con input pertinenti; hover è arricchimento e non accesso esclusivo.",
+      "scope": "Parità fra input",
+      "exceptions": "Interazioni possono differire; stesse possibilità essenziali",
+      "method": "Hover/focus/touch; contenuti dismissible, hoverable e persistent se pertinenti",
+      "automation": "S",
+      "origin": "Magias policy",
+      "source": "MOTION.md",
+      "previous": {
+        "version": "0.1",
+        "file": "MOTION.md",
+        "line": 15,
+        "strength": "MUST"
+      },
+      "change": "Parità di accesso e azioni, non comportamento identico",
+      "modes": [
+        "Design",
+        "Review",
+        "Refactor"
+      ],
+      "aliases": [],
+      "dependencies": []
+    },
+    {
+      "id": "M07",
+      "version": "0.2",
+      "strength": "SHOULD",
+      "assertion": "Misurare costo e regressioni della variante animata negli ambienti del progetto; scegliere primitive o librerie secondo necessità e riuso.",
+      "scope": "Prestazioni e dipendenze",
+      "exceptions": "Librerie esistenti o necessarie; budget del progetto",
+      "method": "Baseline ripetibile rete/dispositivo e regressioni di caricamento/interazione",
+      "automation": "S",
+      "origin": "Magias heuristic/option",
+      "source": "MOTION.md",
+      "previous": {
+        "version": "0.1",
+        "file": "MOTION.md",
+        "line": 23,
+        "strength": "SHOULD"
+      },
+      "change": "Primitive/librerie secondo necessità; misurare prestazioni della variante animata e costo dei canvas",
+      "modes": [
+        "Design",
+        "Review",
+        "Refactor"
+      ],
+      "aliases": [],
+      "dependencies": [
+        "MX08"
+      ]
+    },
+    {
+      "id": "C01",
+      "version": "0.2",
+      "strength": "MUST",
+      "assertion": "Definire un obiettivo utente per ogni pagina coinvolta; obiettivo commerciale solo se pertinente e compatibile con scelta informata.",
+      "scope": "Scopo della pagina",
+      "exceptions": "Obiettivo commerciale non applicabile a editoriale, pubblico, legale e utilitario",
+      "method": "Documentare obiettivo utente; business solo se pertinente e compatibile",
+      "automation": "H",
+      "origin": "Magias policy",
+      "source": "CRO.md",
+      "previous": {
+        "version": "0.1",
+        "file": "CRO.md",
+        "line": 5,
+        "strength": "MUST"
+      },
+      "change": "Eliminare obiettivo commerciale obbligatorio universale",
+      "modes": [
+        "Design",
+        "Review",
+        "Refactor"
+      ],
+      "aliases": [],
+      "dependencies": []
+    },
+    {
+      "id": "C02",
+      "version": "0.2",
+      "strength": "MUST",
+      "assertion": "Nelle pagine d’offerta chiarire offerta, destinatario e passo pertinente nel primo blocco utile; altre pagine chiariscono il proprio scopo senza CTA commerciale obbligatoria.",
+      "scope": "Pagine di offerta e ingresso commerciale",
+      "exceptions": "Articoli, dati, errori e compiti utilitari chiariscono il proprio scopo",
+      "method": "Persona identifica scopo/offerta e passo pertinente",
+      "automation": "H",
+      "origin": "Magias policy",
+      "source": "CRO.md",
+      "previous": {
+        "version": "0.1",
+        "file": "CRO.md",
+        "line": 7,
+        "strength": "MUST"
+      },
+      "change": "Primo blocco utile non test temporale universale",
+      "modes": [
+        "Design",
+        "Review",
+        "Refactor"
+      ],
+      "aliases": [],
+      "dependencies": []
+    },
+    {
+      "id": "C03",
+      "version": "0.2",
+      "strength": "SHOULD",
+      "assertion": "Dare priorità alle azioni dove il compito lo richiede; mantenere neutrali scelte equivalenti e non favorire consenso mediante gerarchie ingannevoli.",
+      "scope": "Gruppo decisionale",
+      "exceptions": "Confronto fra azioni equivalenti, scelta neutrale e strumenti",
+      "method": "Comprensione etichette e completamento; primaria solo se serve",
+      "automation": "H",
+      "origin": "Magias heuristic/option",
+      "source": "CRO.md",
+      "previous": {
+        "version": "0.1",
+        "file": "CRO.md",
+        "line": 9,
+        "strength": "SHOULD"
+      },
+      "change": "Non gerarchizzare accetta/rifiuta per forzare conversione",
+      "modes": [
+        "Design",
+        "Review",
+        "Refactor"
+      ],
+      "aliases": [],
+      "dependencies": []
+    },
+    {
+      "id": "C04",
+      "version": "0.2",
+      "strength": "MUST",
+      "assertion": "Rendere disponibili prima della decisione costi, vincoli e condizioni materiali; disclosure ammessa per dettagli opzionali e spiegazioni complete con riepilogo adeguato.",
+      "scope": "Decisioni con costi o vincoli",
+      "exceptions": "Dettagli opzionali su richiesta; riepilogo completo dei fattori decisivi",
+      "method": "Percorso fino alla decisione con informazioni disponibili prima",
+      "automation": "H",
+      "origin": "Magias policy",
+      "source": "CRO.md",
+      "previous": {
+        "version": "0.1",
+        "file": "CRO.md",
+        "line": 11,
+        "strength": "MUST"
+      },
+      "change": "Definire momento della decisione e informazioni materiali",
+      "modes": [
+        "Design",
+        "Review",
+        "Refactor"
+      ],
+      "aliases": [],
+      "dependencies": []
+    },
+    {
+      "id": "C05",
+      "version": "0.2",
+      "strength": "MUST",
+      "assertion": "Usare prove autentiche e affermazioni supportate; registrare fonti, data e permessi. Fiction/demo/placeholder espliciti non sono prove di risultati reali.",
+      "scope": "Claim, prove e asset pubblici",
+      "exceptions": "Fiction/demo/sintesi chiaramente etichettate, mai prove di risultati reali",
+      "method": "Registro claim→fonte→data→permessi e review editoriale",
+      "automation": "S",
+      "origin": "Magias policy",
+      "source": "CRO.md",
+      "previous": {
+        "version": "0.1",
+        "file": "CRO.md",
+        "line": 13,
+        "strength": "MUST"
+      },
+      "change": "Verificabilità dei dati non prova automatica di autenticità",
+      "modes": [
+        "Design",
+        "Review",
+        "Refactor"
+      ],
+      "aliases": [],
+      "dependencies": []
+    },
+    {
+      "id": "C06",
+      "version": "0.2",
+      "strength": "SHOULD",
+      "assertion": "Collocare prove pertinenti vicino alle promesse, indicando ruolo e limiti; se mancanti non inventarle per completare il layout.",
+      "scope": "Promessa e prova commerciale",
+      "exceptions": "Portfolio nuovo senza casi; niente prova fittizia per completare layout",
+      "method": "Pertinenza, prossimità e limiti della prova",
+      "automation": "H",
+      "origin": "Magias heuristic/option",
+      "source": "CRO.md",
+      "previous": {
+        "version": "0.1",
+        "file": "CRO.md",
+        "line": 15,
+        "strength": "SHOULD"
+      },
+      "change": "La prova può essere assente con limite dichiarato",
+      "modes": [
+        "Design",
+        "Review",
+        "Refactor"
+      ],
+      "aliases": [],
+      "dependencies": []
+    },
+    {
+      "id": "C07",
+      "version": "0.2",
+      "strength": "SHOULD",
+      "assertion": "Adottare copy comprensibile e concreto per il pubblico; persona grammaticale, tono e lessico sono vincoli del progetto, non universali.",
+      "scope": "Chiarezza del copy generale",
+      "exceptions": "Voce narrativa, impersonale o plurale se coerente con progetto",
+      "method": "Review editoriale e comprensione; vincoli di voce nel contesto",
+      "automation": "H",
+      "origin": "Magias heuristic/option",
+      "source": "CRO.md",
+      "previous": {
+        "version": "0.1",
+        "file": "CRO.md",
+        "line": 19,
+        "strength": "MUST"
+      },
+      "change": "Prima persona singolare e lessico vietato solo nel pilota",
+      "modes": [
+        "Design",
+        "Review",
+        "Refactor"
+      ],
+      "aliases": [],
+      "dependencies": []
+    },
+    {
+      "id": "C08",
+      "version": "0.2",
+      "strength": "MUST",
+      "assertion": "Mantenere label, obbligatorietà, errori e dati dopo fallimento; evitare invii doppi e fornire recupero. Confermare solo lo stato effettivamente garantito dal sistema.",
+      "scope": "Form e invii",
+      "exceptions": "Form non presenti non applicabili; timeout ambiguo gestito senza duplicati",
+      "method": "Label, validazione, errori, conservazione, idempotenza e conferma reale",
+      "automation": "S",
+      "origin": "Magias policy",
+      "source": "CRO.md",
+      "previous": {
+        "version": "0.1",
+        "file": "CRO.md",
+        "line": 28,
+        "strength": "MUST"
+      },
+      "change": "Distinguere accettato, inviato, ricevuto secondo contratto reale",
+      "modes": [
+        "Design",
+        "Review",
+        "Refactor"
+      ],
+      "aliases": [],
+      "dependencies": []
+    },
+    {
+      "id": "C09",
+      "version": "0.2",
+      "strength": "SHOULD",
+      "assertion": "Chiedere dati necessari alla finalità; motivare i campi e separare eventuali preferenze/consensi pertinenti. Nessuno schema campi universale.",
+      "scope": "Campi e primo contatto",
+      "exceptions": "Preventivi, qualificazione e processi diversi con necessità esplicita",
+      "method": "Mappa campo→finalità e test completamento; consenso separato se presente",
+      "automation": "S",
+      "origin": "Magias heuristic/option",
+      "source": "CRO.md",
+      "previous": {
+        "version": "0.1",
+        "file": "CRO.md",
+        "line": 30,
+        "strength": "SHOULD"
+      },
+      "change": "Minimizzazione motivata; telefono e budget non schema universale",
+      "modes": [
+        "Design",
+        "Review",
+        "Refactor"
+      ],
+      "aliases": [],
+      "dependencies": []
+    },
+    {
+      "id": "C10",
+      "version": "0.2",
+      "strength": "MUST",
+      "assertion": "Distinguere ipotesi e risultati; per ogni metrica definire evento, unità, denominatore, periodo, fonte, deduplica ed esclusioni. Dichiarare limiti di attribuzione e tracking; analytics non obbligatori.",
+      "scope": "Affermazioni e misure CRO",
+      "exceptions": "Analytics assenti o vietati: non applicabili gli eventi, obbligatoria onestà sui limiti",
+      "method": "Evento, denominatore, periodo, fonte, unità, esclusioni e attribuzione",
+      "automation": "S",
+      "origin": "Magias policy",
+      "source": "CRO.md",
+      "previous": {
+        "version": "0.1",
+        "file": "CRO.md",
+        "line": 34,
+        "strength": "MUST"
+      },
+      "change": "Aggiungere deduplica, bot/spam e bias sessioni misurabili",
+      "modes": [
+        "Design",
+        "Review",
+        "Refactor"
+      ],
+      "aliases": [],
+      "dependencies": []
+    },
+    {
+      "id": "C11",
+      "version": "0.2",
+      "strength": "SHOULD",
+      "assertion": "Valutare comprensione/completamento e pianificare gli esperimenti con metriche e guardrail; non inferire uplift statistico da ricerca qualitativa o traffico insufficiente.",
+      "scope": "Esperimenti e valutazioni",
+      "exceptions": "Traffico basso: ricerca qualitativa; A/B non obbligatorio",
+      "method": "Ipotesi, piano analisi, metrica e guardrail; nessun uplift inferito da pochi utenti",
+      "automation": "H",
+      "origin": "Magias heuristic/option",
+      "source": "CRO.md",
+      "previous": {
+        "version": "0.1",
+        "file": "CRO.md",
+        "line": 40,
+        "strength": "SHOULD"
+      },
+      "change": "Definire arresto e limiti; nessuna soglia campione universale",
+      "modes": [
+        "Design",
+        "Review",
+        "Refactor"
+      ],
+      "aliases": [],
+      "dependencies": []
+    },
+    {
+      "id": "A01",
+      "version": "0.2",
+      "strength": "MUST",
+      "assertion": "Adottare WCAG 2.2 AA come obiettivo tecnico di progetto; compilare applicabilità ed evidenze per tutti i criteri A/AA, pagine e processi pertinenti. La checklist non certifica conformità.",
+      "scope": "Pagine e processi dichiarati nello scope",
+      "exceptions": "Non applicabilità per singolo criterio motivata; scope limitato non conformità intero sito",
+      "method": "Mappa completa criteri WCAG A/AA→applicabilità→evidenza",
+      "automation": "S",
+      "origin": "Magias policy",
+      "source": "ACCESSIBILITY.md",
+      "previous": {
+        "version": "0.1",
+        "file": "ACCESSIBILITY.md",
+        "line": 5,
+        "strength": "MUST"
+      },
+      "change": "Checklist prioritaria insufficiente per chiudere obiettivo AA",
+      "modes": [
+        "Design",
+        "Review",
+        "Refactor"
+      ],
+      "aliases": [],
+      "dependencies": []
+    },
+    {
+      "id": "A02",
+      "version": "0.2",
+      "strength": "MUST",
+      "assertion": "Verificare contrasto: testo normale 4.5:1, grande 3:1 e parti non testuali 3:1 ove richiesto, con eccezioni e definizioni dei criteri originali.",
+      "scope": "Contrasto testo e componenti pertinenti",
+      "exceptions": "Eccezioni esatte dei criteri 1.4.3/1.4.11",
+      "method": "Calcolo su stati reali; review immagini, trasparenze e gradienti",
+      "automation": "S",
+      "origin": "Magias policy",
+      "source": "ACCESSIBILITY.md",
+      "previous": {
+        "version": "0.1",
+        "file": "ACCESSIBILITY.md",
+        "line": 9,
+        "strength": "MUST"
+      },
+      "change": "Separare testo normale/grande e parti non testuali",
+      "modes": [
+        "Design",
+        "Review",
+        "Refactor"
+      ],
+      "aliases": [],
+      "dependencies": []
+    },
+    {
+      "id": "A03",
+      "version": "0.2",
+      "strength": "MUST",
+      "assertion": "Garantire operabilità tastiera, focus visibile e non completamente coperto, senza trappole; applicare le eccezioni normative esatte.",
+      "scope": "Tastiera e focus",
+      "exceptions": "Eccezione tastiera per funzione dipendente dal percorso del movimento, dove normativa",
+      "method": "Percorso completo, trappole, focus visibile e copertura",
+      "automation": "S",
+      "origin": "Magias policy",
+      "source": "ACCESSIBILITY.md",
+      "previous": {
+        "version": "0.1",
+        "file": "ACCESSIBILITY.md",
+        "line": 11,
+        "strength": "MUST"
+      },
+      "change": "Automazione supporta ma non prova ordine/logica",
+      "modes": [
+        "Design",
+        "Review",
+        "Refactor"
+      ],
+      "aliases": [],
+      "dependencies": []
+    },
+    {
+      "id": "A04",
+      "version": "0.2",
+      "strength": "MUST",
+      "assertion": "Verificare separatamente resize testo al 200% e reflow a 320 CSS px, con casi di zoom pertinenti ed eccezioni normative.",
+      "scope": "Reflow e resize testo",
+      "exceptions": "Eccezioni WCAG per contenuti bidimensionali e casi previsti",
+      "method": "320 CSS px, zoom e testo 200%; test reflow anche a 400% pertinente",
+      "automation": "S",
+      "origin": "Magias policy",
+      "source": "ACCESSIBILITY.md",
+      "previous": {
+        "version": "0.1",
+        "file": "ACCESSIBILITY.md",
+        "line": 13,
+        "strength": "MUST"
+      },
+      "change": "Separare 1.4.10 e 1.4.4; non confondere riduzione viewport e zoom",
+      "modes": [
+        "Design",
+        "Review",
+        "Refactor"
+      ],
+      "aliases": [],
+      "dependencies": []
+    },
+    {
+      "id": "A05",
+      "version": "0.2",
+      "strength": "MUST",
+      "assertion": "Verificare target pointer 24×24 CSS px o spaziatura/eccezioni ammesse; preferire 44×44 per touch come raccomandazione distinta.",
+      "scope": "Target pointer",
+      "exceptions": "Eccezioni equivalenza, inline, user agent, essenziale e spaziatura WCAG",
+      "method": "Geometria reale inclusa spaziatura; prova touch",
+      "automation": "S",
+      "origin": "Magias policy",
+      "source": "ACCESSIBILITY.md",
+      "previous": {
+        "version": "0.1",
+        "file": "ACCESSIBILITY.md",
+        "line": 15,
+        "strength": "MUST/SHOULD"
+      },
+      "change": "Separare 44×44 SHOULD dalla soglia 24×24 con eccezioni",
+      "modes": [
+        "Design",
+        "Review",
+        "Refactor"
+      ],
+      "aliases": [],
+      "dependencies": []
+    },
+    {
+      "id": "A06",
+      "version": "0.2",
+      "strength": "MUST",
+      "assertion": "Garantire semantica, lingua, ordine significativo e bypass appropriati; preferire elementi nativi, ammettendo custom con contratto accessibile verificato.",
+      "scope": "Semantica, lingua e bypass",
+      "exceptions": "Componenti custom legittimi con contratto accessibile; nativo SHOULD",
+      "method": "DOM/accessibility tree, ruoli, lingua, heading e bypass",
+      "automation": "S",
+      "origin": "Magias policy",
+      "source": "ACCESSIBILITY.md",
+      "previous": {
+        "version": "0.1",
+        "file": "ACCESSIBILITY.md",
+        "line": 21,
+        "strength": "MUST"
+      },
+      "change": "Elemento nativo preferito, risultato accessibile obbligatorio",
+      "modes": [
+        "Design",
+        "Review",
+        "Refactor"
+      ],
+      "aliases": [],
+      "dependencies": []
+    },
+    {
+      "id": "A07",
+      "version": "0.2",
+      "strength": "MUST",
+      "assertion": "Fornire nomi comprensibili, label-in-name ove richiesto, ruoli e stati accessibili; evitare ARIA impropria e provare aggiornamenti reali.",
+      "scope": "Nomi e stati",
+      "exceptions": "Stati non pertinenti esclusi",
+      "method": "Name/role/value e annunci nei cambiamenti reali",
+      "automation": "S",
+      "origin": "Magias policy",
+      "source": "ACCESSIBILITY.md",
+      "previous": {
+        "version": "0.1",
+        "file": "ACCESSIBILITY.md",
+        "line": 22,
+        "strength": "MUST"
+      },
+      "change": "Aggiungere label-in-name e istruzioni comprensibili",
+      "modes": [
+        "Design",
+        "Review",
+        "Refactor"
+      ],
+      "aliases": [],
+      "dependencies": []
+    },
+    {
+      "id": "A08",
+      "version": "0.2",
+      "strength": "MUST",
+      "assertion": "Gestire apertura, chiusura e focus secondo il pattern coinvolto; non imporre a un menu disclosure il contratto di un dialog modale.",
+      "scope": "Dialog e menu coinvolti",
+      "exceptions": "Menu non modale non richiede focus trap; pattern diversi",
+      "method": "Apertura, Escape quando pertinente, tabulazione e ritorno",
+      "automation": "S",
+      "origin": "Magias policy",
+      "source": "ACCESSIBILITY.md",
+      "previous": {
+        "version": "0.1",
+        "file": "ACCESSIBILITY.md",
+        "line": 23,
+        "strength": "MUST"
+      },
+      "change": "Specificare tipo di componente prima delle aspettative",
+      "modes": [
+        "Design",
+        "Review",
+        "Refactor"
+      ],
+      "aliases": [],
+      "dependencies": []
+    },
+    {
+      "id": "A09",
+      "version": "0.2",
+      "strength": "MUST",
+      "assertion": "Fornire alternative pertinenti a immagini/media secondo scopo e criteri; decorative ignorabili. Presenza dell’alt non prova adeguatezza.",
+      "scope": "Immagini e media pertinenti",
+      "exceptions": "Eccezioni e alternative secondo criterio e scopo",
+      "method": "Alt, didascalie, trascrizioni/audio-description/caption pertinenti",
+      "automation": "S",
+      "origin": "Magias policy",
+      "source": "ACCESSIBILITY.md",
+      "previous": {
+        "version": "0.1",
+        "file": "ACCESSIBILITY.md",
+        "line": 24,
+        "strength": "MUST"
+      },
+      "change": "Presenza alt automatizzabile; adeguatezza umana",
+      "modes": [
+        "Design",
+        "Review",
+        "Refactor"
+      ],
+      "aliases": [],
+      "dependencies": []
+    },
+    {
+      "id": "A10",
+      "version": "0.2",
+      "strength": "MUST",
+      "assertion": "Non affidare significato soltanto a colore o caratteristiche sensoriali; errori e stati dinamici restano comprensibili e percepibili senza animazione.",
+      "scope": "Significato, errori e stati dinamici",
+      "exceptions": "Sensazioni decorative senza significato esclusivamente funzionale",
+      "method": "Review senza colore/movimento e annunci degli stati",
+      "automation": "S",
+      "origin": "Magias policy",
+      "source": "ACCESSIBILITY.md",
+      "previous": {
+        "version": "0.1",
+        "file": "ACCESSIBILITY.md",
+        "line": 25,
+        "strength": "MUST"
+      },
+      "change": "Separare 1.3.3, 1.4.1 e status 4.1.3",
+      "modes": [
+        "Design",
+        "Review",
+        "Refactor"
+      ],
+      "aliases": [],
+      "dependencies": []
+    },
+    {
+      "id": "A11",
+      "version": "0.2",
+      "strength": "MUST",
+      "assertion": "Provare flussi coinvolti con tastiera e screen reader in ambienti scelti per pubblico e scope; annotare versioni e limiti, senza generalizzare a tutti gli stack.",
+      "scope": "Verifica assistiva dei flussi di implementazione",
+      "exceptions": "Design senza eseguibile resta NON VERIFICATO; stack scelto dal pubblico",
+      "method": "Tastiera più screen reader con ambiente/versione e percorso",
+      "automation": "H",
+      "origin": "Magias policy",
+      "source": "ACCESSIBILITY.md",
+      "previous": {
+        "version": "0.1",
+        "file": "ACCESSIBILITY.md",
+        "line": 26,
+        "strength": "MUST"
+      },
+      "change": "Un solo stack non prova compatibilità universale",
+      "modes": [
+        "Design",
+        "Review",
+        "Refactor"
+      ],
+      "aliases": [],
+      "dependencies": []
+    },
+    {
+      "id": "A12",
+      "version": "0.2",
+      "strength": "MUST",
+      "assertion": "Verificare text spacing personalizzato senza perdite secondo 1.4.12; zoom è A04 e movimento ridotto è M04, con evidenze distinte.",
+      "scope": "Text spacing e movimento previsto",
+      "exceptions": "Movimento ridotto policy Magias; valori spacing normative con eccezioni pertinenti",
+      "method": "1.4.12: 1.5 line-height, 2× font paragrafi, .12em lettere, .16em parole; no perdite",
+      "automation": "S",
+      "origin": "Magias policy",
+      "source": "ACCESSIBILITY.md",
+      "previous": {
+        "version": "0.1",
+        "file": "ACCESSIBILITY.md",
+        "line": 27,
+        "strength": "MUST"
+      },
+      "change": "Dividere controllo motion da text spacing e zoom",
+      "modes": [
+        "Design",
+        "Review",
+        "Refactor"
+      ],
+      "aliases": [],
+      "dependencies": []
+    },
+    {
+      "id": "N01",
+      "version": "0.2",
+      "strength": "SHOULD",
+      "assertion": "Valutare pattern ad alta salienza rispetto al compito; motivare famiglie/decisioni significative senza fascicoli per ogni icona standard.",
+      "scope": "Pattern ad alta salienza",
+      "exceptions": "Pattern standard ripetuti motivabili a livello sistema",
+      "method": "Review motivazione e impatto; lint segnala solo candidato",
+      "automation": "H",
+      "origin": "Magias heuristic/option",
+      "source": "ANTI-PATTERNS.md",
+      "previous": {
+        "version": "0.1",
+        "file": "ANTI-PATTERNS.md",
+        "line": 5,
+        "strength": "MUST"
+      },
+      "change": "Nessun fascicolo per ogni icona; formalizzare salienza se serve",
+      "modes": [
+        "Design",
+        "Review",
+        "Refactor"
+      ],
+      "aliases": [],
+      "dependencies": []
+    },
+    {
+      "id": "N02",
+      "version": "0.2",
+      "strength": "MUST",
+      "assertion": "Evitare urgenza falsa, condizioni occultate, scelte ingannevoli e ostacoli al rifiuto; un default non è automaticamente inganno.",
+      "scope": "Scelte commerciali e consenso",
+      "exceptions": "Nessuna eccezione per falsità o inganno; preselezione lecita valutata nel contesto",
+      "method": "Percorso, parità opzioni, condizioni e provenienza urgenza",
+      "automation": "H",
+      "origin": "Magias policy",
+      "source": "ANTI-PATTERNS.md",
+      "previous": {
+        "version": "0.1",
+        "file": "ANTI-PATTERNS.md",
+        "line": 27,
+        "strength": "MUST"
+      },
+      "change": "Non assimilare ogni default a inganno",
+      "modes": [
+        "Design",
+        "Review",
+        "Refactor"
+      ],
+      "aliases": [],
+      "dependencies": []
+    },
+    {
+      "id": "N03",
+      "version": "0.2",
+      "strength": "SHOULD",
+      "assertion": "Prima di aggiungere una sezione esplicitare funzione informativa, orientativa, narrativa, emotiva o ludica e costo di attenzione.",
+      "scope": "Nuove sezioni",
+      "exceptions": "Funzione narrativa, emotiva, ludica o orientativa esplicita",
+      "method": "Bisogno/funzione e costo della nuova sezione",
+      "automation": "H",
+      "origin": "Magias heuristic/option",
+      "source": "ANTI-PATTERNS.md",
+      "previous": {
+        "version": "0.1",
+        "file": "ANTI-PATTERNS.md",
+        "line": 29,
+        "strength": "SHOULD"
+      },
+      "change": "Ampliare oltre dubbio razionale",
+      "modes": [
+        "Design",
+        "Review",
+        "Refactor"
+      ],
+      "aliases": [],
+      "dependencies": []
+    },
+    {
+      "id": "R01",
+      "version": "0.2",
+      "strength": "MUST",
+      "assertion": "Registrare stato e applicabilità di ogni controllo; usare gate distinti per specifica, audit, implementazione e release. MUST pertinente aperto impedisce il gate che ne richiede evidenza.",
+      "scope": "Esiti e gate dello scope",
+      "exceptions": "Design consegnabile con prove runtime aperte; release non consentita se MUST pertinente aperto",
+      "method": "Schema stati, applicabilità, evidenze e versione",
+      "automation": "D",
+      "origin": "Magias policy",
+      "source": "REVIEW.md",
+      "previous": {
+        "version": "0.1",
+        "file": "REVIEW.md",
+        "line": 7,
+        "strength": "MUST"
+      },
+      "change": "Separare gate documento, progetto, implementazione e rilascio",
+      "modes": [
+        "Design",
+        "Review",
+        "Refactor"
+      ],
+      "aliases": [],
+      "dependencies": []
+    },
+    {
+      "id": "R02",
+      "version": "0.2",
+      "strength": "MUST",
+      "assertion": "Localizzare i rilievi con regola, effetto, gravità, evidenza e azione; forza normativa e gravità sono campi separati, senza voto compensativo.",
+      "scope": "Rilievi",
+      "exceptions": "Osservazione non dimostrata è ipotesi; suggerimento senza FAIL",
+      "method": "Regola, posizione, effetto, evidenza e azione concreta",
+      "automation": "D",
+      "origin": "Magias policy",
+      "source": "REVIEW.md",
+      "previous": {
+        "version": "0.1",
+        "file": "REVIEW.md",
+        "line": 9,
+        "strength": "MUST"
+      },
+      "change": "Distinguere forza normativa da gravità del difetto",
+      "modes": [
+        "Design",
+        "Review",
+        "Refactor"
+      ],
+      "aliases": [],
+      "dependencies": []
+    },
+    {
+      "id": "R03",
+      "version": "0.2",
+      "strength": "MUST",
+      "assertion": "Distinguere osservazione, asserzione automatizzata e giudizio; PASS richiede prova eseguita sulla revisione/ambiente dichiarati. Nessuna evidenza inventata.",
+      "scope": "Tutte le verifiche",
+      "exceptions": "Nessuna evidenza inventata; limiti sempre espliciti",
+      "method": "Tipo di prova, ambiente, limite e validità del risultato",
+      "automation": "D",
+      "origin": "Magias policy",
+      "source": "REVIEW.md",
+      "previous": {
+        "version": "0.1",
+        "file": "REVIEW.md",
+        "line": 30,
+        "strength": "MUST"
+      },
+      "change": "PASS richiede esecuzione; assenza warning non conformità completa",
+      "modes": [
+        "Design",
+        "Review",
+        "Refactor"
+      ],
+      "aliases": [],
+      "dependencies": []
+    },
+    {
+      "id": "MX01",
+      "version": "0.2",
+      "strength": "SHOULD",
+      "assertion": "Definire intento del movimento: feedback, spiegazione, identità, narrazione o orientamento",
+      "scope": "Movimento nella fase del compito",
+      "exceptions": "Nessun effetto obbligatorio; motivazione di gruppo per effetti coerenti",
+      "method": "Collegare effetto a contenuto/compito senza pretendere uplift",
+      "automation": "H",
+      "origin": "Magias heuristic/option",
+      "source": "MOTION.md",
+      "previous": null,
+      "change": "Nuovo contratto motion dalla precisazione utente e dalla review live",
+      "modes": [
+        "Design",
+        "Review",
+        "Refactor"
+      ],
+      "aliases": [],
+      "dependencies": []
+    },
+    {
+      "id": "MX02",
+      "version": "0.2",
+      "strength": "MUST",
+      "assertion": "Preservare informazione materiale e azioni durante transizioni",
+      "scope": "Movimento nella fase del compito",
+      "exceptions": "Suspense narrativa ammessa su contenuti non decisivi",
+      "method": "Scroll/focus prima-durante-dopo; fallback e informazioni al momento utile",
+      "automation": "S",
+      "origin": "Magias policy",
+      "source": "MOTION.md",
+      "previous": null,
+      "change": "Nuovo contratto motion dalla precisazione utente e dalla review live",
+      "modes": [
+        "Design",
+        "Review",
+        "Refactor"
+      ],
+      "aliases": [],
+      "dependencies": []
+    },
+    {
+      "id": "MX03",
+      "version": "0.2",
+      "strength": "MUST",
+      "assertion": "Conservare controllo della persona, input e interruzione",
+      "scope": "Movimento nella fase del compito",
+      "exceptions": "Movimento essenziale al compito con controlli/alternativa appropriati",
+      "method": "Scroll inverso/rapido, Escape, navigazione, input ripetuti e ritorno",
+      "automation": "S",
+      "origin": "Magias policy",
+      "source": "MOTION.md",
+      "previous": null,
+      "change": "Nuovo contratto motion dalla precisazione utente e dalla review live",
+      "modes": [
+        "Design",
+        "Review",
+        "Refactor"
+      ],
+      "aliases": [],
+      "dependencies": []
+    },
+    {
+      "id": "MX04",
+      "version": "0.2",
+      "strength": "MUST",
+      "assertion": "Rispettare preferenza ridotta con riduzione/sostituzione/rimozione appropriata",
+      "scope": "Movimento nella fase del compito",
+      "exceptions": "Nessuna perdita di funzioni; movimento essenziale gestito esplicitamente",
+      "method": "Variante ridotta vs standard: parità dei contenuti, risultati e azioni",
+      "automation": "S",
+      "origin": "Magias policy",
+      "source": "MOTION.md",
+      "previous": null,
+      "change": "Nuovo contratto motion dalla precisazione utente e dalla review live",
+      "modes": [
+        "Design",
+        "Review",
+        "Refactor"
+      ],
+      "aliases": [],
+      "dependencies": []
+    },
+    {
+      "id": "MX05",
+      "version": "0.2",
+      "strength": "MUST",
+      "assertion": "Valori transazionali e stati finali autorevoli indipendenti dall’interpolazione",
+      "scope": "Movimento nella fase del compito",
+      "exceptions": "Conteggi dimostrativi ammessi se chiaramente illustrativi",
+      "method": "Ultimo input→dato finale; payload corretto; annunci senza cifre fittizie",
+      "automation": "S",
+      "origin": "Magias policy",
+      "source": "MOTION.md",
+      "previous": null,
+      "change": "Nuovo contratto motion dalla precisazione utente e dalla review live",
+      "modes": [
+        "Design",
+        "Review",
+        "Refactor"
+      ],
+      "aliases": [],
+      "dependencies": []
+    },
+    {
+      "id": "MX06",
+      "version": "0.2",
+      "strength": "MUST",
+      "assertion": "Evitare bersagli mobili o focus perso durante un’azione",
+      "scope": "Movimento nella fase del compito",
+      "exceptions": "Movimento controllato del componente se non compromette input/accesso",
+      "method": "Tastiera/touch/pointer; resize, apertura overlay e aggiornamenti",
+      "automation": "S",
+      "origin": "Magias policy",
+      "source": "MOTION.md",
+      "previous": null,
+      "change": "Nuovo contratto motion dalla precisazione utente e dalla review live",
+      "modes": [
+        "Design",
+        "Review",
+        "Refactor"
+      ],
+      "aliases": [],
+      "dependencies": []
+    },
+    {
+      "id": "MX07",
+      "version": "0.2",
+      "strength": "SHOULD",
+      "assertion": "Valutare competizione dei movimenti sul compito",
+      "scope": "Movimento nella fase del compito",
+      "exceptions": "Più effetti coordinati possibili; nessun tetto universale",
+      "method": "Review durante lettura/decisione, non solo frame statico",
+      "automation": "H",
+      "origin": "Magias heuristic/option",
+      "source": "MOTION.md",
+      "previous": null,
+      "change": "Nuovo contratto motion dalla precisazione utente e dalla review live",
+      "modes": [
+        "Design",
+        "Review",
+        "Refactor"
+      ],
+      "aliases": [],
+      "dependencies": []
+    },
+    {
+      "id": "MX08",
+      "version": "0.2",
+      "strength": "SHOULD",
+      "assertion": "Verificare costo della variante animata e sospendere lavoro invisibile non utile",
+      "scope": "Movimento nella fase del compito",
+      "exceptions": "Media/processi che devono continuare per lo scopo",
+      "method": "Stesso ambiente: scrolling/input, background/offscreen e regressioni",
+      "automation": "S",
+      "origin": "Magias heuristic/option",
+      "source": "MOTION.md",
+      "previous": null,
+      "change": "Nuovo contratto motion dalla precisazione utente e dalla review live",
+      "modes": [
+        "Design",
+        "Review",
+        "Refactor"
+      ],
+      "aliases": [],
+      "dependencies": []
+    },
+    {
+      "id": "MX09",
+      "version": "0.2",
+      "strength": "MUST",
+      "assertion": "Offrire controlli pausa/stop e alternative dove i criteri pertinenti li richiedono",
+      "scope": "Movimento nella fase del compito",
+      "exceptions": "Eccezioni normative specifiche, non generico beneficio estetico",
+      "method": "Durata/autoplay, pausa, ripresa, contenuto equivalente e focus",
+      "automation": "S",
+      "origin": "Magias policy",
+      "source": "MOTION.md",
+      "previous": null,
+      "change": "Nuovo contratto motion dalla precisazione utente e dalla review live",
+      "modes": [
+        "Design",
+        "Review",
+        "Refactor"
+      ],
+      "aliases": [],
+      "dependencies": []
+    },
+    {
+      "id": "MX10",
+      "version": "0.2",
+      "strength": "MAY",
+      "assertion": "Usare scroll-linked, pinning, parallax, canvas, carousel o transizioni espressive",
+      "scope": "Movimento nella fase del compito",
+      "exceptions": "Tutti i MUST indipendenti rispettati; contesto può limitarli",
+      "method": "MX02–MX09 e task test; presenza dell’effetto mai FAIL automatico",
+      "automation": "H",
+      "origin": "Magias heuristic/option",
+      "source": "MOTION.md",
+      "previous": null,
+      "change": "Nuovo contratto motion dalla precisazione utente e dalla review live",
+      "modes": [
+        "Design",
+        "Review",
+        "Refactor"
+      ],
+      "aliases": [],
+      "dependencies": []
+    },
+    {
+      "id": "T02.a",
+      "version": "0.2",
+      "strength": "MUST",
+      "assertion": "Usare font con licenza compatibile con impiego e distribuzione reali.",
+      "scope": "Font incorporati/distribuiti",
+      "exceptions": "Licenza compatibile o permesso valido, non preferenza estetica",
+      "method": "Documento licenza, fonte, uso e modalità di distribuzione",
+      "automation": "H",
+      "origin": "Magias policy",
+      "source": "TYPOGRAPHY.md",
+      "previous": {
+        "version": "0.1",
+        "file": "TYPOGRAPHY.md",
+        "clause": "Clausola annidata conservata e resa autonoma"
+      },
+      "change": "Scorporo senza perdita della protezione originaria",
+      "modes": [
+        "Design",
+        "Review",
+        "Refactor"
+      ],
+      "aliases": [],
+      "dependencies": []
+    },
+    {
+      "id": "M02.a",
+      "version": "0.2",
+      "strength": "MUST",
+      "assertion": "Non ritardare azioni e feedback essenziali per completare una transizione cosmetica.",
+      "scope": "Interazioni e invii",
+      "exceptions": "Tempi necessari al compito ammessi con stato autentico",
+      "method": "Azione/interruzione/input ripetuti prima-durante-dopo",
+      "automation": "S",
+      "origin": "Magias policy",
+      "source": "MOTION.md",
+      "previous": {
+        "version": "0.1",
+        "file": "MOTION.md",
+        "clause": "Clausola annidata conservata e resa autonoma"
+      },
+      "change": "Scorporo senza perdita della protezione originaria",
+      "modes": [
+        "Design",
+        "Review",
+        "Refactor"
+      ],
+      "aliases": [],
+      "dependencies": []
+    },
+    {
+      "id": "C09.a",
+      "version": "0.2",
+      "strength": "MUST",
+      "assertion": "Separare eventuale consenso marketing dalle altre finalità; non preselezionarlo né accettarlo implicitamente tramite altra azione.",
+      "scope": "Form con marketing/consensi pertinenti",
+      "exceptions": "NON APPLICABILE se tale finalità non è presente",
+      "method": "Controllo opzioni e stato reale in ambiente di prova",
+      "automation": "S",
+      "origin": "Magias policy",
+      "source": "CRO.md",
+      "previous": {
+        "version": "0.1",
+        "file": "CRO.md",
+        "clause": "Clausola annidata conservata e resa autonoma"
+      },
+      "change": "Scorporo senza perdita della protezione originaria",
+      "modes": [
+        "Design",
+        "Review",
+        "Refactor"
+      ],
+      "aliases": [],
+      "dependencies": []
+    },
+    {
+      "id": "C10.a",
+      "version": "0.2",
+      "strength": "MUST",
+      "assertion": "Non includere nomi, email o testo dei messaggi nei payload analitici; rispettare preferenze di tracking e minimizzazione previste dal progetto.",
+      "scope": "Analytics implementati",
+      "exceptions": "NON APPLICABILE se analytics assenti; nessuna attribuzione inventata",
+      "method": "Ispezione payload con dati fittizi e verifica preferenze",
+      "automation": "S",
+      "origin": "Magias policy",
+      "source": "CRO.md",
+      "previous": {
+        "version": "0.1",
+        "file": "CRO.md",
+        "clause": "Clausola annidata conservata e resa autonoma"
+      },
+      "change": "Scorporo senza perdita della protezione originaria",
+      "modes": [
+        "Design",
+        "Review",
+        "Refactor"
+      ],
+      "aliases": [],
+      "dependencies": []
+    }
+  ]
+}
