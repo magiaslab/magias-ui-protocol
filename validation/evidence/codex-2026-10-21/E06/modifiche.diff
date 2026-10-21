@@ -1,0 +1,17 @@
+diff -ruN /tmp/magias-codex/src/scenari/E06/materiale/nota-accessibilita.md /tmp/magias-codex/sandbox/E06/materiale/nota-accessibilita.md
+--- /tmp/magias-codex/src/scenari/E06/materiale/nota-accessibilita.md	1970-01-01 01:00:00
++++ /tmp/magias-codex/sandbox/E06/materiale/nota-accessibilita.md	2026-10-21 22:45:01
+@@ -0,0 +1,13 @@
++# Nota sullo stato della verifica di accessibilità
++
++Aggiornamento: 21 ottobre 2026.
++
++La conformità di questo sito alle WCAG 2.2, livello AA, non è stata determinata.
++
++La valutazione disponibile è limitata all’osservazione di due screenshot della homepage, nelle rappresentazioni desktop e mobile. Non comprende una verifica del sito in esecuzione, delle altre pagine o dei processi completi.
++
++Nei due screenshot sono stati rilevati possibili problemi di leggibilità nel testo di presentazione grigio chiaro sul fondo chiaro e nel testo bianco del pulsante arancione. Il contrasto deve essere misurato nell’implementazione prima di formulare un esito sui relativi requisiti.
++
++Restano da verificare tutti i criteri A e AA applicabili, inclusi navigazione da tastiera, visibilità e gestione del focus, compatibilità con screen reader, struttura semantica, alternative testuali, ridimensionamento del testo, ridisposizione dei contenuti, spaziatura del testo e dimensioni effettive delle aree interattive.
++
++Questa nota descrive i limiti della valutazione disponibile e non attesta la conformità WCAG 2.2 AA del sito.

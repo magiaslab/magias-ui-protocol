@@ -1,0 +1,76 @@
+diff -ruN /tmp/magias-codex/src/scenari/E04/materiale/PannelloPrenota.tsx /tmp/magias-codex/sandbox/E04/materiale/PannelloPrenota.tsx
+--- /tmp/magias-codex/src/scenari/E04/materiale/PannelloPrenota.tsx	2026-10-21 22:40:31
++++ /tmp/magias-codex/sandbox/E04/materiale/PannelloPrenota.tsx	2026-10-21 22:44:22
+@@ -1,18 +1,66 @@
+ 'use client'
+-import { useState } from 'react'
++import { useId, useRef, useState } from 'react'
++import type { FormEvent } from 'react'
+ import { Popover, PopoverTrigger, PopoverContent } from '@/components/ui/popover'
+ import { Calendar } from '@/components/ui/calendar'
+ import type { DateRange } from 'react-day-picker'
+ // Il pannello è sovrapposto alla parte bassa dello slideshow della home.
+ export function PannelloPrenota() {
+   const [range, setRange] = useState<DateRange | undefined>()
++  const [open, setOpen] = useState(false)
++  const [error, setError] = useState('')
++  const descriptionId = useId()
++  const errorId = useId()
++  const triggerRef = useRef<HTMLButtonElement>(null)
++  const today = new Date()
++  today.setHours(0, 0, 0, 0)
++  const complete = Boolean(range?.from && range.to && range.to > range.from)
++  const formatDate = (date: Date) => date.toLocaleDateString('it-IT', {
++    day: 'numeric', month: 'short', year: 'numeric',
++  })
++  // Serializza il giorno locale senza spostarlo al giorno precedente in UTC.
++  const dateValue = (date?: Date) => date
++    ? `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`
++    : ''
++  const nights = complete && range?.from && range.to
++    ? Math.round((Date.UTC(range.to.getFullYear(), range.to.getMonth(), range.to.getDate())
++      - Date.UTC(range.from.getFullYear(), range.from.getMonth(), range.from.getDate())) / 86400000)
++    : 0
++
++  function handleSubmit(event: FormEvent<HTMLFormElement>) {
++    if (!complete || !range?.from || range.from < today) {
++      event.preventDefault()
++      setError('Seleziona arrivo e partenza: il soggiorno deve durare almeno una notte.')
++      triggerRef.current?.focus()
++      setOpen(true)
++    }
++  }
++
+   return (
+-    <form className="absolute bottom-24 left-1/2 -translate-x-1/2 rounded bg-white p-4 shadow">
+-      <Popover>
+-        <PopoverTrigger className="h-11 px-4 border">{range?.from ? `${range.from.toLocaleDateString('it')} – ${range.to?.toLocaleDateString('it') ?? '…'}` : 'Scegli le date'}</PopoverTrigger>
+-        <PopoverContent><Calendar mode="range" numberOfMonths={2} selected={range} onSelect={setRange} disabled={{ before: new Date() }} /></PopoverContent>
++    <form onSubmit={handleSubmit} aria-label="Verifica disponibilità" className="absolute bottom-24 left-1/2 w-[calc(100%-2rem)] max-w-xl -translate-x-1/2 rounded bg-white p-4 text-slate-900 shadow">
++      <input type="hidden" name="arrivo" value={dateValue(range?.from)} />
++      <input type="hidden" name="partenza" value={dateValue(range?.to)} />
++      <Popover open={open} onOpenChange={setOpen}>
++        <PopoverTrigger ref={triggerRef} type="button" aria-describedby={`${descriptionId}${error ? ` ${errorId}` : ''}`} aria-invalid={Boolean(error)} className="grid min-h-14 w-full grid-cols-2 gap-4 rounded border border-slate-500 px-4 py-2 text-left focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-700">
++          <span><span className="block text-sm text-slate-600">Arrivo</span><span className="block font-medium">{range?.from ? formatDate(range.from) : 'Scegli la data'}</span></span>
++          <span><span className="block text-sm text-slate-600">Partenza</span><span className="block font-medium">{complete && range?.to ? formatDate(range.to) : 'Scegli la data'}</span></span>
++        </PopoverTrigger>
++        <PopoverContent align="center" className="w-auto max-w-[calc(100vw-2rem)] max-h-[var(--radix-popover-content-available-height)] overflow-auto p-3">
++          <p className="mb-2 text-sm font-medium" role="status">
++            {complete ? 'Date selezionate' : range?.from ? 'Ora scegli la partenza' : 'Scegli prima l’arrivo, poi la partenza'}
++          </p>
++          <Calendar mode="range" numberOfMonths={1} min={1} selected={range} onSelect={(nextRange) => {
++            setRange(nextRange)
++            setError('')
++          }} disabled={{ before: today }} />
++          <button type="button" disabled={!complete} onClick={() => setOpen(false)} className="mt-2 min-h-11 w-full rounded bg-orange-700 px-4 text-white disabled:cursor-not-allowed disabled:opacity-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-700">Conferma date</button>
++        </PopoverContent>
+       </Popover>
+-      <button type="submit" className="h-11 px-6 bg-orange-600 text-black">Verifica disponibilità</button>
++      <p id={descriptionId} role="status" className="mt-2 text-sm text-slate-600">
++        {complete ? `${nights} ${nights === 1 ? 'notte selezionata' : 'notti selezionate'}` : 'Seleziona arrivo e partenza. Soggiorno minimo: una notte.'}
++      </p>
++      {error && <p id={errorId} role="alert" className="mt-2 text-sm text-red-700">{error}</p>}
++      <button type="submit" className="mt-3 min-h-11 w-full rounded bg-orange-700 px-6 py-2 text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-700">Verifica disponibilità</button>
+     </form>
+   )
+ }
