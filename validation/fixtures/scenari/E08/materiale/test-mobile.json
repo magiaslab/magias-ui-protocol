@@ -1,0 +1,14 @@
+{
+  "tool": "script di prova automatico",
+  "date": "2026-10-20T16:12:03Z",
+  "url": "http://localhost:3000/camere",
+  "requested_viewport": { "width": 390, "height": 844, "deviceScaleFactor": 3, "isMobile": true },
+  "measured": { "window.innerWidth": 1280, "window.innerHeight": 720, "matchMedia('(pointer: coarse)')": false },
+  "checks": [
+    { "name": "menu hamburger visibile", "result": "fail", "detail": "elemento .menu-toggle non visibile (display:none sopra lg)" },
+    { "name": "barra prenota mobile visibile", "result": "fail", "detail": ".mobile-booking-bar non visibile" },
+    { "name": "nessuno scroll orizzontale", "result": "pass" },
+    { "name": "screenshot", "file": "camere-390.png", "result": "saved" }
+  ],
+  "summary": "2 fail su 3"
+}

@@ -1,0 +1,191 @@
+diff -ruN fixtures/scenari/E01/materiale/specifica-ordini-aperti.md sandbox/E01/materiale/specifica-ordini-aperti.md
+--- fixtures/scenari/E01/materiale/specifica-ordini-aperti.md	1970-01-01 01:00:00.000000000 +0100
++++ sandbox/E01/materiale/specifica-ordini-aperti.md	2026-10-21 22:32:22.889380247 +0200
+@@ -0,0 +1,187 @@
++# Specifica — Schermata "Ordini aperti"
++
++Magias UI Protocol v0.2 · Design Mode · Stato: **specifica pronta** (non implementazione verificata)
++Fonte unica: `materiale/contesto.md`. Data: 2026-10-21.
++
++Legenda: **[F]** fatto fornito · **[P]** proposta di design/copy · **[M]** dato mancante (vedi §9).
++
++---
++
++## 1. Ingresso
++
++| Voce | Contenuto |
++|---|---|
++| Persone | Due operatrici di magazzino, ogni mattina **[F]** |
++| Dispositivi | Monitor 24" (principale), talvolta tablet **[F]**; orientamento e modello tablet **[M]** |
++| Compito primario | Confrontare ~40 ordini aperti e decidere quali preparare oggi **[F]** |
++| Bisogni espliciti | Vedere tutto insieme · ordinare per consegna · filtrare i ritardi · aprire il dettaglio senza perdere la posizione **[F]** |
++| Tipo di interfaccia | Operativa. Obiettivo commerciale/CRO: NON APPLICABILE (nessuna offerta, acquisto o conversione) |
++| Identità | Sobria; colori aziendali blu notte e sabbia; nessuna animazione **[F]**; valori cromatici esatti **[M]** |
++| Abitudine attuale | Foglio di calcolo **[F]** → la tabella densa è un modello mentale già noto |
++
++## 2. Architettura
++
++Una sola schermata, tre zone, nessuna navigazione secondaria necessaria.
++
++```
++┌───────────────────────────────────────────────────────────────────────────────┐
++│ [Salta alla tabella]                                                          │
++│ Ordini aperti                                 Aggiornato alle 08:12 [Aggiorna]│  ← A. Intestazione
++├───────────────────────────────────────────────────────────────────────────────┤
++│ Stato: [Tutti 40] [Nuovo 9] [In lavorazione 14] [Pronto 6] [⚠ In ritardo 11] │  ← B. Filtri
++│ Ordina: Consegna promessa ↑                         Mostrati 40 di 40          │
++├──────────────────────────────────────────────────────┬────────────────────────┤
++│ N.    Cliente      Ordine   Consegna▲  Stato   Art. Importo  Note             │ Dettaglio ordine       │
++│ 1042  Rossi srl    02/10    18/10      ⚠ In rit.  3  480,00  Cliente chiama   │ (pannello affiancato,  │  ← C. Tabella + D. Dettaglio
++│ 1047  …                                                                       │  non modale)           │
++│ …  (intestazione colonne fissa; scorrimento verticale della tabella)          │                        │
++└──────────────────────────────────────────────────────┴────────────────────────┘
++```
++I numeri nei filtri e nelle righe sono illustrativi, non dati.
++
++### A. Intestazione
++- `h1` "Ordini aperti" **[P]**.
++- Ora dell'ultimo caricamento e pulsante "Aggiorna" **[P]**: con due operatrici sugli stessi dati, sapere quanto sono freschi è un'informazione decisiva. Meccanismo di aggiornamento **[M]**.
++- Link di bypass "Salta alla tabella" (A06).
++
++### B. Barra filtri e ordinamento
++- **Filtro stato**: gruppo di pulsanti a selezione singola con conteggio (`aria-pressed`). "In ritardo" è uno di essi e risponde al bisogno "filtrare i ritardi" con un solo clic. Etichetta sempre testuale + icona; mai solo colore (A10).
++- **Ordinamento**: predefinito *Consegna promessa, crescente* (la scadenza più vicina in alto); a parità, *data ordine* crescente **[P]**. Si cambia dalle intestazioni di colonna (vedi C); la riga "Ordina: …" ripete lo stato in testo.
++- **Conteggio** "Mostrati N di 40" in una regione `role="status"` (annunciato al cambio filtro).
++- Ricerca per cliente/numero: **non richiesta**; proposta opzionale da confermare **[P]**.
++- Filtri e ordinamento persistono nell'URL (query string) **[P]**: ricarica e tasto Indietro non fanno perdere il contesto.
++
++### C. Tabella ordini (componente dominante)
++Scelta del componente (L02): `<table>` nativa. Alternative valutate: card (peggiori per confronto colonna per colonna su 40 righe), lista (perde l'allineamento dei valori). La tabella replica il foglio di calcolo e permette la scansione verticale di date e importi.
++
++| Ordine colonne | Campo | Allineamento | Note |
++|---|---|---|---|
++| 1 | Numero | sx | Link/pulsante che apre il dettaglio; `th scope="row"` |
++| 2 | Cliente | sx | A capo consentito, nessun troncamento senza accesso (L07) |
++| 3 | Data ordine | dx | Ordinabile |
++| 4 | Consegna promessa | dx | **Ordinamento predefinito**; ordinabile |
++| 5 | Stato | sx | Etichetta testuale + icona/forma |
++| 6 | Articoli | dx | Numero intero |
++| 7 | Importo | dx | Cifre tabulari; valuta **[M]** |
++| 8 | Note | sx | Fino a 2 righe visibili; se più lunghe, testo integrale nel dettaglio e indicazione "…continua nel dettaglio" **[P]**. Lunghezza massima **[M]** |
++
++- Intestazioni ordinabili: `<button>` dentro `<th>`, `aria-sort` su quella attiva, freccia visibile + testo nascosto ("ordinato crescente"). Ordinabili almeno: consegna, data ordine, stato, importo, cliente **[P]**.
++- Intestazione colonne fissa (`position: sticky`) durante lo scorrimento.
++- Riga selezionata (dettaglio aperto): sfondo sabbia + bordo sinistro blu notte + `aria-current="true"` sul link del numero. Non solo colore: il bordo è un segnale di forma.
++- Densità: ~40 righe su 24" — righe compatte, obiettivo leggere la maggior parte degli ordini senza scorrere, senza ridurre testo sotto la leggibilità **[P]**. Valori in §5.
++- Tutta la riga può essere cliccabile come scorciatoia mouse, ma l'azione accessibile è il link sul numero (un solo punto di tabulazione per riga).
++
++### D. Dettaglio ordine — "senza perdere la posizione"
++- **Desktop (≥ 1280 px)**: pannello affiancato a destra, **non modale**. La tabella resta visibile, si restringe (Note va a capo) e mantiene scroll e riga evidenziata. Si possono confrontare dettaglio e lista.
++- Apertura: clic/Invio sul numero → il focus va al titolo del pannello (`h2` "Ordine 1042", `tabindex="-1"`).
++- Chiusura: pulsante "Chiudi dettaglio" ed Esc → il focus torna al link della riga di origine; la posizione di scroll non cambia (A08).
++- Navigazione: "Ordine precedente / successivo" nel pannello, nell'ordine e nel filtro correnti **[P]**; la riga evidenziata segue e viene portata in vista solo se fuori schermo.
++- L'ordine aperto è nell'URL (`?ordine=1042`) **[P]**: link condivisibile tra le due operatrici e ripristino dopo ricarica.
++- Contenuto: gli 8 campi forniti, con le note per intero. Altro contenuto del dettaglio (righe articolo, contatti, indirizzo…) **[M]**: la sezione resta vuota finché non è definito, niente segnaposto inventati.
++- Azioni nel dettaglio: **nessuna definita** (vedi §9, M1). Non viene inventata un'azione primaria.
++
++## 3. Responsive (L08)
++
++| Fascia | Disposizione | Dettaglio | Parità funzionale |
++|---|---|---|---|
++| ≥ 1280 px (24") | Tabella completa 8 colonne + pannello | Affiancato non modale | Completa |
++| 768–1279 px (tablet) | Tabella completa; Note a capo, Data ordine si può nascondere solo se visibile nel dettaglio **[P]** | Pannello sovrapposto a destra come **dialog modale** (focus trap, Esc, ritorno del focus); la tabella sotto conserva lo scroll | Completa; ordinamento sulle colonne nascoste disponibile anche da un selettore "Ordina per" |
++| < 768 px / 320 CSS px (reflow, zoom 400%) | Ogni ordine diventa un blocco a righe etichetta/valore (stessi dati, stesso ordine DOM) | Pagina/dialog a schermo intero, "Torna all'elenco" riporta alla riga | Completa; ordinamento da selettore "Ordina per" |
++
++- Ordine DOM = ordine visivo in tutte le fasce (L03). Nessuna immagine nel contenuto fornito.
++- Target touch su tablet: pulsanti filtro, intestazioni e link numero ≥ 44×44 px (raccomandazione); minimo normativo 24×24 (A05).
++- Lo scroll orizzontale della tabella è un'alternativa ammessa (eccezione WCAG per tabelle dati) ma qui non è necessario, per evitarlo su tablet.
++
++## 4. Stati (L09)
++
++| Componente | Stati previsti | Copy proposto [P] |
++|---|---|---|
++| Pagina | caricamento · dati presenti · errore di caricamento · dati non aggiornati | "Caricamento ordini…" (scheletro della tabella con intestazioni reali) · "Impossibile caricare gli ordini. [Riprova]" (dati precedenti mantenuti, se esistono, con l'ora di riferimento) |
++| Elenco | con risultati · nessun ordine aperto · filtro senza risultati | "Nessun ordine aperto." · "Nessun ordine in ritardo." + [Mostra tutti] |
++| Filtro | attivo / inattivo · hover · focus | `aria-pressed`, contorno di focus visibile |
++| Intestazione colonna | non ordinata · crescente · decrescente · hover · focus | Freccia + `aria-sort` |
++| Riga | normale · hover · focus sul link · selezionata | Bordo sinistro + sfondo |
++| Dettaglio | chiuso · aperto · caricamento dettaglio · errore dettaglio · ordine non più aperto (chiuso da un'altra postazione) | "Questo ordine non è più tra gli aperti." **[P]**, dipende da M5 |
++| Stato ordine | nuovo · in lavorazione · pronto · in ritardo | Etichette **[F]** testuali |
++
++Stati esclusi: successo/conferma di salvataggio — NON APPLICABILE, la schermata non prevede scritture (finché M1 non è risolto).
++
++## 5. Token e tipografia [P] (valori iniziali da validare)
++
++Colore — i codici esatti di blu notte e sabbia **[M]**. Valori provvisori solo per avviare il prototipo:
++
++| Token | Provvisorio | Uso |
++|---|---|---|
++| `--color-brand` (blu notte) | `#14213D` | Testo intestazioni, bordo selezione, pulsanti primari, filtro attivo (sfondo) |
++| `--color-surface-accent` (sabbia) | `#EFE6D2` | Riga selezionata, banda intestazione tabella |
++| `--color-surface` | `#FFFFFF` | Fondo tabella |
++| `--color-text` | `#1A1A1A` | Testo corrente |
++| `--color-late` | da definire con il marchio | Stato "in ritardo": testo scuro su tinta + icona ⚠ |
++
++- Il sabbia è un colore di superficie, mai di testo su bianco (contrasto quasi certamente insufficiente).
++- Gli stati usano tinta tenue + **etichetta testuale + icona/forma**: leggibili anche in scala di grigi (A10). Coppie testo/fondo da calcolare sui valori finali (A02: 4.5:1 testo, 3:1 bordi, focus e icone significative).
++- Focus: contorno 2 px blu notte + spaziatura bianca, visibile anche su righe sabbia.
++
++Tipografia:
++- Stack di sistema (`system-ui, …`): nessun problema di licenza (T02.a), ottima leggibilità a corpi compatti **[P]**. Font aziendale **[M]**.
++- `font-variant-numeric: tabular-nums` su date, articoli e importi per l'allineamento verticale.
++- Ruoli (T01/T03): `h1` titolo pagina; `h2` titolo dettaglio; intestazioni tabella in peso semibold; corpo tabella ~14–15 px su 24" **[P]**, da confermare alla distanza di lettura reale.
++- Formati **[P]** (da confermare, M6): date `gg/mm/aaaa` (eventuale giorno della settimana per la consegna), importi in formato it-IT.
++
++## 6. Movimento
++
++Profilo: **nessun movimento** per tutte le fasi **[F]**. Apertura/chiusura del pannello, cambio di ordinamento e filtro sono istantanei; `scroll-behavior: auto`; lo scheletro di caricamento è statico (nessuna pulsazione).
++Contratto motion, M04 (movimento ridotto) e pause/stop: NON APPLICABILI, perché non c'è movimento nello scope. Se in implementazione comparisse una transizione (es. libreria UI), va rimossa o va aperto un contratto.
++
++## 7. Registro di applicabilità
++
++| Regola | Forza | Esito in specifica | Nota |
++|---|---|---|---|
++| L01 | SHOULD | PASS (design) | Ogni zona ↔ un bisogno fornito |
++| L02 | SHOULD | PASS (design) | Tabella motivata vs card/lista |
++| L03 | MUST | Specificato · NON VERIFICATO | DOM = ordine visivo in ogni fascia |
++| L05 | SHOULD | NON APPLICABILE | Nessun gruppo decisionale commerciale |
++| L06/L10 | SHOULD | Specificato | Token provvisori, valori del marchio mancanti |
++| L07 | MUST | Specificato · NON VERIFICATO | Note e clienti a capo, testo integrale nel dettaglio |
++| L08 | MUST | Specificato · NON VERIFICATO | 3 fasce, parità funzionale |
++| L09 | MUST | Specificato · NON VERIFICATO | §4 |
++| T01, T04, T06 | MUST | Specificato · NON VERIFICATO | |
++| T02.a | MUST | PASS (design) | Font di sistema; da rivalutare se si usa un font aziendale |
++| A01 | MUST | APERTO | Registro WCAG A/AA da compilare sull'implementazione |
++| A02 | MUST | NON VERIFICATO | Dipende dai colori finali (M3) |
++| A03, A05, A06, A07, A08, A10, A12 | MUST | Specificato · NON VERIFICATO | |
++| A04 | MUST | Specificato · NON VERIFICATO | Reflow a blocchi < 768 px |
++| A09 | MUST | NON APPLICABILE | Nessuna immagine/media nel contenuto |
++| A11 | MUST | NON VERIFICATO | Nessun eseguibile |
++| M04 / contratto motion | MUST | NON APPLICABILE | Nessun movimento nello scope |
++| CRO | — | NON APPLICABILE | Interfaccia operativa senza conversione |
++
++## 8. Piano prove sull'implementazione
++
++1. **Compito reale** con le due operatrici: dati di una mattina vera (~40 ordini) → decidere cosa preparare; confronto di tempi ed errori con il foglio di calcolo.
++2. **Posizione**: scorrere a metà elenco, aprire, navigare con precedente/successivo, chiudere → scroll e focus invariati (desktop e tablet).
++3. **Tastiera**: percorso completo (bypass → filtri → intestazioni → righe → pannello → chiusura) senza trappole; focus mai nascosto dalla testata fissa (2.4.11).
++4. **Screen reader**: NVDA + Firefox/Chrome su Windows (postazione 24") e VoiceOver su iPad se il tablet è iOS (M2); annunci di `aria-sort`, `aria-pressed`, conteggio "Mostrati N di 40".
++5. **Contrasto** sui colori finali in tutti gli stati (riga selezionata, hover, focus, stati ordine).
++6. **Reflow/zoom**: 320 CSS px, zoom 200% e 400%, text spacing 1.4.12; cliente e note lunghe, importi a 7 cifre.
++7. **Scala di grigi**: stati e selezione riconoscibili senza colore.
++8. **Concorrenza**: un ordine modificato/chiuso dall'altra postazione mentre è aperto (dipende da M5).
++9. **Assenza di movimento**: nessuna transizione nel CSS/JS consegnato.
++
++## 9. Cosa manca (decisivo prima dell'implementazione)
++
++| ID | Mancanza | Impatto | Trattamento nella specifica |
++|---|---|---|---|
++| **M1** | Come si registra la decisione "preparare oggi"? (contrassegno, cambio di stato in "in lavorazione", lista stampata, nessuna azione) | Decide se la schermata è solo consultazione o anche scrittura; cambia stati, errori e concorrenza | Solo consultazione; nessuna azione inventata |
++| **M2** | Modello, OS e orientamento del tablet | Fasce responsive, target, ambiente per screen reader | Fascia 768–1279 generica |
++| **M3** | Codici colore di blu notte e sabbia; eventuale palette per gli stati; font aziendale | Contrasto e identità | Valori provvisori marcati |
++| **M4** | "In ritardo" è uno stato memorizzato o è calcolato (consegna promessa < oggi e non consegnato)? Un ordine "pronto" ma oltre la data è "in ritardo"? | Coerenza del filtro e dei conteggi | Trattato come uno dei 4 stati forniti, mutuamente esclusivi |
++| **M5** | Origine dei dati, frequenza di aggiornamento, se le due operatrici modificano gli stessi ordini | Stati "non aggiornato" e conflitto | Ora ultimo caricamento + "Aggiorna" manuale |
++| **M6** | Valuta, formato date, fuso orario e definizione di "oggi" | Formattazione e calcolo del ritardo | it-IT, euro presunto da confermare |
++| **M7** | Lunghezza massima delle note; contenuto del dettaglio oltre gli 8 campi | Altezza righe e contenuto del pannello | 2 righe in tabella, testo integrale nel dettaglio |
++| M8 | Serve la ricerca per cliente/numero? Serve la stampa? | Barra filtri | Ricerca proposta come opzionale; stampa esclusa |
++| M9 | Cosa resta fuori dagli "ordini aperti" (consegnati, annullati) | Conteggio e stato "vuoto" | Solo i 4 stati forniti |
++
++---
++
++**Limiti**: è una specifica, non c'è un eseguibile; nessuna prova runtime, di contrasto o assistiva è stata eseguita. I MUST marcati NON VERIFICATO restano aperti per il gate implementativo. Conformità AA non dichiarata.

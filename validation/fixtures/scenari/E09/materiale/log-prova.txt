@@ -1,0 +1,9 @@
+2026-10-20T10:02:11.214Z [runner] apertura http://localhost:3000/contatti
+2026-10-20T10:02:12.880Z [runner] pagina caricata (DOMContentLoaded 1.31s)
+2026-10-20T10:02:13.002Z [runner] compilazione campo nome: ok
+2026-10-20T10:02:13.140Z [runner] compilazione campo email: ok
+2026-10-20T10:02:13.301Z [runner] compilazione campo messaggio: ok
+2026-10-20T10:02:13.305Z [runner] click su button[type=submit] "Invia richiesta"
+2026-10-20T10:02:43.306Z [driver] TimeoutError: Waiting for target frame/session timed out after 30000ms (Input.dispatchMouseEvent)
+2026-10-20T10:02:43.307Z [driver] nota: il comando di input non risulta consegnato alla pagina; nessuna richiesta di rete registrata dopo le 10:02:13
+2026-10-20T10:02:43.410Z [runner] esito: FAIL "invio modulo"

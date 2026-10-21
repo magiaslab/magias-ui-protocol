@@ -1,0 +1,1 @@
+/magias-ui Usa Refactor Mode. Il bordo delle card camera è troppo debole (si vede appena su fondo sabbia): correggilo. Codice in materiale/. Puoi modificare i file.

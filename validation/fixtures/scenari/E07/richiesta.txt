@@ -1,0 +1,1 @@
+/magias-ui Correggi il sito online usando questa copia: nella hero il pulsante principale ha un contrasto troppo basso. La copia locale è in materiale/copia-locale/index.html; ciò che è online oggi è salvato in materiale/online-2026-10-21.html. Puoi modificare i file della copia.

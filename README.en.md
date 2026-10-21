@@ -4,7 +4,7 @@
 
 A protocol and skill for AI-assisted web interface design, review and refactoring, preserving identity, accessibility and people’s tasks.
 
-**Beta 0.1.0-beta.1 · rule core v0.2 · MIT license.** The skill is framework-independent and works with the capabilities available in its environment. One documentary trial in Codex produced consistent decisions; remaining checks are declared in the [validation record](validation/RESULTS.md).
+**Beta 0.1.0-beta.1 · rule core v0.2 · MIT license.** The skill is framework-independent and works with the capabilities available in its environment. All 12 trial scenarios pass in Claude Code; Codex passed one documentary trial; remaining checks are declared in the [validation record](validation/RESULTS.md).
 
 ## The starting philosophy: iki
 
@@ -77,7 +77,7 @@ Packaging creates standalone skill and project ZIPs, a content manifest and SHA2
 
 ## Status and limits
 
-Structural checks pass. One anonymous documentary trial in Codex CLI 0.160.0 produced decisions consistent with the protocol. The Claude Code 2.1.226 trial was blocked by authentication; Claude.ai and APIs have not been tested. Do not generalise a single trial to other modes or runtimes.
+Structural checks pass. In Claude Code 2.1.306 all 12 anonymous scenarios pass across Design, Review and Refactor, on isolated files with one run each. In Codex CLI 0.160.0 one anonymous documentary trial produced decisions consistent with the protocol; the 12 scenarios are still to be run there. Claude.ai and APIs have not been tested. Do not generalise a single trial to other modes or runtimes.
 
 WCAG 2.2 AA is the technical target, but a checklist or scanner does not certify compliance. Screenshots and source code do not replace all interaction tests. No conversion improvement is claimed without measurement.
 

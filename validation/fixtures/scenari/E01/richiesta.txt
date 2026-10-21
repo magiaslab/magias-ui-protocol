@@ -1,0 +1,1 @@
+/magias-ui Usa Design Mode. Progetta la schermata descritta in materiale/contesto.md. Usa solo i contenuti forniti e segnala ciò che manca.

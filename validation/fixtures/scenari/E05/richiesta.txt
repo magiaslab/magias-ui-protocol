@@ -1,0 +1,1 @@
+/magias-ui Revisiona il calcolatore in materiale/Calcolatore.tsx, in particolare il comportamento durante input ripetuti e veloci. Puoi proporre correzioni.

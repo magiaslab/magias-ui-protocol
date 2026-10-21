@@ -1,0 +1,133 @@
+diff -ruN fixtures/scenari/E04/materiale/HeroSlider.tsx sandbox/E04/materiale/HeroSlider.tsx
+--- fixtures/scenari/E04/materiale/HeroSlider.tsx	2026-10-21 22:28:37.731921672 +0200
++++ sandbox/E04/materiale/HeroSlider.tsx	2026-10-21 22:32:13.709361550 +0200
+@@ -1,14 +1,19 @@
+ 'use client'
+ import { useEffect, useState } from 'react'
+ const FOTO = ['/f/1.webp', '/f/2.webp', '/f/3.webp', '/f/4.webp']
+-export function HeroSlider() {
++// sospeso: sospensione temporanea durante un compito (es. calendario aperto), distinta dalla pausa manuale.
++export function HeroSlider({ sospeso = false }: { sospeso?: boolean }) {
+   const [i, setI] = useState(0)
+   const [inPausa, setInPausa] = useState(false)
++  // Con movimento ridotto lo slideshow parte in pausa; la persona può avviarlo con «Riprendi».
+   useEffect(() => {
+-    if (inPausa) return
++    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) setInPausa(true)
++  }, [])
++  useEffect(() => {
++    if (inPausa || sospeso) return
+     const t = setInterval(() => setI((n) => (n + 1) % FOTO.length), 6000)
+     return () => clearInterval(t)
+-  }, [inPausa])
++  }, [inPausa, sospeso])
+   return (
+     <div className="relative h-[80svh] overflow-hidden" aria-roledescription="carosello" aria-label="Foto della struttura">
+       {FOTO.map((src, n) => <img key={src} src={src} alt="" className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-[1800ms] ${n === i ? 'opacity-100' : 'opacity-0'}`} />)}
+diff -ruN fixtures/scenari/E04/materiale/PannelloPrenota.tsx sandbox/E04/materiale/PannelloPrenota.tsx
+--- fixtures/scenari/E04/materiale/PannelloPrenota.tsx	2026-10-21 22:28:37.735921680 +0200
++++ sandbox/E04/materiale/PannelloPrenota.tsx	2026-10-21 22:32:08.785351521 +0200
+@@ -1,17 +1,96 @@
+ 'use client'
+-import { useState } from 'react'
++import { useEffect, useId, useState } from 'react'
++import { it } from 'date-fns/locale'
+ import { Popover, PopoverTrigger, PopoverContent } from '@/components/ui/popover'
+ import { Calendar } from '@/components/ui/calendar'
+ import type { DateRange } from 'react-day-picker'
++
++const fmtBreve = new Intl.DateTimeFormat('it', { weekday: 'short', day: 'numeric', month: 'short' })
++const fmtEsteso = new Intl.DateTimeFormat('it', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })
++// Data locale yyyy-mm-dd: toISOString() convertirebbe in UTC e potrebbe spostare il giorno.
++const isoLocale = (d: Date) => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`
++const notti = (r?: DateRange) => (r?.from && r.to ? Math.round((r.to.getTime() - r.from.getTime()) / 86_400_000) : 0)
++
+ // Il pannello è sovrapposto alla parte bassa dello slideshow della home.
+-export function PannelloPrenota() {
++// onAttivoChange segnala al genitore quando il calendario è aperto, per sospendere lo slideshow.
++export function PannelloPrenota({ onAttivoChange }: { onAttivoChange?: (attivo: boolean) => void }) {
+   const [range, setRange] = useState<DateRange | undefined>()
++  const [aperto, setAperto] = useState(false)
++  const [errore, setErrore] = useState(false)
++  const [mesi, setMesi] = useState(2)
++  const [oggi] = useState(() => new Date(new Date().setHours(0, 0, 0, 0)))
++  const id = useId()
++  const n = notti(range)
++
++  useEffect(() => onAttivoChange?.(aperto), [aperto, onAttivoChange])
++  useEffect(() => {
++    const mq = window.matchMedia('(min-width: 640px)')
++    const aggiorna = () => setMesi(mq.matches ? 2 : 1)
++    aggiorna()
++    mq.addEventListener('change', aggiorna)
++    return () => mq.removeEventListener('change', aggiorna)
++  }, [])
++
++  const riepilogo = range?.from
++    ? `${fmtBreve.format(range.from)} – ${range.to && n > 0 ? fmtBreve.format(range.to) : 'scegli la partenza'}`
++    : 'Scegli le date'
++  const riepilogoEsteso = range?.from && range.to && n > 0
++    ? `Dal ${fmtEsteso.format(range.from)} al ${fmtEsteso.format(range.to)}, ${n} ${n === 1 ? 'notte' : 'notti'}`
++    : range?.from ? `Arrivo ${fmtEsteso.format(range.from)}, scegli la data di partenza` : 'Nessuna data selezionata'
++
+   return (
+-    <form className="absolute bottom-24 left-1/2 -translate-x-1/2 rounded bg-white p-4 shadow">
+-      <Popover>
+-        <PopoverTrigger className="h-11 px-4 border">{range?.from ? `${range.from.toLocaleDateString('it')} – ${range.to?.toLocaleDateString('it') ?? '…'}` : 'Scegli le date'}</PopoverTrigger>
+-        <PopoverContent><Calendar mode="range" numberOfMonths={2} selected={range} onSelect={setRange} disabled={{ before: new Date() }} /></PopoverContent>
+-      </Popover>
++    <form
++      className="absolute bottom-24 left-1/2 flex w-[calc(100%-2rem)] max-w-xl -translate-x-1/2 flex-wrap items-end gap-3 rounded bg-white p-4 shadow"
++      onSubmit={(e) => {
++        if (n > 0) return
++        e.preventDefault()
++        setErrore(true)
++        setAperto(true)
++      }}
++    >
++      <div className="flex min-w-0 flex-1 flex-col gap-1">
++        <span id={`${id}-label`} className="text-sm font-medium">Date del soggiorno</span>
++        <Popover open={aperto} onOpenChange={setAperto}>
++          <PopoverTrigger
++            id={`${id}-trigger`}
++            aria-labelledby={`${id}-label ${id}-trigger`}
++            aria-describedby={errore ? `${id}-errore` : undefined}
++            aria-invalid={errore || undefined}
++            className={`h-11 px-4 border text-left ${errore ? 'border-red-700' : ''}`}
++          >
++            {riepilogo}
++            {n > 0 && <span className="ml-2 text-sm text-neutral-700">· {n} {n === 1 ? 'notte' : 'notti'}</span>}
++          </PopoverTrigger>
++          <PopoverContent align="start" collisionPadding={16} className="w-auto max-w-[calc(100vw-2rem)] p-0">
++            <Calendar
++              mode="range"
++              locale={it}
++              numberOfMonths={mesi}
++              defaultMonth={range?.from ?? oggi}
++              selected={range}
++              onSelect={(r) => {
++                setRange(r)
++                if (notti(r) > 0) setErrore(false)
++              }}
++              disabled={{ before: oggi }}
++            />
++            <div className="flex items-center justify-between gap-3 border-t p-3">
++              <p className="text-sm" aria-live="polite">{riepilogoEsteso}</p>
++              <div className="flex shrink-0 gap-2">
++                {range?.from && <button type="button" className="h-11 px-3 underline" onClick={() => setRange(undefined)}>Cancella</button>}
++                <button type="button" className="h-11 px-4 border" onClick={() => setAperto(false)}>Fatto</button>
++              </div>
++            </div>
++          </PopoverContent>
++        </Popover>
++        {errore && <p id={`${id}-errore`} className="text-sm text-red-700">Scegli data di arrivo e di partenza (almeno una notte).</p>}
++      </div>
++      {n > 0 && range?.from && range.to && (
++        <>
++          <input type="hidden" name="arrivo" value={isoLocale(range.from)} />
++          <input type="hidden" name="partenza" value={isoLocale(range.to)} />
++        </>
++      )}
+       <button type="submit" className="h-11 px-6 bg-orange-600 text-black">Verifica disponibilità</button>
+     </form>
+   )

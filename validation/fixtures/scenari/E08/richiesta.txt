@@ -1,0 +1,1 @@
+/magias-ui Valuta il test mobile allegato in materiale/test-mobile.json e dimmi se la pagina funziona su telefono.

@@ -1,0 +1,16 @@
+{
+  "scenario": "E09",
+  "runtime": "Claude Code 2.1.306",
+  "model": "claude-opus-5-5",
+  "start": "2026-10-21T22:33:31+02:00",
+  "end": "2026-10-21T22:34:08+02:00",
+  "exit_code": 0,
+  "is_error": false,
+  "num_turns": 8,
+  "duration_ms": 35459,
+  "cost_usd": 0.1964,
+  "permission_denials": [
+    "Bash",
+    "Bash"
+  ]
+}

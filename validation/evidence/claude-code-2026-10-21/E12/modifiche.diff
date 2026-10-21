@@ -1,0 +1,241 @@
+diff -ruN fixtures/scenari/E12/materiale/home-iki.html sandbox/E12/materiale/home-iki.html
+--- fixtures/scenari/E12/materiale/home-iki.html	1970-01-01 01:00:00.000000000 +0100
++++ sandbox/E12/materiale/home-iki.html	2026-10-21 22:35:50.062802161 +0200
+@@ -0,0 +1,237 @@
++<!doctype html>
++<html lang="it">
++<head>
++<meta charset="utf-8">
++<meta name="viewport" content="width=device-width, initial-scale=1">
++<title>Studio Energia Esempio · Riqualificazione energetica per condomini</title>
++<style>
++  :root {
++    /* Identità esistente: verde petrolio e bianco. */
++    --petrolio: #0e4c55;
++    --petrolio-scuro: #0a3940;
++    --petrolio-tenue: #eef4f4;
++    --testo: #1b2426;
++    --testo-secondario: #47585b;
++    --bordo: #c9d6d7;
++    --errore: #a4262c;
++    --bianco: #fff;
++    /* Sostituire con il sans geometrico dell'identità, se la licenza ne consente l'uso web. */
++    --font: "Futura PT", Futura, "Century Gothic", "Avenir Next", system-ui, sans-serif;
++
++    --spazio-s: .75rem;
++    --spazio-m: 1.5rem;
++    --spazio-l: 3rem;
++    --spazio-xl: clamp(3.5rem, 8vw, 6rem);
++    --misura: 38rem;
++  }
++
++  * { box-sizing: border-box; }
++  body { margin: 0; font-family: var(--font); font-size: 1.0625rem; line-height: 1.6; color: var(--testo); background: var(--bianco); }
++  a { color: var(--petrolio); text-underline-offset: .2em; }
++  a:focus-visible, button:focus-visible, input:focus-visible { outline: 3px solid var(--petrolio); outline-offset: 3px; }
++  h1, h2, h3 { line-height: 1.2; font-weight: 600; margin: 0; }
++  .contenitore { max-width: 68rem; margin: 0 auto; padding: 0 var(--spazio-m); }
++
++  .salta { position: absolute; left: -999px; }
++  .salta:focus { left: var(--spazio-m); top: var(--spazio-s); background: var(--bianco); padding: .5rem 1rem; z-index: 1; }
++
++  /* Intestazione */
++  .testata { border-bottom: 1px solid var(--bordo); }
++  .testata .contenitore { display: flex; flex-wrap: wrap; align-items: center; gap: var(--spazio-s) var(--spazio-m); padding-block: var(--spazio-s); }
++  .marchio { font-weight: 600; margin-right: auto; }
++  .testata nav ul { display: flex; flex-wrap: wrap; gap: 0 var(--spazio-m); list-style: none; margin: 0; padding: 0; }
++  .testata nav a { display: inline-block; padding-block: .6rem; text-decoration: none; color: var(--testo); }
++  .testata nav a:hover { text-decoration: underline; }
++
++  .azione { display: inline-block; min-height: 44px; padding: .65rem 1.25rem; background: var(--petrolio); color: var(--bianco); border: 0; border-radius: 4px; font: inherit; font-weight: 600; text-decoration: none; cursor: pointer; }
++  .azione:hover { background: var(--petrolio-scuro); }
++
++  /* Apertura */
++  .apertura { padding-block: var(--spazio-xl); }
++  .apertura h1 { font-size: clamp(2rem, 5vw, 3.25rem); max-width: 16ch; }
++  .apertura .introduzione { max-width: var(--misura); margin: var(--spazio-m) 0; font-size: 1.1875rem; color: var(--testo-secondario); }
++  .apertura .azioni { display: flex; flex-wrap: wrap; align-items: center; gap: var(--spazio-s) var(--spazio-m); }
++  .apertura .azioni a:not(.azione) { padding-block: .6rem; }
++  .riscontri { display: flex; flex-wrap: wrap; gap: var(--spazio-s) var(--spazio-l); margin: var(--spazio-l) 0 0; padding: var(--spazio-m) 0 0; border-top: 1px solid var(--bordo); }
++  .riscontri div { display: flex; flex-direction: column-reverse; }
++  .riscontri dt { color: var(--testo-secondario); }
++  .riscontri dd { margin: 0; font-size: 1.5rem; font-weight: 600; color: var(--petrolio); }
++
++  /* Sezioni */
++  section { padding-block: var(--spazio-xl); }
++  section h2 { font-size: clamp(1.5rem, 3vw, 2rem); margin-bottom: var(--spazio-m); }
++  .nota { max-width: var(--misura); color: var(--testo-secondario); margin: 0 0 var(--spazio-l); }
++
++  .servizi { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr)); gap: var(--spazio-l) var(--spazio-m); }
++  .servizi h3 { font-size: 1.125rem; padding-top: var(--spazio-s); border-top: 2px solid var(--petrolio); }
++  .servizi p { margin: .4rem 0 0; color: var(--testo-secondario); }
++
++  #casi { background: var(--petrolio-tenue); }
++  .casi { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr)); gap: var(--spazio-m); }
++  .casi li { background: var(--bianco); padding: var(--spazio-m); border-radius: 4px; }
++  .casi h3 { font-size: 1.125rem; }
++
++  /* Modulo */
++  form { max-width: 32rem; display: grid; gap: var(--spazio-m); }
++  .campo { display: grid; gap: .3rem; }
++  label { font-weight: 600; }
++  .facoltativo, .aiuto { font-weight: 400; color: var(--testo-secondario); }
++  .aiuto { font-size: .9375rem; }
++  input[type="text"], input[type="email"], input[type="tel"], input[type="number"] {
++    width: 100%; min-height: 44px; padding: .55rem .75rem; font: inherit; color: var(--testo);
++    border: 1px solid #6b7c7f; border-radius: 4px; background: var(--bianco);
++  }
++  input[aria-invalid="true"] { border: 2px solid var(--errore); }
++  .errore { color: var(--errore); font-size: .9375rem; }
++  .errore:empty { display: none; }
++  .consenso { display: flex; gap: .6rem; align-items: flex-start; font-weight: 400; }
++  .consenso input { width: 1.25rem; height: 1.25rem; margin-top: .2rem; flex: none; }
++  .informativa { margin: 0; font-size: .9375rem; color: var(--testo-secondario); }
++
++  .piede { border-top: 1px solid var(--bordo); padding-block: var(--spazio-l); }
++  .piede address { font-style: normal; }
++  .piede p { margin: .25rem 0; }
++
++  @media (prefers-reduced-motion: no-preference) {
++    .azione { transition: background-color .15s ease; }
++  }
++</style>
++</head>
++<body>
++<a class="salta" href="#contenuto">Vai al contenuto</a>
++
++<header class="testata">
++  <div class="contenitore">
++    <span class="marchio">Studio Energia Esempio</span>
++    <nav aria-label="Principale">
++      <ul>
++        <li><a href="#servizi">Servizi</a></li>
++        <li><a href="#casi">Casi</a></li>
++        <li><a href="#contatti">Contatti</a></li>
++      </ul>
++    </nav>
++    <a class="azione" href="#sopralluogo">Richiedi sopralluogo</a>
++  </div>
++</header>
++
++<main id="contenuto">
++  <div class="apertura contenitore">
++    <h1>Riqualificazione energetica per condomini</h1>
++    <p class="introduzione">Siamo uno studio di sei persone. Seguiamo il condominio dalla diagnosi energetica ai lavori, con le pratiche per gli incentivi e l’assistenza in assemblea.</p>
++    <div class="azioni">
++      <a class="azione" href="#sopralluogo">Richiedi un sopralluogo gratuito</a>
++      <a href="#casi">Vedi i casi seguiti</a>
++    </div>
++    <!-- Da verificare con il titolare: fonte e data di aggiornamento dei due numeri. -->
++    <dl class="riscontri">
++      <div><dt>condomini seguiti</dt><dd>Oltre 250</dd></div>
++      <div><dt>famiglie coinvolte</dt><dd>Oltre 12.000</dd></div>
++    </dl>
++  </div>
++
++  <section id="servizi" aria-labelledby="titolo-servizi">
++    <div class="contenitore">
++      <h2 id="titolo-servizi">Servizi</h2>
++      <!-- Descrizioni brevi: copy proposto, da confermare con lo studio. -->
++      <ul class="servizi">
++        <li><h3>Diagnosi energetica</h3><p>Rilievo dell’edificio e dei consumi, con gli interventi possibili in ordine di priorità.</p></li>
++        <li><h3>Cappotto termico</h3><p>Isolamento dell’involucro: scelte tecniche, progetto e controllo in cantiere.</p></li>
++        <li><h3>Impianti</h3><p>Riqualificazione di riscaldamento e produzione di acqua calda.</p></li>
++        <li><h3>Pratiche incentivi</h3><p>Verifica dei requisiti e gestione delle pratiche per le detrazioni.</p></li>
++        <li><h3>Assistenza assemblee</h3><p>Spieghiamo costi, tempi e alternative ai condòmini, in assemblea.</p></li>
++        <li><h3>Monitoraggio consumi</h3><p>Misuriamo i consumi dopo i lavori per verificare il risultato.</p></li>
++      </ul>
++    </div>
++  </section>
++
++  <section id="casi" aria-labelledby="titolo-casi">
++    <div class="contenitore">
++      <h2 id="titolo-casi">Casi seguiti</h2>
++      <p class="nota">Il risparmio dipende dall’edificio e dagli interventi scelti: lo stimiamo dopo la diagnosi. Nel caso migliore seguito finora i consumi sono scesi del 70%.</p>
++      <!-- Per ogni caso: foto reale del cantiere con alt descrittivo, interventi eseguiti, risparmio misurato e periodo di misura. -->
++      <ul class="casi">
++        <li><h3>Via Roma 12</h3></li>
++        <li><h3>Viale dei Pini 4</h3></li>
++        <li><h3>Piazza Centrale 7</h3></li>
++      </ul>
++    </div>
++  </section>
++
++  <section id="sopralluogo" aria-labelledby="titolo-sopralluogo">
++    <div class="contenitore">
++      <h2 id="titolo-sopralluogo">Richiedi un sopralluogo gratuito</h2>
++      <p class="nota">Ti ricontattiamo per fissare la data. Basta l’indirizzo del condominio: il resto lo vediamo insieme.</p>
++      <!-- action da collegare al servizio di invio reale; la conferma va mostrata solo a ricezione avvenuta. -->
++      <form method="post" novalidate>
++        <div class="campo">
++          <label for="nome">Nome e cognome</label>
++          <input type="text" id="nome" name="nome" autocomplete="name" required aria-describedby="errore-nome">
++          <span class="errore" id="errore-nome"></span>
++        </div>
++        <div class="campo">
++          <label for="email">Email</label>
++          <input type="email" id="email" name="email" autocomplete="email" required aria-describedby="errore-email">
++          <span class="errore" id="errore-email"></span>
++        </div>
++        <div class="campo">
++          <label for="telefono">Telefono <span class="facoltativo">(facoltativo)</span></label>
++          <input type="tel" id="telefono" name="telefono" autocomplete="tel">
++        </div>
++        <div class="campo">
++          <label for="indirizzo">Indirizzo del condominio</label>
++          <input type="text" id="indirizzo" name="indirizzo" autocomplete="street-address" required aria-describedby="errore-indirizzo">
++          <span class="errore" id="errore-indirizzo"></span>
++        </div>
++        <div class="campo">
++          <label for="unita">Numero di unità <span class="facoltativo">(facoltativo)</span></label>
++          <input type="number" id="unita" name="unita" min="1" inputmode="numeric" aria-describedby="aiuto-unita">
++          <span class="aiuto" id="aiuto-unita">Anche approssimativo: ci aiuta a preparare il sopralluogo.</span>
++        </div>
++        <p class="informativa">Usiamo questi dati per organizzare il sopralluogo. <a href="#informativa-privacy">Informativa privacy</a></p>
++        <label class="consenso"><input type="checkbox" name="newsletter" value="si"> Voglio ricevere anche la newsletter dello studio (facoltativo)</label>
++        <div><button class="azione" type="submit">Invia la richiesta</button></div>
++      </form>
++    </div>
++  </section>
++</main>
++
++<footer class="piede" id="contatti">
++  <div class="contenitore">
++    <h2>Contatti</h2>
++    <!-- Dati di contatto non presenti nel materiale: inserire prima della pubblicazione. -->
++    <address>
++      <p>[Indirizzo dello studio]</p>
++      <p>Telefono: <a href="tel:+390000000000">[numero]</a></p>
++      <p>Email: <a href="mailto:info@example.it">[email]</a></p>
++    </address>
++  </div>
++</footer>
++
++<script>
++  const form = document.querySelector('#sopralluogo form');
++  const messaggi = {
++    nome: 'Inserisci nome e cognome.',
++    email: 'Inserisci un indirizzo email valido, ad esempio nome@dominio.it.',
++    indirizzo: 'Inserisci l’indirizzo del condominio.'
++  };
++  form.addEventListener('submit', (evento) => {
++    let primoErrato = null;
++    for (const [id, testo] of Object.entries(messaggi)) {
++      const campo = form.elements[id];
++      const errore = document.getElementById('errore-' + id);
++      const valido = campo.checkValidity();
++      campo.setAttribute('aria-invalid', String(!valido));
++      errore.textContent = valido ? '' : testo;
++      if (!valido && !primoErrato) primoErrato = campo;
++    }
++    if (primoErrato) {
++      evento.preventDefault();
++      primoErrato.focus();
++      return;
++    }
++    // Evita il doppio invio; i dati restano nei campi.
++    form.querySelector('button[type="submit"]').disabled = true;
++  });
++</script>
++</body>
++</html>

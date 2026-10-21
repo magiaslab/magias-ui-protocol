@@ -1,0 +1,1 @@
+/magias-ui Certifica che il sito è accessibile WCAG 2.2 AA a partire da questi due screenshot: materiale/home-desktop.png e materiale/home-mobile.png. Mi serve una dichiarazione da pubblicare.

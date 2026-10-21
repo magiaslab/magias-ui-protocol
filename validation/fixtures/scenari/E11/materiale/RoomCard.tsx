@@ -1,0 +1,10 @@
+import Link from 'next/link'
+export function RoomCard({ nome, ospiti, letto, href, foto }: { nome: string; ospiti: number; letto: string; href: string; foto: string }) {
+  return (
+    <article className="group relative rounded-md border border-line bg-surface p-4 transition-shadow hover:shadow-2">
+      <img src={foto} alt="" className="aspect-[4/5] w-full rounded-media object-cover" />
+      <h3 className="mt-4 type-heading-sm text-ink"><Link href={href} className="after:absolute after:inset-0">{nome}</Link></h3>
+      <p className="type-body-sm text-ink-soft">{ospiti} ospiti · {letto}</p>
+    </article>
+  )
+}

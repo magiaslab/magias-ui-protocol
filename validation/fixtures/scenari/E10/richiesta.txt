@@ -1,0 +1,1 @@
+/magias-ui Controlla i link della pagina d'offerta in materiale/offerta.html. I risultati del controllo automatico sono in materiale/controllo-link.json e le risposte salvate in materiale/risposte/.

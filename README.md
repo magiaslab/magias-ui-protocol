@@ -4,7 +4,7 @@
 
 Un protocollo e una skill per progettare, revisionare e correggere interfacce web con agenti AI, preservando identità, accessibilità e compiti delle persone.
 
-**Beta 0.1.0-beta.1 · nucleo regole v0.2 · licenza MIT.** La skill è indipendente dal framework e usa le capacità disponibili nell’ambiente. Una prova documentale in Codex ha dato risultati coerenti; le altre prove restano dichiarate nello [stato di validazione](validation/RESULTS.md).
+**Beta 0.1.0-beta.1 · nucleo regole v0.2 · licenza MIT.** La skill è indipendente dal framework e usa le capacità disponibili nell’ambiente. I 12 scenari di prova sono superati in Claude Code; Codex ha superato una prova documentale; le altre prove restano dichiarate nello [stato di validazione](validation/RESULTS.md).
 
 ## La filosofia di partenza: iki
 
@@ -98,7 +98,7 @@ Il confezionamento produce in `dist/` lo ZIP della skill, lo ZIP del progetto, i
 
 ## Stato e limiti
 
-I controlli strutturali sono superati. Una prova documentale anonima in **Codex CLI 0.160.0** ha prodotto decisioni coerenti con il protocollo. La prova in **Claude Code 2.1.226** è stata bloccata dall’autenticazione; Claude.ai e API non sono stati provati. Non estendere il risultato di un campione ad altri modi di lavoro o runtime.
+I controlli strutturali sono superati. In **Claude Code 2.1.306** i 12 scenari anonimi sono superati in Design, Review e Refactor, su file isolati e con una esecuzione ciascuno. In **Codex CLI 0.160.0** una prova documentale anonima ha prodotto decisioni coerenti con il protocollo; i 12 scenari restano da eseguire. Claude.ai e API non sono stati provati. Non estendere il risultato di un campione ad altri modi di lavoro o runtime.
 
 Il protocollo adotta WCAG 2.2 AA come obiettivo tecnico, ma una checklist o uno scanner non certificano conformità. Screenshot e sorgenti non sostituiscono tutti i test d’interazione. Il pacchetto non promette miglioramenti di conversione senza misurazioni.
 

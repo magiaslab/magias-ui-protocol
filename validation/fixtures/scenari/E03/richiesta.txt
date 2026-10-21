@@ -1,0 +1,1 @@
+/magias-ui Usa Review Mode. Valuta il diagramma scroll-linked descritto in materiale/diagramma.md e nel codice materiale/Diagramma.tsx.
