@@ -1,0 +1,137 @@
+diff -ruN fixtures/scenari/E04/materiale/HeroSlider.tsx sandbox/E04-r3/materiale/HeroSlider.tsx
+--- fixtures/scenari/E04/materiale/HeroSlider.tsx	2026-10-21 22:40:31
++++ sandbox/E04-r3/materiale/HeroSlider.tsx	2026-10-21 22:53:36
+@@ -4,15 +4,30 @@
+ export function HeroSlider() {
+   const [i, setI] = useState(0)
+   const [inPausa, setInPausa] = useState(false)
++  const [bookingActive, setBookingActive] = useState(false)
++  // Parte fermo finché non viene letta la preferenza del dispositivo.
++  const [reducedMotion, setReducedMotion] = useState(true)
+   useEffect(() => {
+-    if (inPausa) return
++    const preference = window.matchMedia('(prefers-reduced-motion: reduce)')
++    const updatePreference = () => setReducedMotion(preference.matches)
++    const updateBooking = (event: Event) => setBookingActive((event as CustomEvent<boolean>).detail)
++    updatePreference()
++    preference.addEventListener('change', updatePreference)
++    window.addEventListener('booking:activity', updateBooking)
++    return () => {
++      preference.removeEventListener('change', updatePreference)
++      window.removeEventListener('booking:activity', updateBooking)
++    }
++  }, [])
++  useEffect(() => {
++    if (inPausa || bookingActive || reducedMotion) return
+     const t = setInterval(() => setI((n) => (n + 1) % FOTO.length), 6000)
+     return () => clearInterval(t)
+-  }, [inPausa])
++  }, [inPausa, bookingActive, reducedMotion])
+   return (
+     <div className="relative h-[80svh] overflow-hidden" aria-roledescription="carosello" aria-label="Foto della struttura">
+-      {FOTO.map((src, n) => <img key={src} src={src} alt="" className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-[1800ms] ${n === i ? 'opacity-100' : 'opacity-0'}`} />)}
+-      <button onClick={() => setInPausa((p) => !p)} aria-pressed={inPausa} className="absolute bottom-4 right-4">{inPausa ? 'Riprendi' : 'Pausa'}</button>
++      {FOTO.map((src, n) => <img key={src} src={src} alt="" className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-[1800ms] motion-reduce:transition-none ${n === i ? 'opacity-100' : 'opacity-0'}`} />)}
++      <button type="button" onClick={() => setInPausa((p) => !p)} aria-pressed={inPausa} className="absolute bottom-4 right-4 min-h-11 rounded bg-white px-4 text-gray-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white">{inPausa ? 'Riprendi' : 'Pausa'}</button>
+     </div>
+   )
+ }
+diff -ruN fixtures/scenari/E04/materiale/PannelloPrenota.tsx sandbox/E04-r3/materiale/PannelloPrenota.tsx
+--- fixtures/scenari/E04/materiale/PannelloPrenota.tsx	2026-10-21 22:40:31
++++ sandbox/E04-r3/materiale/PannelloPrenota.tsx	2026-10-21 22:53:45
+@@ -1,18 +1,88 @@
+ 'use client'
+-import { useState } from 'react'
++import { useEffect, useId, useState } from 'react'
+ import { Popover, PopoverTrigger, PopoverContent } from '@/components/ui/popover'
+ import { Calendar } from '@/components/ui/calendar'
+ import type { DateRange } from 'react-day-picker'
++
++// Evento condiviso con HeroSlider: la sospensione del compito non cambia la pausa manuale.
++const BOOKING_ACTIVITY = 'booking:activity'
++const formatDate = (date: Date) => date.toLocaleDateString('it-IT', {
++  day: 'numeric', month: 'long', year: 'numeric',
++})
++const calendarDay = (date: Date) => Date.UTC(date.getFullYear(), date.getMonth(), date.getDate())
++
+ // Il pannello è sovrapposto alla parte bassa dello slideshow della home.
+ export function PannelloPrenota() {
+   const [range, setRange] = useState<DateRange | undefined>()
++  const [open, setOpen] = useState(false)
++  const [hasFocus, setHasFocus] = useState(false)
++  const hintId = useId()
++  const summaryId = useId()
++  const today = new Date()
++  today.setHours(0, 0, 0, 0)
++  const nights = range?.from && range.to
++    ? Math.round((calendarDay(range.to) - calendarDay(range.from)) / 86400000)
++    : 0
++  const complete = Boolean(range?.from && range.to && range.from >= today && nights > 0)
++  const active = open || hasFocus
++
++  useEffect(() => {
++    window.dispatchEvent(new CustomEvent(BOOKING_ACTIVITY, { detail: active }))
++    return () => {
++      window.dispatchEvent(new CustomEvent(BOOKING_ACTIVITY, { detail: false }))
++    }
++  }, [active])
++
+   return (
+-    <form className="absolute bottom-24 left-1/2 -translate-x-1/2 rounded bg-white p-4 shadow">
+-      <Popover>
+-        <PopoverTrigger className="h-11 px-4 border">{range?.from ? `${range.from.toLocaleDateString('it')} – ${range.to?.toLocaleDateString('it') ?? '…'}` : 'Scegli le date'}</PopoverTrigger>
+-        <PopoverContent><Calendar mode="range" numberOfMonths={2} selected={range} onSelect={setRange} disabled={{ before: new Date() }} /></PopoverContent>
+-      </Popover>
+-      <button type="submit" className="h-11 px-6 bg-orange-600 text-black">Verifica disponibilità</button>
++    <form
++      aria-label="Prenota il soggiorno"
++      className="absolute bottom-24 left-1/2 w-[calc(100%_-_2rem)] max-w-xl -translate-x-1/2 rounded bg-white p-4 text-gray-900 shadow"
++      onFocusCapture={() => setHasFocus(true)}
++      onBlurCapture={(event) => {
++        if (!event.currentTarget.contains(event.relatedTarget as Node | null)) setHasFocus(false)
++      }}
++      onSubmit={(event) => {
++        if (!complete) {
++          event.preventDefault()
++          setOpen(true)
++        }
++      }}
++    >
++      <p className="mb-2 font-semibold">Date del soggiorno</p>
++      <p id={hintId} className="mb-3 text-sm text-gray-700">Scegli prima l’arrivo, poi la partenza. Minimo una notte.</p>
++      <div className="flex flex-col gap-3 sm:flex-row sm:items-stretch">
++        <Popover open={open} onOpenChange={setOpen}>
++          <PopoverTrigger
++            type="button"
++            aria-describedby={`${hintId} ${summaryId}`}
++            className="min-h-11 flex-1 rounded border border-gray-500 px-4 py-3 text-left focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-700"
++          >
++            <span className="block text-sm text-gray-700">Arrivo → Partenza</span>
++            <span className="block font-medium">
++              {range?.from ? `${formatDate(range.from)} → ${range.to ? formatDate(range.to) : 'Scegli la partenza'}` : 'Scegli le date'}
++            </span>
++          </PopoverTrigger>
++          <PopoverContent className="w-auto max-w-[calc(100vw_-_2rem)] max-h-[70svh] overflow-auto p-2" align="start">
++            <p className="px-2 pb-2 text-sm">{range?.from && !range.to ? 'Ora scegli la partenza.' : 'Scegli arrivo e partenza.'}</p>
++            <Calendar
++              mode="range"
++              numberOfMonths={1}
++              min={1}
++              selected={range}
++              onSelect={setRange}
++              disabled={{ before: today }}
++              initialFocus
++            />
++            <button type="button" onClick={() => setOpen(false)} className="min-h-11 w-full rounded border border-gray-500 px-4 focus-visible:outline focus-visible:outline-2 focus-visible:outline-orange-700">
++              {complete ? 'Conferma le date' : 'Chiudi calendario'}
++            </button>
++          </PopoverContent>
++        </Popover>
++        <button type="submit" disabled={!complete} className="min-h-11 rounded bg-orange-700 px-6 py-3 font-medium text-white disabled:cursor-not-allowed disabled:bg-gray-200 disabled:text-gray-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-700">Verifica disponibilità</button>
++      </div>
++      <p id={summaryId} role="status" aria-atomic="true" className="mt-3 text-sm text-gray-700">
++        {complete ? `${nights} ${nights === 1 ? 'notte selezionata' : 'notti selezionate'}. Arrivo ${formatDate(range!.from!)}; partenza ${formatDate(range!.to!)}.` : range?.from ? 'Seleziona una partenza successiva all’arrivo per continuare.' : 'Seleziona le date per verificare la disponibilità.'}
++      </p>
+     </form>
+   )
+ }

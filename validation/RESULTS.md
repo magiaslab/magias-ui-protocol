@@ -8,7 +8,7 @@ Aggiornato il 21 ottobre 2026; beta 0.1.0-beta.1, nucleo v0.2.
 | Registro e matrice | PASS locale | 77 regole, corrispondenza dei campi e moduli |
 | Confezionamento ZIP | PASS locale | Contenuto confrontato byte per byte; licenza inclusa |
 | Claude Code 2.1.306 | PASS su 12 scenari su 12 | E01–E12 in Design, Review e Refactor su file isolati, una esecuzione ciascuno: [prova del 21 ottobre](evidence/claude-code-2026-10-21/README.md) |
-| Codex CLI 0.163.0-alpha.10.2 | 10 PASS, 1 PASS con riserva, 1 FAIL su 12 scenari | E04 non sospende lo slideshow durante la scelta date; nessuna violazione critica: [prova del 21 ottobre](evidence/codex-2026-10-21/README.md) |
+| Codex CLI 0.163.0-alpha.10.2 | 11 PASS (uno con riserva) su 12, poi E04 corretto | E04 falliva (slideshow non sospeso); dopo la correzione della skill 3 PASS su 3: [prova](evidence/codex-2026-10-21/README.md), [correzione](evidence/correzione-refactor-2026-10-21/README.md) |
 | Codex CLI 0.160.0 | PASS nel campione documentale (8 ottobre) | Una prova composita in Review |
 | Claude Code 2.1.226 | BLOCCATO da autenticazione (9 ottobre) | Superato dalla prova del 21 ottobre con la versione 2.1.306 |
 | Claude.ai / API | NON VERIFICATO | Non installati/caricati |
@@ -32,6 +32,6 @@ Tentativo eseguito in cartella temporanea, con skill locale, sola lettura, hook 
 
 ## Integrità e prossime prove
 
-Il validatore bundled della skill-creator non è stato eseguito per dipendenza YAML non disponibile; il validatore locale usa il formato scalare specifico del frontmatter. Claude.ai e API restano NON VERIFICATI. Prossima correzione della skill: in Refactor controllare i movimenti attivi nella stessa vista del compito (divergenza E04 fra Claude Code e Codex). La beta può essere distribuita con questi limiti dichiarati, ma non presentata come validata in tutti i runtime.
+Il validatore bundled della skill-creator non è stato eseguito per dipendenza YAML non disponibile; il validatore locale usa il formato scalare specifico del frontmatter. Claude.ai e API restano NON VERIFICATI. La divergenza E04 fra Claude Code e Codex è stata corretta nella skill (Refactor controlla i movimenti nella vista del compito) e riprovata con esito positivo. La beta può essere distribuita con questi limiti dichiarati, ma non presentata come validata in tutti i runtime.
 
 Verifiche degli strumenti di integrità: copie temporanee con matrice divergente, licenza della skill assente e collegamento locale interrotto sono state respinte dal validatore. Due build consecutive hanno prodotto gli stessi hash degli artefatti. Nessuna mutazione è stata applicata alla candidata per queste prove.

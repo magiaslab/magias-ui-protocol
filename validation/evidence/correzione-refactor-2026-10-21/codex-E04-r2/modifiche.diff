@@ -1,0 +1,167 @@
+diff -ruN fixtures/scenari/E04/materiale/HeroSlider.tsx sandbox/E04-r2/materiale/HeroSlider.tsx
+--- fixtures/scenari/E04/materiale/HeroSlider.tsx	2026-10-21 22:40:31
++++ sandbox/E04-r2/materiale/HeroSlider.tsx	2026-10-21 22:52:34
+@@ -1,18 +1,45 @@
+ 'use client'
+ import { useEffect, useState } from 'react'
++
++// Il pannello può essere un fratello del carosello; l'evento copre anche il popover in portal.
++export const BOOKING_INTERACTION_EVENT = 'booking:interaction'
+ const FOTO = ['/f/1.webp', '/f/2.webp', '/f/3.webp', '/f/4.webp']
++
+ export function HeroSlider() {
+   const [i, setI] = useState(0)
+   const [inPausa, setInPausa] = useState(false)
++  const [taskSuspension, setTaskSuspension] = useState(false)
++  const [reducedPreference, setReducedPreference] = useState(true)
++
+   useEffect(() => {
+-    if (inPausa) return
++    const activePanels = new Set<string>()
++    const onInteraction = (event: Event) => {
++      const { id, active } = (event as CustomEvent<{ id: string; active: boolean }>).detail
++      if (active) activePanels.add(id)
++      else activePanels.delete(id)
++      setTaskSuspension(activePanels.size > 0)
++    }
++    const preference = window.matchMedia('(prefers-reduced-motion: reduce)')
++    const onPreference = () => setReducedPreference(preference.matches)
++    onPreference()
++    preference.addEventListener('change', onPreference)
++    window.addEventListener(BOOKING_INTERACTION_EVENT, onInteraction)
++    return () => {
++      preference.removeEventListener('change', onPreference)
++      window.removeEventListener(BOOKING_INTERACTION_EVENT, onInteraction)
++    }
++  }, [])
++
++  useEffect(() => {
++    if (inPausa || taskSuspension || reducedPreference) return
+     const t = setInterval(() => setI((n) => (n + 1) % FOTO.length), 6000)
+     return () => clearInterval(t)
+-  }, [inPausa])
++  }, [inPausa, taskSuspension, reducedPreference])
++
+   return (
+     <div className="relative h-[80svh] overflow-hidden" aria-roledescription="carosello" aria-label="Foto della struttura">
+-      {FOTO.map((src, n) => <img key={src} src={src} alt="" className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-[1800ms] ${n === i ? 'opacity-100' : 'opacity-0'}`} />)}
+-      <button onClick={() => setInPausa((p) => !p)} aria-pressed={inPausa} className="absolute bottom-4 right-4">{inPausa ? 'Riprendi' : 'Pausa'}</button>
++      {FOTO.map((src, n) => <img key={src} src={src} alt="" className={`absolute inset-0 h-full w-full object-cover ${taskSuspension || reducedPreference ? 'transition-none' : 'transition-opacity duration-[1800ms]'} ${n === i ? 'opacity-100' : 'opacity-0'}`} />)}
++      <button type="button" onClick={() => setInPausa((p) => !p)} aria-pressed={inPausa} aria-label={inPausa ? 'Riprendi lo slideshow' : 'Metti in pausa lo slideshow'} className="absolute bottom-4 right-4 min-h-11 rounded bg-black/80 px-4 text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white">{inPausa ? 'Riprendi' : 'Pausa'}</button>
+     </div>
+   )
+ }
+diff -ruN fixtures/scenari/E04/materiale/PannelloPrenota.tsx sandbox/E04-r2/materiale/PannelloPrenota.tsx
+--- fixtures/scenari/E04/materiale/PannelloPrenota.tsx	2026-10-21 22:40:31
++++ sandbox/E04-r2/materiale/PannelloPrenota.tsx	2026-10-21 22:52:48
+@@ -1,18 +1,103 @@
+ 'use client'
+-import { useState } from 'react'
++import { useEffect, useId, useRef, useState } from 'react'
+ import { Popover, PopoverTrigger, PopoverContent } from '@/components/ui/popover'
+ import { Calendar } from '@/components/ui/calendar'
+ import type { DateRange } from 'react-day-picker'
++import { BOOKING_INTERACTION_EVENT } from './HeroSlider'
++
++const formatDate = (date: Date) => date.toLocaleDateString('it-IT')
++// Usa la data locale: toISOString può spostare il giorno per effetto del fuso.
++const dateValue = (date?: Date) => date
++  ? `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`
++  : ''
++
+ // Il pannello è sovrapposto alla parte bassa dello slideshow della home.
+ export function PannelloPrenota() {
++  const id = useId()
++  const trigger = useRef<HTMLButtonElement>(null)
+   const [range, setRange] = useState<DateRange | undefined>()
++  const [open, setOpen] = useState(false)
++  const [focused, setFocused] = useState(false)
++  const [error, setError] = useState(false)
++  const today = new Date()
++  today.setHours(0, 0, 0, 0)
++  const valid = !!(range?.from && range.to && range.from >= today && range.to > range.from)
++  const interacting = focused || open
++
++  useEffect(() => {
++    window.dispatchEvent(new CustomEvent(BOOKING_INTERACTION_EVENT, { detail: { id, active: interacting } }))
++    return () => {
++      window.dispatchEvent(new CustomEvent(BOOKING_INTERACTION_EVENT, { detail: { id, active: false } }))
++    }
++  }, [id, interacting])
++
+   return (
+-    <form className="absolute bottom-24 left-1/2 -translate-x-1/2 rounded bg-white p-4 shadow">
+-      <Popover>
+-        <PopoverTrigger className="h-11 px-4 border">{range?.from ? `${range.from.toLocaleDateString('it')} – ${range.to?.toLocaleDateString('it') ?? '…'}` : 'Scegli le date'}</PopoverTrigger>
+-        <PopoverContent><Calendar mode="range" numberOfMonths={2} selected={range} onSelect={setRange} disabled={{ before: new Date() }} /></PopoverContent>
+-      </Popover>
+-      <button type="submit" className="h-11 px-6 bg-orange-600 text-black">Verifica disponibilità</button>
++    <form
++      aria-label="Verifica disponibilità del soggiorno"
++      className="absolute bottom-24 left-1/2 w-[calc(100%_-_2rem)] max-w-xl -translate-x-1/2 rounded bg-white p-4 text-black shadow"
++      onFocusCapture={() => setFocused(true)}
++      onBlurCapture={(event) => {
++        if (!event.currentTarget.contains(event.relatedTarget as Node | null)) setFocused(false)
++      }}
++      onSubmit={(event) => {
++        if (!valid) {
++          event.preventDefault()
++          setError(true)
++          setOpen(true)
++          trigger.current?.focus()
++        }
++      }}
++    >
++      <p id={`${id}-label`} className="mb-2 font-medium">Date del soggiorno</p>
++      <div className="flex flex-col gap-3 sm:flex-row">
++        <Popover open={open} onOpenChange={setOpen}>
++          <PopoverTrigger
++            ref={trigger}
++            type="button"
++            aria-labelledby={`${id}-label ${id}-value`}
++            aria-describedby={`${id}-hint${error ? ` ${id}-error` : ''}`}
++            aria-invalid={error || undefined}
++            className="min-h-11 flex-1 rounded border border-gray-500 px-4 py-2 text-left focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-700"
++          >
++            <span id={`${id}-value`}>
++              {range?.from
++                ? `Arrivo ${formatDate(range.from)} · ${valid && range.to ? `Partenza ${formatDate(range.to)}` : 'Scegli la partenza'}`
++                : 'Scegli arrivo e partenza'}
++            </span>
++          </PopoverTrigger>
++          <PopoverContent
++            align="start"
++            className="w-auto max-w-[calc(100vw_-_2rem)] max-h-[70svh] overflow-auto bg-white p-3 text-black"
++            aria-label="Seleziona le date del soggiorno"
++          >
++            <p className="mb-2 text-sm">Scegli prima l’arrivo, poi la partenza.</p>
++            <Calendar
++              mode="range"
++              numberOfMonths={1}
++              selected={range}
++              onSelect={(next) => { setRange(next); setError(false) }}
++              disabled={{ before: today }}
++              min={1}
++            />
++            <p role="status" aria-live="polite" className="mt-2 text-sm">
++              {valid && range?.from && range.to
++                ? `Arrivo ${formatDate(range.from)}, partenza ${formatDate(range.to)}.`
++                : range?.from ? 'Ora scegli una partenza successiva all’arrivo.' : 'Seleziona la data di arrivo.'}
++            </p>
++            <button
++              type="button"
++              disabled={!valid}
++              onClick={() => setOpen(false)}
++              className="mt-3 min-h-11 w-full rounded bg-orange-700 px-4 text-white disabled:opacity-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-700"
++            >Conferma date</button>
++          </PopoverContent>
++        </Popover>
++        <button type="submit" className="min-h-11 rounded bg-orange-700 px-6 py-2 text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-700">Verifica disponibilità</button>
++      </div>
++      <p id={`${id}-hint`} className="mt-2 text-sm">Seleziona arrivo e partenza, con almeno una notte di soggiorno.</p>
++      {error && <p id={`${id}-error`} role="alert" className="mt-2 text-sm text-red-800">Scegli un arrivo da oggi in poi e una partenza successiva.</p>}
++      <input type="hidden" name="arrivo" value={dateValue(range?.from)} />
++      <input type="hidden" name="partenza" value={dateValue(range?.to)} />
+     </form>
+   )
+ }

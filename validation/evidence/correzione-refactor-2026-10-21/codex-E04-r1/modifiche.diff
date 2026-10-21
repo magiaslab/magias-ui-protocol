@@ -1,0 +1,189 @@
+diff -ruN fixtures/scenari/E04/materiale/HeroSlider.tsx sandbox/E04-r1/materiale/HeroSlider.tsx
+--- fixtures/scenari/E04/materiale/HeroSlider.tsx	2026-10-21 22:40:31
++++ sandbox/E04-r1/materiale/HeroSlider.tsx	2026-10-21 22:52:41
+@@ -1,18 +1,33 @@
+ 'use client'
+ import { useEffect, useState } from 'react'
++import { useBookingSuspended } from './booking-motion'
++
+ const FOTO = ['/f/1.webp', '/f/2.webp', '/f/3.webp', '/f/4.webp']
+ export function HeroSlider() {
+   const [i, setI] = useState(0)
+   const [inPausa, setInPausa] = useState(false)
++  const [reducedMotion, setReducedMotion] = useState(true)
++  const taskSuspended = useBookingSuspended()
++
+   useEffect(() => {
+-    if (inPausa) return
++    const media = window.matchMedia('(prefers-reduced-motion: reduce)')
++    const update = () => setReducedMotion(media.matches)
++    update()
++    media.addEventListener('change', update)
++    return () => media.removeEventListener('change', update)
++  }, [])
++
++  useEffect(() => {
++    if (inPausa || taskSuspended || reducedMotion) return
++    // Resume with a full interval; never override the person's manual pause.
+     const t = setInterval(() => setI((n) => (n + 1) % FOTO.length), 6000)
+     return () => clearInterval(t)
+-  }, [inPausa])
++  }, [inPausa, taskSuspended, reducedMotion])
++
+   return (
+-    <div className="relative h-[80svh] overflow-hidden" aria-roledescription="carosello" aria-label="Foto della struttura">
+-      {FOTO.map((src, n) => <img key={src} src={src} alt="" className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-[1800ms] ${n === i ? 'opacity-100' : 'opacity-0'}`} />)}
+-      <button onClick={() => setInPausa((p) => !p)} aria-pressed={inPausa} className="absolute bottom-4 right-4">{inPausa ? 'Riprendi' : 'Pausa'}</button>
++    <div className="relative h-[80svh] overflow-hidden" role="region" aria-roledescription="carosello" aria-label="Foto della struttura">
++      {FOTO.map((src, n) => <img key={src} src={src} alt="" className={`absolute inset-0 h-full w-full object-cover ${taskSuspended || reducedMotion ? 'transition-none' : 'transition-opacity duration-[1800ms] motion-reduce:transition-none'} ${n === i ? 'opacity-100' : 'opacity-0'}`} />)}
++      <button type="button" onClick={() => setInPausa((p) => !p)} aria-pressed={inPausa} className="absolute bottom-4 right-4 min-h-11 rounded bg-white px-4 text-slate-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-700">{inPausa ? 'Riprendi' : 'Pausa'}</button>
+     </div>
+   )
+ }
+diff -ruN fixtures/scenari/E04/materiale/PannelloPrenota.tsx sandbox/E04-r1/materiale/PannelloPrenota.tsx
+--- fixtures/scenari/E04/materiale/PannelloPrenota.tsx	2026-10-21 22:40:31
++++ sandbox/E04-r1/materiale/PannelloPrenota.tsx	2026-10-21 22:52:41
+@@ -1,18 +1,104 @@
+ 'use client'
+-import { useState } from 'react'
++import { useEffect, useId, useRef, useState } from 'react'
+ import { Popover, PopoverTrigger, PopoverContent } from '@/components/ui/popover'
+ import { Calendar } from '@/components/ui/calendar'
+ import type { DateRange } from 'react-day-picker'
++import { useBookingTask } from './booking-motion'
++
++const formatDate = (date: Date) => date.toLocaleDateString('it-IT', {
++  day: 'numeric', month: 'short', year: 'numeric',
++})
++const dateValue = (date?: Date) => date
++  ? `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`
++  : ''
++const calendarDay = (date: Date) => Date.UTC(date.getFullYear(), date.getMonth(), date.getDate())
++
+ // Il pannello è sovrapposto alla parte bassa dello slideshow della home.
+ export function PannelloPrenota() {
+   const [range, setRange] = useState<DateRange | undefined>()
++  const [open, setOpen] = useState(false)
++  const [focused, setFocused] = useState(false)
++  const [months, setMonths] = useState(1)
++  const [error, setError] = useState(false)
++  const trigger = useRef<HTMLButtonElement>(null)
++  const hintId = useId()
++  const errorId = useId()
++  useBookingTask(open || focused)
++
++  useEffect(() => {
++    const media = window.matchMedia('(min-width: 768px)')
++    const update = () => setMonths(media.matches ? 2 : 1)
++    update()
++    media.addEventListener('change', update)
++    return () => media.removeEventListener('change', update)
++  }, [])
++
++  const today = new Date()
++  today.setHours(0, 0, 0, 0)
++  const nights = range?.from && range.to
++    ? (calendarDay(range.to) - calendarDay(range.from)) / 86400000
++    : 0
++  const valid = Boolean(range?.from && range.to && range.from >= today && nights >= 1)
++
+   return (
+-    <form className="absolute bottom-24 left-1/2 -translate-x-1/2 rounded bg-white p-4 shadow">
+-      <Popover>
+-        <PopoverTrigger className="h-11 px-4 border">{range?.from ? `${range.from.toLocaleDateString('it')} – ${range.to?.toLocaleDateString('it') ?? '…'}` : 'Scegli le date'}</PopoverTrigger>
+-        <PopoverContent><Calendar mode="range" numberOfMonths={2} selected={range} onSelect={setRange} disabled={{ before: new Date() }} /></PopoverContent>
+-      </Popover>
+-      <button type="submit" className="h-11 px-6 bg-orange-600 text-black">Verifica disponibilità</button>
++    <form
++      aria-label="Verifica disponibilità del soggiorno"
++      className="absolute bottom-24 left-1/2 w-[calc(100%-2rem)] max-w-2xl -translate-x-1/2 rounded bg-white p-4 text-slate-900 shadow"
++      onFocusCapture={() => setFocused(true)}
++      onBlurCapture={(event) => {
++        if (!event.currentTarget.contains(event.relatedTarget as Node | null)) setFocused(false)
++      }}
++      onSubmit={(event) => {
++        if (!valid) {
++          event.preventDefault()
++          setError(true)
++          setOpen(true)
++          trigger.current?.focus()
++        }
++      }}
++    >
++      <div className="flex flex-col gap-3 sm:flex-row sm:items-stretch">
++        <Popover open={open} onOpenChange={setOpen}>
++          <PopoverTrigger
++            ref={trigger}
++            type="button"
++            aria-describedby={`${hintId}${error ? ` ${errorId}` : ''}`}
++            aria-invalid={error || undefined}
++            className="min-h-14 flex-1 rounded border border-slate-500 px-4 py-2 text-left focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-700"
++          >
++            <span className="block text-sm font-medium">Arrivo → Partenza</span>
++            <span className="block">
++              {range?.from ? `${formatDate(range.from)} → ${range.to ? formatDate(range.to) : 'Scegli la partenza'}` : 'Scegli le date'}
++            </span>
++          </PopoverTrigger>
++          <PopoverContent align="start" className="w-auto max-w-[calc(100vw-2rem)] max-h-[70svh] overflow-auto p-3">
++            <p className="mb-2 text-sm">Seleziona prima l’arrivo, poi la partenza.</p>
++            <Calendar
++              mode="range"
++              numberOfMonths={months}
++              selected={range}
++              defaultMonth={range?.from ?? today}
++              min={1}
++              onSelect={(next) => {
++                setRange(next)
++                setError(false)
++              }}
++              disabled={{ before: today }}
++            />
++            <div className="mt-3 flex items-center justify-between gap-3 border-t pt-3">
++              <button type="button" disabled={!range?.from} onClick={() => { setRange(undefined); setError(false) }} className="min-h-11 rounded px-3 underline focus-visible:outline focus-visible:outline-2 disabled:opacity-50">Azzera date</button>
++              <button type="button" disabled={!valid} onClick={() => setOpen(false)} className="min-h-11 rounded bg-orange-600 px-4 text-black focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 disabled:opacity-50">Conferma date</button>
++            </div>
++          </PopoverContent>
++        </Popover>
++        <button type="submit" className="min-h-11 rounded bg-orange-600 px-6 py-3 text-black focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-700">Verifica disponibilità</button>
++      </div>
++      <p id={hintId} role="status" className="mt-2 text-sm text-slate-700">
++        {valid ? `${nights} ${nights === 1 ? 'notte selezionata' : 'notti selezionate'}. Puoi verificare la disponibilità.` : 'Seleziona arrivo e partenza. Soggiorno minimo: una notte.'}
++      </p>
++      {error && <p id={errorId} role="alert" className="mt-2 text-sm text-red-800">Scegli un arrivo da oggi e una partenza successiva.</p>}
++      <input type="hidden" name="arrivo" value={dateValue(range?.from)} />
++      <input type="hidden" name="partenza" value={dateValue(range?.to)} />
+     </form>
+   )
+ }
+diff -ruN fixtures/scenari/E04/materiale/booking-motion.ts sandbox/E04-r1/materiale/booking-motion.ts
+--- fixtures/scenari/E04/materiale/booking-motion.ts	1970-01-01 01:00:00
++++ sandbox/E04-r1/materiale/booking-motion.ts	2026-10-21 22:52:41
+@@ -0,0 +1,28 @@
++'use client'
++import { useEffect, useSyncExternalStore } from 'react'
++
++// Shared by the overlaid booking panel and the hero, including portalled content.
++const tasks = new Set<symbol>()
++const listeners = new Set<() => void>()
++const notify = () => listeners.forEach((listener) => listener())
++const subscribe = (listener: () => void) => {
++  listeners.add(listener)
++  return () => { listeners.delete(listener) }
++}
++
++export function useBookingTask(active: boolean) {
++  useEffect(() => {
++    if (!active) return
++    const task = Symbol('booking')
++    tasks.add(task)
++    notify()
++    return () => {
++      tasks.delete(task)
++      notify()
++    }
++  }, [active])
++}
++
++export function useBookingSuspended() {
++  return useSyncExternalStore(subscribe, () => tasks.size > 0, () => false)
++}

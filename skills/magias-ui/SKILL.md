@@ -25,7 +25,7 @@ Il registro canonico è [rules.json](references/protocol/rules.json); la [matric
 Carica soltanto i moduli necessari:
 
 - Scelte culturali e compositive: [principi](references/protocol/PRINCIPLES.md), [layout](references/protocol/LAYOUT.md), [tipografia](references/protocol/TYPOGRAPHY.md).
-- Movimento: [motion](references/protocol/MOTION.md) e [contratto](references/motion.md).
+- Movimento: [motion](references/protocol/MOTION.md) e [contratto](references/motion.md). Consultali anche quando la richiesta non lo nomina ma nella stessa vista del compito qualcosa si muove.
 - Offerte, moduli, acquisti o prenotazioni: [CRO](references/protocol/CRO.md).
 - Interazione e barriere: [accessibilità](references/protocol/ACCESSIBILITY.md).
 - Pattern sospetti: [anti-pattern](references/protocol/ANTI-PATTERNS.md).

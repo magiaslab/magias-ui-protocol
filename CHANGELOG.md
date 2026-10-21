@@ -4,6 +4,7 @@
 
 - Validazione: i 12 scenari anonimi eseguiti in Claude Code 2.1.306, 12 PASS. Materiali in `validation/fixtures/scenari`, risposte e criteri in `validation/evidence/claude-code-2026-10-21`, script `validation/run-claude-code.sh`. Nessuna regola modificata.
 - Validazione: gli stessi 12 scenari in Codex CLI 0.163, 10 PASS, 1 PASS con riserva (E07), 1 FAIL (E04), nessuna violazione critica. Evidenze in `validation/evidence/codex-2026-10-21` (link locali delle risposte resi come testo), script `validation/run-codex.sh`.
+- Skill, Refactor Mode: prima di chiudere si controllano i movimenti attivi nella vista del compito anche se la richiesta non li nomina, con sospensione distinta dalla pausa manuale. Corregge il FAIL di E04 in Codex (3 PASS su 3 nella nuova prova). Nessuna regola modificata.
 
 ## 0.1.0-beta.1 — 8 ottobre 2026
 

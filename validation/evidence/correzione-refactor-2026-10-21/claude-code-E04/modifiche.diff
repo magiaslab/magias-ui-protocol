@@ -1,0 +1,191 @@
+diff -ruN fixtures/scenari/E04/materiale/HeroSlider.tsx sandbox/E04/materiale/HeroSlider.tsx
+--- fixtures/scenari/E04/materiale/HeroSlider.tsx	2026-10-21 22:40:31.191872813 +0200
++++ sandbox/E04/materiale/HeroSlider.tsx	2026-10-21 22:52:49.157800358 +0200
+@@ -1,18 +1,67 @@
+ 'use client'
+-import { useEffect, useState } from 'react'
++import { useEffect, useState, useSyncExternalStore } from 'react'
+ const FOTO = ['/f/1.webp', '/f/2.webp', '/f/3.webp', '/f/4.webp']
++
++// task_suspension: altri componenti (es. il pannello di prenotazione) sospendono
++// l'autoplay mentre la persona svolge un compito. È distinta dalla pausa manuale:
++// alla fine del compito l'autoplay riprende solo se la persona non l'ha messo in pausa.
++let sospensioni = 0
++const ascoltatori = new Set<() => void>()
++const notifica = () => ascoltatori.forEach((f) => f())
++
++export function useSospensioneCarosello(attiva: boolean) {
++  useEffect(() => {
++    if (!attiva) return
++    sospensioni++
++    notifica()
++    return () => {
++      sospensioni--
++      notifica()
++    }
++  }, [attiva])
++}
++
++function useSospeso() {
++  return useSyncExternalStore(
++    (f) => {
++      ascoltatori.add(f)
++      return () => {
++        ascoltatori.delete(f)
++      }
++    },
++    () => sospensioni > 0,
++    () => false,
++  )
++}
++
++function useMovimentoRidotto() {
++  return useSyncExternalStore(
++    (f) => {
++      const mq = window.matchMedia('(prefers-reduced-motion: reduce)')
++      mq.addEventListener('change', f)
++      return () => mq.removeEventListener('change', f)
++    },
++    () => window.matchMedia('(prefers-reduced-motion: reduce)').matches,
++    () => false,
++  )
++}
++
+ export function HeroSlider() {
+   const [i, setI] = useState(0)
+-  const [inPausa, setInPausa] = useState(false)
++  // undefined = nessuna scelta esplicita: con movimento ridotto l'autoplay parte fermo.
++  const [pausaManuale, setPausaManuale] = useState<boolean>()
++  const ridotto = useMovimentoRidotto()
++  const sospeso = useSospeso()
++  const inPausa = pausaManuale ?? ridotto
+   useEffect(() => {
+-    if (inPausa) return
++    if (inPausa || sospeso) return
+     const t = setInterval(() => setI((n) => (n + 1) % FOTO.length), 6000)
+     return () => clearInterval(t)
+-  }, [inPausa])
++  }, [inPausa, sospeso])
+   return (
+     <div className="relative h-[80svh] overflow-hidden" aria-roledescription="carosello" aria-label="Foto della struttura">
+-      {FOTO.map((src, n) => <img key={src} src={src} alt="" className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-[1800ms] ${n === i ? 'opacity-100' : 'opacity-0'}`} />)}
+-      <button onClick={() => setInPausa((p) => !p)} aria-pressed={inPausa} className="absolute bottom-4 right-4">{inPausa ? 'Riprendi' : 'Pausa'}</button>
++      {FOTO.map((src, n) => <img key={src} src={src} alt="" className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-[1800ms] motion-reduce:transition-none ${n === i ? 'opacity-100' : 'opacity-0'}`} />)}
++      <button onClick={() => setPausaManuale(!inPausa)} aria-pressed={inPausa} className="absolute bottom-4 right-4">{inPausa ? 'Riprendi' : 'Pausa'}</button>
+     </div>
+   )
+ }
+diff -ruN fixtures/scenari/E04/materiale/PannelloPrenota.tsx sandbox/E04/materiale/PannelloPrenota.tsx
+--- fixtures/scenari/E04/materiale/PannelloPrenota.tsx	2026-10-21 22:40:31.191911494 +0200
++++ sandbox/E04/materiale/PannelloPrenota.tsx	2026-10-21 22:53:32.586881290 +0200
+@@ -1,18 +1,105 @@
+ 'use client'
+-import { useState } from 'react'
++import { useId, useRef, useState, useSyncExternalStore, type FormEvent } from 'react'
++import { it } from 'date-fns/locale'
+ import { Popover, PopoverTrigger, PopoverContent } from '@/components/ui/popover'
+ import { Calendar } from '@/components/ui/calendar'
+ import type { DateRange } from 'react-day-picker'
++import { useSospensioneCarosello } from './HeroSlider'
++
++const formatoData = new Intl.DateTimeFormat('it-IT', { weekday: 'short', day: 'numeric', month: 'short' })
++// Data locale in formato AAAA-MM-GG: toISOString() sposterebbe il giorno per il fuso orario.
++const isoLocale = (d: Date) => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`
++const notti = (r?: DateRange) => (r?.from && r.to ? Math.round((r.to.getTime() - r.from.getTime()) / 86_400_000) : 0)
++
++function useSchermoAmpio() {
++  return useSyncExternalStore(
++    (f) => {
++      const mq = window.matchMedia('(min-width: 640px)')
++      mq.addEventListener('change', f)
++      return () => mq.removeEventListener('change', f)
++    },
++    () => window.matchMedia('(min-width: 640px)').matches,
++    () => true,
++  )
++}
++
+ // Il pannello è sovrapposto alla parte bassa dello slideshow della home.
+ export function PannelloPrenota() {
+   const [range, setRange] = useState<DateRange | undefined>()
++  const [aperto, setAperto] = useState(false)
++  const [focusDentro, setFocusDentro] = useState(false)
++  const [errore, setErrore] = useState<string | null>(null)
++  const trigger = useRef<HTMLButtonElement>(null)
++  const id = useId()
++  const ampio = useSchermoAmpio()
++  // Lo slideshow si ferma mentre la persona sceglie le date o usa il pannello.
++  useSospensioneCarosello(aperto || focusDentro)
++
++  const n = notti(range)
++  const completo = n >= 1
++  const stato = !range?.from ? 'Seleziona la data di arrivo' : !completo ? 'Seleziona la data di partenza' : `${n} ${n === 1 ? 'notte' : 'notti'}`
++
++  function seleziona(next: DateRange | undefined) {
++    setRange(next)
++    setErrore(null)
++    // Chiude solo quando l'intervallo si completa, non a ogni ritocco di un intervallo già scelto.
++    if (notti(next) >= 1 && !completo) setAperto(false)
++  }
++
++  function invia(e: FormEvent<HTMLFormElement>) {
++    if (completo) return
++    e.preventDefault()
++    setErrore(range?.from ? 'Scegli anche la data di partenza.' : 'Scegli le date di arrivo e partenza.')
++    trigger.current?.focus()
++  }
++
+   return (
+-    <form className="absolute bottom-24 left-1/2 -translate-x-1/2 rounded bg-white p-4 shadow">
+-      <Popover>
+-        <PopoverTrigger className="h-11 px-4 border">{range?.from ? `${range.from.toLocaleDateString('it')} – ${range.to?.toLocaleDateString('it') ?? '…'}` : 'Scegli le date'}</PopoverTrigger>
+-        <PopoverContent><Calendar mode="range" numberOfMonths={2} selected={range} onSelect={setRange} disabled={{ before: new Date() }} /></PopoverContent>
++    <form
++      onSubmit={invia}
++      noValidate
++      onFocus={() => setFocusDentro(true)}
++      onBlur={(e) => { if (!e.currentTarget.contains(e.relatedTarget as Node | null)) setFocusDentro(false) }}
++      className="absolute bottom-24 left-1/2 -translate-x-1/2 rounded bg-white p-4 shadow"
++    >
++      <span id={`${id}-etichetta`}className="block text-sm font-medium">Date del soggiorno</span>
++      <Popover open={aperto} onOpenChange={setAperto}>
++        <PopoverTrigger
++          ref={trigger}
++          aria-labelledby={`${id}-etichetta ${id}-valore`}
++          aria-describedby={errore ? `${id}-errore` : undefined}
++          aria-invalid={errore ? true : undefined}
++          className={`h-11 px-4 border ${errore ? 'border-red-700' : ''}`}
++        >
++          <span id={`${id}-valore`}>
++            {range?.from
++              ? `Arrivo ${formatoData.format(range.from)} – Partenza ${range.to && completo ? formatoData.format(range.to) : '…'}`
++              : 'Scegli le date'}
++          </span>
++        </PopoverTrigger>
++        <PopoverContent className="w-auto">
++          <Calendar
++            mode="range"
++            locale={it}
++            numberOfMonths={ampio ? 2 : 1}
++            defaultMonth={range?.from}
++            selected={range}
++            onSelect={seleziona}
++            disabled={{ before: new Date() }}
++          />
++          <div className="flex items-center justify-between gap-4 pt-2">
++            <p aria-live="polite" className="text-sm">{stato}</p>
++            <button type="button" onClick={() => setAperto(false)} className="h-11 px-4 border">Fatto</button>
++          </div>
++        </PopoverContent>
+       </Popover>
++      {completo && range?.from && range.to && (
++        <>
++          <input type="hidden" name="arrivo" value={isoLocale(range.from)} />
++          <input type="hidden" name="partenza" value={isoLocale(range.to)} />
++        </>
++      )}
+       <button type="submit" className="h-11 px-6 bg-orange-600 text-black">Verifica disponibilità</button>
++      {errore && <p id={`${id}-errore`}role="alert" className="text-sm text-red-700">{errore}</p>}
+     </form>
+   )
+ }
