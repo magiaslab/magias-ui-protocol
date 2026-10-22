@@ -1,0 +1,1 @@
+/magias-ui Alcuni ospiti dicono che il pulsante "Cerca" della barra prenotazione a volte non fa niente. Sistemalo. Codice in materiale/BarraPrenota.tsx, contesto in materiale/contesto.md. Puoi modificare i file.

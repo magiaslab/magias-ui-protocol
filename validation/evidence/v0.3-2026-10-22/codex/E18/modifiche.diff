@@ -1,0 +1,190 @@
+diff -ruN /tmp/magias-codex/src/scenari/E18/materiale/specifica.md materiale/specifica.md
+--- /tmp/magias-codex/src/scenari/E18/materiale/specifica.md	1970-01-01 01:00:00
++++ materiale/specifica.md	2026-10-22 06:39:19
+@@ -0,0 +1,186 @@
++# Specifica della pagina Servizi
++
++Data: 22 ottobre 2026. Modalità: Design. Magias UI Protocol v0.3.
++Stato: specifica pronta per l’implementazione; verifiche runtime non eseguite. Pubblicazione separata, subordinata alla risoluzione dei dati operativi indicati sotto.
++
++## 1. Contesto, fonti e obiettivo
++
++Fonti locali: `materiale/contesto.md` e `materiale/contenuti.md`, lette alla data della specifica. I fatti sono quelli dichiarati verificati nel materiale; non è stata svolta una verifica esterna. Nessun codice, logo, palette, screenshot o asset del sito attuale è stato fornito nei materiali.
++
++Studio di commercialisti con tre soci, rivolto a piccole imprese e professionisti. Stack dichiarato: Next.js, Tailwind, shadcn/ui adattato. Profilo generico; movimento di livello 1, editoriale. La richiesta di maggiore vivacità viene tradotta in ritmo compositivo e brevi risposte visive, senza assumere il profilo ospitalità del sito visto dal titolare.
++
++Compito utente: riconoscere il servizio pertinente, comprenderne i limiti disponibili e chiedere un primo appuntamento. Obiettivo dello studio: ricevere richieste di primo appuntamento. Una richiesta non costituisce una prenotazione confermata.
++
++Scope: pagina Servizi, relativi collegamenti e richiesta di primo contatto. Header e footer si riusano dal sito, con le sole integrazioni necessarie. Nessuna riprogettazione globale.
++
++## 2. Direzione visiva
++
++Proposta: una pagina professionale, leggibile e concreta, con apertura editoriale, indice dei servizi e cinque sezioni consultabili direttamente. La vivacità nasce da numeri di sezione, alternanza fra testo introduttivo e righe di servizio, e un breve accento animato vicino all’apertura. Il contenuto resta sempre leggibile.
++
++Recuperare logo, colori, font e componenti effettivi del sito prima di implementare. I valori seguenti sono proposte provvisorie da integrare nell’identità esistente, non una nuova identità approvata:
++
++- Fondo chiaro, testo scuro, un accento derivato dal marchio per azioni e indicatori. Evitare di importare automaticamente i colori predefiniti di shadcn/ui.
++- Separare primitivi e token semantici: `surface`, `surface-muted`, `text`, `text-muted`, `action`, `action-hover`, `border`, `focus`, `error`, `success`. Calcolare i contrasti delle coppie effettive prima di approvarle; vietare gli abbinamenti insufficienti nel documento dei token.
++- Font di sistema come fallback immediato; preferire il font esistente se leggibile e con licenza documentata. Nessun acquisto o download di font richiesto dalla proposta.
++- Corpo iniziale 1rem, interlinea 1,6; titoli di servizio 1,5–2rem; H1 fluido circa 2,25–3,5rem. Misure da provare sui testi reali, senza altezze fisse. Prosa indicativamente entro 65 caratteri per riga.
++- Contenitore massimo indicativo 72rem; margini laterali da 1rem su mobile a 3rem su desktop. Scala spazi proposta: 0,5 / 0,75 / 1 / 1,5 / 2 / 3 / 4rem.
++
++Le righe con separatori permettono di leggere tutti i servizi e il limite delle paghe senza aprire pannelli. Una griglia di card sarebbe possibile, ma qui aggiungerebbe contenitori senza una funzione di selezione autonoma. Nessun accordion per i contenuti essenziali.
++
++Nessuna fotografia è necessaria. Un eventuale ritratto autentico dei soci potrà essere valutato in seguito con permessi e spazio riservato; non usare immagini di repertorio o generate come prova dell’identità dello studio.
++
++## 3. Architettura e copy proposto
++
++Tutti i testi fra virgolette sono copy proposto, derivato dai fatti forniti e soggetto a revisione editoriale. I nomi dei servizi e le condizioni riportate preservano il materiale.
++
++### A. Header e accesso al contenuto
++
++Riutilizzare navigazione e marchio reali. Segnalare Servizi come pagina corrente con `aria-current="page"`. Prevedere un link di salto al contenuto. Inserire nella navigazione l’azione “Richiedi un primo appuntamento” se compatibile con l’header attuale; la stessa azione resta comunque nell’apertura.
++
++### B. Apertura
++
++H1: “Servizi per piccole imprese e professionisti”.
++
++Introduzione: “Contabilità, dichiarazioni dei redditi, paghe e consulenza per l’avvio della tua attività e i bandi regionali.”
++
++Azione principale: “Richiedi un primo appuntamento”, collegata a `#primo-appuntamento`.
++
++Condizioni immediatamente accanto all’azione, in testo normale: “Primo appuntamento gratuito di 30 minuti, in studio o in videochiamata.”
++
++Link secondario: “Esplora i servizi”, collegato a `#servizi`. Nessun numero di clienti, data di fondazione o promessa di risparmio.
++
++### C. Indice e servizi
++
++H2 con id `servizi`: “Di cosa hai bisogno?”. Indice con nome accessibile “Indice dei servizi” e cinque link nativi alle sezioni. L’indice va a capo su mobile, senza carosello orizzontale.
++
++Ogni sezione contiene un numero decorativo da 01 a 05, H3, descrizione e collegamento contestuale. I numeri non costituiscono priorità né dati dello studio.
++
++1. **Contabilità ordinaria e semplificata** — id `contabilita`.
++   Testo: “Servizi di contabilità ordinaria e semplificata per piccole imprese e professionisti.”
++   Link: “Parliamo di contabilità”.
++2. **Dichiarazioni dei redditi** — id `dichiarazioni`.
++   Testo: “Supporto per le dichiarazioni dei redditi.”
++   Link: “Parliamo della dichiarazione dei redditi”.
++3. **Paghe e consulenza del lavoro** — id `paghe`.
++   Testo: “Paghe e consulenza del lavoro per clienti con un massimo di 15 dipendenti.”
++   Il limite è testo sempre visibile nella sezione, non tooltip o nota in fondo.
++   Link: “Parliamo di paghe e lavoro”.
++4. **Apertura di partita IVA e regime forfettario** — id `partita-iva`.
++   Testo: “Consulenza per l’apertura della partita IVA e il regime forfettario.”
++   Link: “Parliamo della partita IVA”. Non suggerire che il regime sia applicabile a chiunque.
++5. **Consulenza per bandi regionali** — id `bandi`.
++   Testo: “Consulenza per i bandi regionali.”
++   Link: “Parliamo di bandi regionali”. Non promettere ammissione, contributi o disponibilità di bandi specifici.
++
++Tutti i link contestuali portano a `#primo-appuntamento`. Con JavaScript disponibile possono preselezionare il servizio nel modulo, lasciandolo modificabile e annunciando la selezione senza inviare dati. Senza JavaScript restano normali ancore e la scelta è manuale. Il servizio non è obbligatorio.
++
++### D. Primo appuntamento
++
++H2 con id `primo-appuntamento`: “Richiedi un primo appuntamento”.
++
++Testo: “Il primo appuntamento è gratuito e dura 30 minuti. Puoi incontrarci in studio o in videochiamata.”
++
++Orari: “Lunedì–venerdì, 9–13 e 14:30–18.” Non presentare questi orari come slot disponibili garantiti.
++
++Microcopy: “Invia una richiesta: l’appuntamento sarà confermato dopo il contatto con lo studio.” Questo descrive il flusso proposto, da rendere effettivo nel servizio di gestione richieste.
++
++Il modulo è una proposta operativa, subordinata all’individuazione del destinatario e del sistema di consegna. Non simulare un invio funzionante in produzione.
++
++### E. Footer
++
++Riutilizzare dati dello studio e link legali verificati del sito. Non inventare indirizzo, telefono, denominazione o dati fiscali. Il collegamento all’informativa deve essere disponibile anche vicino al modulo.
++
++## 4. Contratto della richiesta e stati
++
++Proposta campi, nell’ordine:
++
++- Nome: obbligatorio, per identificare il referente; label persistente e autocomplete appropriato.
++- Email: obbligatoria, per rispondere; input email con autocomplete.
++- Servizio di interesse: facoltativo; cinque opzioni corrispondenti ai servizi e opzione iniziale “Non so ancora”. Preferire un select nativo adattato visivamente: scelta motivata dalla semplicità delle opzioni e dall’uso mobile, da verificare rispetto a G02.
++- Modalità: gruppo radio “In studio” / “In videochiamata”, facoltativo, nessuna preselezione; indicare “Puoi concordarla con lo studio”.
++- Messaggio: facoltativo; indicazione “Descrivi brevemente ciò di cui hai bisogno. Non inserire documenti o dati fiscali riservati.” Nessun allegato.
++
++Pulsante: “Invia la richiesta”. Nessuna selezione di data o calendario, perché non esiste una disponibilità autorevole nei materiali. Nessun consenso marketing. Prima di abilitare il flusso, definire informativa e trattamento effettivi; non aggiungere checkbox di consenso generiche come sostituto di tale definizione.
++
++Stati obbligatori per l’implementazione:
++
++- Riposo, hover, focus e attivazione: label stabili, focus visibile; nessuna traslazione dei target. Azioni disponibili anche al touch.
++- Campi vuoti o non validi: validazione all’invio, messaggi vicini ai campi collegati con `aria-describedby`, `aria-invalid` dove necessario. Esempi: “Inserisci il tuo nome”; “Inserisci un indirizzo email valido”. Riepilogo errori focalizzato con link ai campi. I dati inseriti restano presenti.
++- Invio: feedback immediato “Invio in corso…”, stato annunciato con regione live discreta, prevenzione dei duplicati lato client e server. Nessun completamento fittizio legato a un timer.
++- Richiesta accettata dal sistema: “Richiesta ricevuta. L’appuntamento deve ancora essere confermato dallo studio.” Mostrare solo dopo conferma autorevole del servizio; non promettere tempi di risposta non concordati. Messaggio accessibile e raggiungibile col focus.
++- Errore certo: “La richiesta non è stata inviata. Riprova.” Conservare i dati e offrire il canale alternativo verificato.
++- Timeout con esito ambiguo: “Non possiamo confermare la ricezione. I dati sono conservati in questa pagina.” Il retry deve riusare una chiave idempotente; proporre contatto alternativo evitando di suggerire invii multipli.
++- Servizio indisponibile: testo esplicito e contatto alternativo reale. Se non è disponibile alcun endpoint, usare un contatto verificato al posto del modulo; senza entrambi il flusso non è pubblicabile.
++
++Gestire la richiesta tramite invio HTML server-side progressivamente migliorato, così che il guasto degli effetti client non comprometta il contatto. In caso di errore server ripresentare i campi senza dati sensibili nell’URL. Non persistere il messaggio in storage locale. Endpoint, limiti dei campi, antispam accessibile e gestione sicura dei dati sono responsabilità da concretizzare nell’implementazione.
++
++## 5. Responsive e semantica
++
++Ordine DOM e visivo: header, apertura, indice, cinque servizi, primo appuntamento, footer. Un solo H1, H2 per i blocchi principali, H3 per i servizi; landmark `header`, `nav`, `main`, `footer`, lingua italiana. I numeri decorativi sono ignorati dalle tecnologie assistive.
++
++Da circa 64rem, apertura su due colonne: testo e azioni a sinistra, indice compatto a destra. Nei servizi, titolo e numero occupano circa un terzo, descrizione e link i restanti due terzi. Il blocco appuntamento affianca informazioni e modulo. L’indice segue sempre l’introduzione nel DOM.
++
++Sotto tale spazio, una colonna e tutte le informazioni conservate. Nessuna altezza minima legata alla viewport; i pulsanti possono andare su più righe e diventare larghi quanto il contenitore. Niente barra CTA fissa che copra contenuti o tastiera virtuale. Il menu mobile, se necessario nel sito reale, è un disclosure con pulsante e `aria-expanded`; da chiuso i link non entrano nel tab order. Escape chiude e riporta il focus al pulsante, senza focus trap da dialog.
++
++Ancore native e destinazioni con `scroll-margin` se l’header reale è fisso; verificare titolo e focus non coperti. Navigazione da tastiera dopo un salto coerente con la destinazione. Nessun dato appare soltanto in hover.
++
++Target preferiti 44×44 CSS px; verificare il minimo 24×24 o spaziatura/eccezioni pertinenti. Collegamenti nel testo sottolineati. Focus distinguibile su tutte le superfici. Contrasto obiettivo: 4,5:1 testo normale, 3:1 testo grande e parti non testuali ove richiesto. WCAG 2.2 AA è obiettivo tecnico da verificare, non conformità dichiarata.
++
++## 6. Contratto del movimento
++
++Livello 1 nella fase editoriale; nella richiesta restano soltanto feedback di stato. Non introdurre dipendenze GSAP, Lenis o WebGL per gli effetti proposti: CSS è sufficiente. Video, scroll fluido artificiale e scena 3D non sono parte di questa soluzione perché mancano contenuti o funzioni che li richiedano. Un loro futuro inserimento richiederebbe un nuovo contratto e budget, non sarebbe un errore per principio.
++
++**Accento di apertura.** Breve linea decorativa accanto al titolo, animata una sola volta al primo disegno tramite `transform: scaleX`, durata proposta 240 ms, senza ritardi. Il titolo, i servizi, le condizioni e la CTA sono già completi e visibili prima, durante e dopo. Nessuna animazione di opacità o spostamento dei testi. L’effetto non occupa spazio nuovo e non muove azioni.
++
++**Feedback dei controlli.** Colore di fondo/bordo in circa 120 ms su hover o focus, senza scale o traslazioni. Lo stato focus appare immediatamente; l’azione non attende la transizione. Eventi ripetuti interrompono e aggiornano il feedback allo stato corrente.
++
++**Richiesta.** Nessun reveal, conteggio o movimento narrativo nella zona del modulo. Invio e ricezione sono rappresentati da testo e stato autorevoli; nessuno spinner necessario. Valori e disponibilità non dipendono dall’animazione.
++
++Con `prefers-reduced-motion: reduce`, linea subito nello stato finale e transizioni decorative rimosse. Il cambio di preferenza a pagina aperta deve interrompere l’effetto e mantenere tutte le informazioni. Nessuna libreria di movimento da caricare. Senza JavaScript il DOM resta completo e il modulo usa l’invio server-side; nessun contenuto nascosto dal CSS in attesa di script.
++
++Non ci sono loop o autoplay persistenti: pausa manuale e ripresa non pertinenti. Nessun effetto deve essere riavviato al ritorno da background o allo scroll inverso. Se in futuro vengono aggiunti movimenti concorrenti, nella fase di richiesta vanno sospesi conservando eventuali pause manuali. Scroll, ricerca nella pagina, tabulazione e ancore restano sotto il controllo della persona.
++
++## 7. Prestazioni e integrazione
++
++Renderizzare testi e link tramite Next.js senza dipendere dall’idratazione per la prima lettura. Componenti client limitati a interazioni necessarie; shadcn/ui adattato senza attribuirgli automaticamente correttezza accessibile. I componenti descritti sono da realizzare o mappare a quelli esistenti, non sono dichiarati già presenti nel codice.
++
++Apertura testuale, nessun asset pesante necessario e nessun widget esterno. Font con fallback disponibile subito e licenza verificata se incorporati. Riservare lo spazio di eventuali asset aggiunti; evitare inserimenti tardivi sopra un campo o un’azione. Errori del modulo scorrono nel flusso normale, mantenendo il controllo della destinazione del focus.
++
++Obiettivi PF01: LCP ≤ 2,5 s, INP ≤ 200 ms, CLS ≤ 0,1 al 75° percentile dei dati reali. In assenza di dati, eseguire misure di laboratorio con dispositivo, rete, CPU e versioni dichiarati, senza equipararle a dati di campo. Misurare a campione la variante animata rispetto alla versione priva di effetti nello stesso ambiente.
++
++Analytics non previsti nella proposta. Nessuna promessa di aumento delle conversioni. La qualità del percorso va valutata inizialmente con prove qualitative di comprensione e completamento.
++
++## 8. Dati mancanti e trattamento
++
++- “Oltre 300” clienti e anno di fondazione: da confermare, esclusi dal copy pubblico e da eventuali dati strutturati. In una bozza interna eventuali riferimenti usano un unico marcatore “Da confermare”, mai uno stile da testimonianza verificata.
++- Nome, indirizzo, contatti, logo, palette e font: recuperare dal sito reale e validarli. La specifica resta utilizzabile con token provvisori, ma non autorizza valori inventati.
++- Destinatario richieste, endpoint, informativa e canale alternativo: necessari prima della pubblicazione del contatto. Nessuna destinazione fittizia o pulsante senza esito.
++- Prezzi e condizioni dei servizi successivi: non forniti. La gratuità riguarda soltanto il primo appuntamento di 30 minuti; nessun preventivo o acquisto viene accettato in questa pagina. Ulteriori condizioni vanno raccolte prima di aggiungere decisioni economiche.
++- Disponibilità, tempi di risposta, documenti da portare, regioni servite ed eventuali qualifiche aggiuntive: non dichiarati; non trasformarli in promesse.
++
++Registro claim: servizi, limite di 15 dipendenti, orari, durata, gratuità e modalità provengono da `contenuti.md`; tre soci, destinatari, stack, profilo e livello da `contesto.md`. Data di lettura 22 ottobre 2026; data della verifica originaria e permessi di eventuali asset non indicati. Riconfermare dati operativi prima del rilascio.
++
++## 9. Applicabilità e piano delle prove
++
++Registro sintetico riferito al gate Design; non sostituisce il registro completo WCAG dell’implementazione.
++
++- C01–C07, C10–C11: applicabili a compito, informazioni e affermazioni. Controllo documentale eseguito: offerta e passo successivo espliciti, condizioni gratuite prossime alla CTA, cinque servizi e limite paghe presenti, claim incerti esclusi. Comprensione e completamento da provare; nessun risultato CRO misurato.
++- L01–L10, T01–T07, T02.a, A01–A12: pertinenti ai componenti descritti, con A08 sul menu solo se coinvolto e A09 su eventuali media aggiunti. Specificati ordine, adattamenti e semantica; resa, contrasto, licenze, tastiera e tecnologie assistive NON VERIFICATI.
++- C08–C09: applicabili al modulo proposto; stati e recupero definiti. Invio, conservazione dei dati, idempotenza e risposta del server NON VERIFICATI. C09.a non applicabile: nessuna finalità marketing. C10.a non applicabile: nessun analytics previsto.
++- M01–M07, M02.a, MX01–MX08, MV00–MV04 e MV08: applicabili al movimento previsto; contratto documentato, comportamento runtime NON VERIFICATO. MX05 riguarda lo stato autorevole dell’invio, senza valori economici interpolati. MX09 e MV05 non applicabili agli effetti brevi senza loop; MV06 trattata cautelativamente nella fase richiesta con assenza di movimenti concorrenti. MV07 non applicabile: nessuna striscia bloccata.
++- PF01 e PF04: pertinenti; misure e stabilità NON VERIFICATE. PF02 escluso per apertura solo testuale; PF03, PF05 e PF06 non applicabili alla soluzione corrente: nessun video, handler di scroll o script di terzi. M07/MX08 restano pertinenti al costo degli effetti CSS.
++- G01–G03 e G05: applicabili a token, controlli, dati incerti e profilo. G04 da verificare quando esisterà un documento del design system associato al codice. ML01–ML05 non applicabili alle librerie e ai livelli assenti; MX10 è facoltativa. H01–H15 non applicabili: studio professionale, non struttura ricettiva.
++
++Prove richieste sull’implementazione:
++
++1. Confronto editoriale con i due file sorgente; verificare servizio paghe e limite, orari, 30 minuti, gratuità e modalità. Ricercare numeri o date non confermati anche nei metadati.
++2. Resize continuo e campioni a 320, 375, 768 e 1366 CSS px, inclusa viewport bassa; testo al 200%, reflow a 400% pertinente e text spacing WCAG 1.4.12. Nessun testo perso, overflow orizzontale o azione coperta, anche con tastiera mobile aperta.
++3. Percorso completo da tastiera: skip link, navigazione, ancore, servizi, modulo, validazione e recupero. Provare anche touch; focus visibile, ordine coerente, target e nomi accessibili.
++4. Screen reader: almeno VoiceOver/Safari e NVDA/Firefox, registrando OS e versioni effettive. Verificare titoli, radio/select, errori, preselezione del servizio e ricezione reale. Dichiarare i limiti di copertura.
++5. Calcolare i contrasti su tutti gli stati e compilare il registro di tutti i criteri WCAG 2.2 A/AA pertinenti alla pagina e al processo di contatto, con evidenze ed esclusioni motivate.
++6. Movimento standard/ridotto prima del caricamento e cambiato a pagina aperta; scroll rapido/inverso, ricerca testo, input ripetuti e interruzione degli effetti. Disabilitare JavaScript e provocare un guasto client: contenuto completo e contatto server-side utilizzabile. Verificare nessuna regressione da navigazioni ripetute.
++7. Testare endpoint con dati fittizi: validazione, accettazione, errore certo, timeout ambiguo, retry idempotente, doppio clic e indisponibilità. Confrontare messaggio visibile con lo stato autorevole; verificare il canale alternativo e l’informativa.
++8. Profilo di caricamento e interazione su telefono di fascia media, rete e CPU dichiarate; controllare layout shift e costo della variante animata. Riportare separatamente laboratorio e campo.
++9. Prova qualitativa con rappresentanti di piccole imprese e professionisti: trovare il servizio corretto, riconoscere il limite dipendenti, spiegare gratuità e durata, inviare una richiesta e distinguere ricezione da conferma. Registrare ostacoli osservati senza inferire uplift statistico.
++
++Esito della consegna: architettura, copy proposto, responsive, stati, movimento e prove sono specificati. Nessun PASS runtime, conformità AA, incremento CRO o autorizzazione al rilascio è dichiarato.

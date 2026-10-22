@@ -1,6 +1,6 @@
 # Segnali per la review
 
-Magias UI Protocol · v0.2
+Magias UI Protocol · v0.3
 
 Gli ID N04–N20 identificano segnali/alias, non ulteriori regole da sommare al gate. N19 governa il comportamento del revisore: nessun FAIL per la sola simmetria. Le priorità MUST rinviano ai requisiti indipendenti nel metodo.
 

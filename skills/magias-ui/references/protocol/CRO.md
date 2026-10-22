@@ -1,6 +1,6 @@
 # Comprensione, fiducia e conversione
 
-Magias UI Protocol · v0.2 · nucleo v0.2
+Magias UI Protocol · v0.3 · nucleo v0.3
 
 L’obiettivo utente governa ogni pagina; commerciale solo se pertinente. Editoriale, legale, servizio pubblico e utility possono funzionare senza CTA o offerta. I vincoli di voce sono definiti nel contesto del progetto corrente.
 

@@ -1,10 +1,10 @@
 # Quality gate per modalità
 
-Magias UI Protocol · v0.2
+Magias UI Protocol · v0.3
 
 ## Ingresso comune
 
-Versione, modalità, scope, revisione del materiale, fonti disponibili, compito, vincoli, profilo, integrazioni e accessi. Dati sconosciuti restano dichiarati; nessuna lettura/test/modifica inventata. Scope e superficie d’impatto governano la copertura.
+Versione, modalità, scope, revisione del materiale, fonti disponibili, compito, vincoli, profilo di progetto, livello di movimento, integrazioni e accessi. Dati sconosciuti restano dichiarati; nessuna lettura/test/modifica inventata. Scope e superficie d’impatto governano la copertura.
 
 ## Design Mode
 
@@ -40,7 +40,11 @@ Conformità AA richiede registro completo dei criteri pertinenti, pagine e proce
 
 ## Movimento nel gate
 
-Osservare prima/durante/dopo, scroll rapido/inverso, input ripetuti, focus e movimento ridotto. Durante acquisto/prenotazione preservare target, dati autorevoli e condizioni; il feedback non deve ritardare l’azione. Espressione e slideshow restano ammessi. Correggere l’interferenza conservando carattere quando possibile.
+Osservare prima/durante/dopo, scroll rapido/inverso, input ripetuti, focus e movimento ridotto. Durante acquisto/prenotazione preservare target, dati autorevoli e condizioni; il feedback non deve ritardare l’azione. Espressione e slideshow restano ammessi. Correggere l’interferenza conservando carattere quando possibile. Le garanzie MV valgono a ogni livello di movimento; nella fase transazionale la sospensione dei movimenti concorrenti è MUST (MV06). Prove senza script, con preferenza cambiata a pagina aperta e con scheda in background per i livelli 2 e 3.
+
+## Prestazioni nel gate
+
+Una soglia PF01 senza misura resta NON VERIFICATO; laboratorio e campo si dichiarano separati. Gli spostamenti di layout che cambiano un bersaglio (PF04) bloccano il gate Refactor come gli altri MUST.
 
 ## Release separata
 

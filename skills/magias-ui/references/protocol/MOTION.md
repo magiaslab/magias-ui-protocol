@@ -1,8 +1,8 @@
 # Movimento e prestazioni
 
-Magias UI Protocol · v0.2 · nucleo v0.2
+Magias UI Protocol · v0.3 · nucleo v0.3
 
-Feedback, spiegazione, orientamento, racconto e identità sono scopi ammessi. Nessun default fermo universale e nessuna quota di effetti. Una stessa pagina può usare profili diversi per racconto, confronto e prenotazione. [Profili per fase](profiles/MOTION-PROFILES.md) · [Scheda effetto](templates/MOTION-CONTRACT.md).
+Feedback, spiegazione, orientamento, racconto e identità sono scopi ammessi. Nessun default fermo universale e nessuna quota di effetti. Una stessa pagina può usare profili diversi per racconto, confronto e prenotazione. [Profili per fase](profiles/MOTION-PROFILES.md) · [Scheda effetto](templates/MOTION-CONTRACT.md). Livelli di movimento, garanzie MV e regole per GSAP, scroll fluido e WebGL sono in [Movimento ricco e 3D](MOTION-3D.md); le soglie in [Prestazioni](PERFORMANCE.md).
 
 ## M01 · SHOULD
 

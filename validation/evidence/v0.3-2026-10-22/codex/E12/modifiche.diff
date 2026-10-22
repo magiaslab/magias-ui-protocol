@@ -1,0 +1,184 @@
+diff -ruN /tmp/magias-codex/src/scenari/E12/materiale/NOTE-UI.md materiale/NOTE-UI.md
+--- /tmp/magias-codex/src/scenari/E12/materiale/NOTE-UI.md	1970-01-01 01:00:00
++++ materiale/NOTE-UI.md	2026-10-22 06:42:54
+@@ -0,0 +1,24 @@
++# Note della modifica
++
++Scope: `home.html`, refactor con Magias UI v0.3. Sorgente locale senza repository Git; baseline conservata per la sessione in `/tmp/E12-home-original.html`.
++
++Compito: amministratori e consiglieri, spesso da smartphone, devono capire i servizi e avviare una richiesta di sopralluogo. “Iki” è usato come lente contemporanea di misura e precisione, senza attribuire autenticità culturale al risultato. Verde petrolio e bianco restano; stack sans geometrico di sistema, senza font distribuiti. Nessuna fotografia disponibile: nessuna immagine sostitutiva presentata come cantiere reale.
++
++## Decisioni
++
++- Hero con offerta e destinatario espliciti, CTA sopralluogo e collegamento ai servizi. Rimossi maiuscolo enfatico e duplicazioni promozionali.
++- Tutti e sei i servizi e i tre indirizzi restano. La classe `slider autoplay` originale non aveva script né movimento effettivo: gli indirizzi diventano un elenco statico, tutti accessibili. Nessuna animazione, transizione o movimento con lo scroll introdotti.
++- Numeri e massimo risparmio restano nella disclosure “Dati dichiarati e limiti”, come affermazioni da verificare. “Garantito” non è supportato dal massimo di un solo caso. “100% professionalità” eliminato perché non è una misura documentata. La dimensione dello studio (6 persone) deriva dal contesto.
++- Campi del modulo preservati; numero unità e provenienza raccolti sotto dettagli facoltativi. Telefono facoltativo. Email richiesta per il ricontatto previsto. Label persistenti e tipi nativi; newsletter separata e non preselezionata. Rimosso il consenso cumulativo privacy/newsletter: manca un’informativa reale.
++- Nessun backend presente nella baseline. La prova impedisce l’invio e non mostra un successo fittizio; validazione nativa, dati conservati, messaggio di stato dopo compilazione valida. Senza JavaScript il pulsante resta disabilitato con spiegazione. Nessun dato salvato o trasmesso dallo script.
++- Il collegamento “Chiamaci” originale non conteneva un numero, ma puntava a un ID assente. Ora Contatti ha una destinazione reale che dichiara i recapiti mancanti. Nessun telefono inventato.
++
++## Verifiche eseguite e limiti
++
++Verifica statica Python HTMLParser: ID univoci, destinazioni di tutte le ancore presenti, label associate a tutti i campi. Calcolo colori: testo principale/bianco 11,89:1; testo secondario/bianco 6,26:1 e su fondo chiaro 5,75:1; bianco/petrolio 9,60:1; bordi campi su bianco 3,83:1 e su fondo chiaro 3,52:1.
++
++Sorgente responsive: una colonna sotto 760px per hero e modulo; servizi a una colonna sotto 440px; navigazione a capo, nessun ordine CSS alternativo, nessuna altezza fissa dei contenuti. Queste sono verifiche del sorgente, non prove di resa.
++
++Tentativo runtime con Chrome headless locale terminato con codice 134 senza output. Resa visiva, reflow a 320px, testo 200%, text spacing, tastiera, screen reader, annunci, validazione e recupero runtime: NON VERIFICATI. Non è dimostrato un difetto del prodotto. Obiettivo tecnico WCAG 2.2 AA; conformità non attestata e gate implementativo ancora aperto per le prove mancanti.
++
++Prima della pubblicazione: fotografie e permessi reali, schede casi, verifica claim, recapiti, informativa privacy e servizio di invio con stati di errore/recupero autentici. “Sopralluogo gratuito” è mantenuto dalla fonte iniziale: lo studio deve confermare condizioni e copertura. Nessuna pubblicazione effettuata.
+diff -ruN /tmp/magias-codex/src/scenari/E12/materiale/home.html materiale/home.html
+--- /tmp/magias-codex/src/scenari/E12/materiale/home.html	2026-10-22 06:31:23
++++ materiale/home.html	2026-10-22 06:42:14
+@@ -1,9 +1,143 @@
+-<!doctype html><html lang="it"><head><meta charset="utf-8"><title>Studio Energia Esempio</title></head><body>
+-<header><strong>Studio Energia Esempio</strong><nav><a href="#servizi">Servizi</a><a href="#casi">Casi</a><a href="#contatti">Contatti</a></nav><a href="#sopralluogo">Richiedi sopralluogo</a></header>
+-<section class="hero"><h1>RIQUALIFICHIAMO IL TUO CONDOMINIO!!!</h1><p>Risparmio garantito fino al 70%* con i migliori incentivi del mercato</p><a href="#sopralluogo">SCOPRI DI PIÙ</a><a href="#casi">GUARDA I CASI</a><a href="#contatti">CHIAMACI</a></section>
+-<section id="numeri"><div>+250 condomini</div><div>+12.000 famiglie</div><div>98% clienti soddisfatti</div><div>100% professionalità</div></section>
+-<section id="servizi"><h2>Servizi</h2><div class="card">Diagnosi energetica</div><div class="card">Cappotto termico</div><div class="card">Impianti</div><div class="card">Pratiche incentivi</div><div class="card">Assistenza assemblee</div><div class="card">Monitoraggio consumi</div></section>
+-<section id="casi"><h2>Casi</h2><div class="slider autoplay">Via Roma 12 · Viale dei Pini 4 · Piazza Centrale 7</div></section>
+-<section id="sopralluogo"><h2>Richiedi un sopralluogo gratuito</h2><form><input placeholder="Nome"><input placeholder="Email"><input placeholder="Telefono"><input placeholder="Indirizzo condominio"><input placeholder="Numero unità"><select><option>Come ci hai conosciuto?</option></select><label><input type="checkbox" checked> Accetto privacy e newsletter</label><button>INVIA</button></form></section>
+-<p><small>*risparmio massimo osservato su un caso</small></p>
+-</body></html>
++<!doctype html>
++<html lang="it">
++<head>
++  <meta charset="utf-8">
++  <meta name="viewport" content="width=device-width, initial-scale=1">
++  <meta name="description" content="Consulenza energetica per condomini: diagnosi, interventi e assistenza in assemblea. Richiedi un sopralluogo a Studio Energia Esempio.">
++  <title>Studio Energia Esempio · Consulenza per condomini</title>
++  <style>
++    :root { color-scheme: light; --petrolio:#154d48; --inchiostro:#203c39; --secondario:#53645f; --carta:#fff; --fondo:#f3f6f3; --linea:#cad5cf; --bordo:#72877e; --spazio:clamp(1.25rem,4vw,4rem); }
++    * { box-sizing:border-box; }
++    body { margin:0; background:var(--carta); color:var(--inchiostro); font-family:"Avenir Next",Avenir,"Century Gothic",sans-serif; line-height:1.6; }
++    a { color:inherit; text-underline-offset:.25em; }
++    a:hover { text-decoration-thickness:2px; }
++    :focus-visible { outline:3px solid var(--petrolio); outline-offset:5px; }
++    .wrap { width:min(100% - 2 * var(--spazio),1160px); margin-inline:auto; }
++    .skip { position:absolute; top:1rem; left:1rem; padding:.8rem; background:white; transform:translateY(-200%); z-index:2; }
++    .skip:focus { transform:none; }
++    header { border-bottom:1px solid var(--linea); }
++    .header { display:flex; align-items:center; justify-content:space-between; gap:1rem 2rem; padding-block:1.5rem; flex-wrap:wrap; }
++    .brand { text-decoration:none; font-weight:650; line-height:1.3; font-size:1.1rem; }
++    .brand small { display:block; font-size:.75rem; font-weight:400; color:var(--secondario); margin-top:.3rem; }
++    nav { display:flex; gap:.25rem 1.5rem; flex-wrap:wrap; align-items:center; }
++    nav a { display:inline-flex; align-items:center; min-height:44px; font-size:.9rem; }
++    .button { display:inline-flex; justify-content:center; align-items:center; gap:1.5rem; min-height:48px; padding:.8rem 1.3rem; background:var(--petrolio); color:white; border:1px solid var(--petrolio); border-radius:2px; text-decoration:none; font:inherit; cursor:pointer; }
++    .button:hover { background:#103d39; }
++    .button:disabled { cursor:not-allowed; background:var(--secondario); }
++    .eyebrow { margin:0 0 1.25rem; color:var(--secondario); font-size:.8rem; letter-spacing:.1em; text-transform:uppercase; }
++    .hero { display:grid; grid-template-columns:1.6fr 1fr; gap:var(--spazio); padding-block:clamp(3rem,7vw,6rem); align-items:end; }
++    h1,h2,h3,p { margin-top:0; }
++    h1 { font-size:clamp(2.3rem,5vw,4.4rem); line-height:1.1; letter-spacing:-.045em; font-weight:500; max-width:16ch; margin-bottom:1.5rem; }
++    .intro { font-size:1.1rem; color:var(--secondario); max-width:48ch; margin-bottom:2rem; }
++    .hero-side { border-left:1px solid var(--linea); padding-left:2rem; padding-bottom:.25rem; }
++    .hero-side p { color:var(--secondario); }
++    .hero-side .number { display:block; font-size:4rem; line-height:1; color:var(--petrolio); font-weight:400; margin-bottom:.75rem; }
++    .text-link { display:inline-block; padding-block:.7rem; }
++    section { scroll-margin-top:1.5rem; }
++    .section { padding-block:clamp(2.5rem,5vw,4.5rem); border-top:1px solid var(--linea); }
++    .section-head { display:grid; grid-template-columns:1fr 1.5fr; gap:1rem 3rem; margin-bottom:2rem; }
++    h2 { font-size:clamp(1.7rem,3vw,2.5rem); font-weight:500; line-height:1.2; letter-spacing:-.025em; }
++    .section-head p { color:var(--secondario); max-width:54ch; }
++    .services { list-style:none; margin:0; padding:0; display:grid; grid-template-columns:repeat(3,1fr); gap:0 2.5rem; }
++    .services li { padding:1.3rem 0; border-top:1px solid var(--linea); }
++    .index { color:var(--secondario); font-size:.75rem; display:block; margin-bottom:.7rem; }
++    h3 { font-size:1.05rem; font-weight:600; margin-bottom:.5rem; }
++    .services p { font-size:.92rem; color:var(--secondario); margin-bottom:0; }
++    .cases { list-style:none; margin:0 0 1.5rem; padding:0; }
++    .cases li { display:flex; align-items:baseline; justify-content:space-between; gap:1rem; border-bottom:1px solid var(--linea); padding:1rem 0; font-size:1.15rem; }
++    .cases span { font-size:.8rem; color:var(--secondario); }
++    details { font-size:.9rem; }
++    summary { cursor:pointer; padding-block:.75rem; text-decoration:underline; text-underline-offset:.25em; }
++    details p { color:var(--secondario); max-width:75ch; margin-block:.8rem; }
++    .request { background:var(--fondo); }
++    .request-layout { display:grid; grid-template-columns:1fr 1.3fr; gap:2rem 5rem; }
++    .request-copy p { color:var(--secondario); max-width:35ch; }
++    .notice { border-left:2px solid var(--petrolio); padding-left:1rem; font-size:.9rem; }
++    .fields { display:grid; grid-template-columns:1fr 1fr; gap:1.25rem; }
++    .field { display:flex; flex-direction:column; gap:.4rem; min-width:0; }
++    .wide { grid-column:1 / -1; }
++    label { font-size:.9rem; }
++    label small { color:var(--secondario); }
++    input,select { width:100%; min-width:0; padding:.8rem; min-height:48px; border:1px solid var(--bordo); border-radius:2px; background:white; color:var(--inchiostro); font:inherit; }
++    .check { display:flex; gap:.7rem; align-items:flex-start; padding-block:.5rem; }
++    .check input { width:24px; min-height:24px; height:24px; flex:0 0 24px; margin:0; accent-color:var(--petrolio); }
++    .form-note { color:var(--secondario); font-size:.85rem; margin-block:1rem; }
++    #form-status { margin-top:1rem; font-weight:600; }
++    footer { padding-block:2rem; font-size:.85rem; color:var(--secondario); }
++    footer .wrap { display:flex; justify-content:space-between; flex-wrap:wrap; gap:1rem; }
++    @media(max-width:760px) { .hero,.section-head,.request-layout { grid-template-columns:1fr; } .hero-side { padding:1.5rem 0 0; border-left:0; border-top:1px solid var(--linea); } .hero-side .number { font-size:2.5rem; } .services { grid-template-columns:repeat(2,1fr); } .hero { gap:2.5rem; } }
++    @media(max-width:440px) { .fields,.services { grid-template-columns:1fr; } .cases li { align-items:flex-start; flex-direction:column; gap:.25rem; } nav { column-gap:1rem; } }
++  </style>
++</head>
++<body>
++  <a class="skip" href="#contenuto">Vai al contenuto</a>
++  <header>
++    <div class="wrap header">
++      <a class="brand" href="#contenuto">Studio Energia Esempio<small>Consulenza energetica per condomini</small></a>
++      <nav aria-label="Navigazione principale"><a href="#servizi">Servizi</a><a href="#casi">Casi</a><a href="#contatti">Contatti</a><a href="#sopralluogo">Richiedi sopralluogo <span aria-hidden="true">↗</span></a></nav>
++    </div>
++  </header>
++  <main id="contenuto">
++    <section class="wrap hero" aria-labelledby="titolo">
++      <div>
++        <p class="eyebrow">Dalla diagnosi all’assemblea</p>
++        <h1 id="titolo">Un condominio più efficiente.<br>Scelte più chiare.</h1>
++        <p class="intro">Affianchiamo amministratori e consiglieri nella riqualificazione energetica: consumi, interventi e incentivi, spiegati con chiarezza.</p>
++        <a class="button" href="#sopralluogo">Richiedi un sopralluogo <span aria-hidden="true">↗</span></a>
++      </div>
++      <aside class="hero-side" aria-label="Lo studio">
++        <span class="number">6</span>
++        <h2 style="font-size:1.1rem;letter-spacing:normal">persone, uno studio.</h2>
++        <p>Un gruppo di lavoro per affrontare gli aspetti tecnici e accompagnare le decisioni del condominio.</p>
++        <a class="text-link" href="#servizi">Come possiamo aiutarti <span aria-hidden="true">↓</span></a>
++      </aside>
++    </section>
++    <section id="servizi" class="wrap section" aria-labelledby="servizi-title">
++      <div class="section-head"><div><p class="eyebrow">01 / Competenze</p><h2 id="servizi-title">Capire prima.<br>Intervenire meglio.</h2></div><p>Ogni condominio ha esigenze diverse. Partiamo dall’analisi energetica per valutare gli interventi e aiutarti a presentarli in assemblea.</p></div>
++      <ul class="services">
++        <li><span class="index">01</span><h3>Diagnosi energetica</h3><p>Analizzare consumi e caratteristiche dell’edificio.</p></li>
++        <li><span class="index">02</span><h3>Cappotto termico</h3><p>Valutare l’isolamento dell’involucro e le dispersioni.</p></li>
++        <li><span class="index">03</span><h3>Impianti</h3><p>Valutare le soluzioni per il fabbisogno del condominio.</p></li>
++        <li><span class="index">04</span><h3>Pratiche incentivi</h3><p>Verificare requisiti e documentazione necessaria.</p></li>
++        <li><span class="index">05</span><h3>Assistenza assemblee</h3><p>Spiegare le alternative e rispondere alle domande tecniche.</p></li>
++        <li><span class="index">06</span><h3>Monitoraggio consumi</h3><p>Seguire l’andamento dei consumi nel tempo.</p></li>
++      </ul>
++    </section>
++    <section id="casi" class="wrap section" aria-labelledby="casi-title">
++      <div class="section-head"><div><p class="eyebrow">02 / Casi</p><h2 id="casi-title">Gli edifici, in concreto.</h2></div><p>Gli indirizzi presenti nel materiale dello studio. Le schede degli interventi e le fotografie di cantiere non sono ancora disponibili in questa anteprima.</p></div>
++      <ul class="cases"><li>Via Roma 12 <span>Scheda da integrare</span></li><li>Viale dei Pini 4 <span>Scheda da integrare</span></li><li>Piazza Centrale 7 <span>Scheda da integrare</span></li></ul>
++      <details id="numeri"><summary>Dati dichiarati e limiti</summary><p>Il materiale iniziale riporta oltre 250 condomini, oltre 12.000 famiglie e il 98% di clienti soddisfatti. Mancano fonti, periodo e metodo di rilevazione: questi dati sono da verificare prima della pubblicazione.</p><p>Il risparmio fino al 70% è indicato come massimo osservato su un singolo caso, non come risultato garantito. Per stimare il risparmio del tuo condominio serve una valutazione specifica.</p></details>
++    </section>
++    <section id="sopralluogo" class="request section" aria-labelledby="request-title">
++      <div class="wrap request-layout">
++        <div class="request-copy"><p class="eyebrow">03 / Primo contatto</p><h2 id="request-title">Partiamo dal tuo condominio.</h2><p>Richiedi un sopralluogo gratuito. Indica i tuoi recapiti e l’edificio da valutare.</p><p class="notice" id="demo-note">Anteprima: l’invio non è attivo. Puoi provare la compilazione, ma nessun dato sarà trasmesso. Informativa privacy e recapiti dello studio sono da integrare.</p></div>
++        <form id="request-form" aria-describedby="demo-note" action="#sopralluogo">
++          <p class="form-note">I campi con * sono obbligatori per la prova.</p>
++          <div class="fields">
++            <div class="field"><label for="nome">Nome e cognome *</label><input id="nome" name="nome" autocomplete="name" required></div>
++            <div class="field"><label for="email">Email *</label><input id="email" name="email" type="email" autocomplete="email" required></div>
++            <div class="field wide"><label for="telefono">Telefono <small>(facoltativo)</small></label><input id="telefono" name="telefono" type="tel" autocomplete="tel"></div>
++            <div class="field wide"><label for="indirizzo">Indirizzo del condominio *</label><input id="indirizzo" name="indirizzo" required></div>
++          </div>
++          <details><summary>Aggiungi altre informazioni (facoltativo)</summary><div class="fields"><div class="field"><label for="unita">Numero di unità</label><input id="unita" name="unita" type="number" min="1" step="1"></div><div class="field"><label for="provenienza">Come ci hai conosciuto?</label><input id="provenienza" name="provenienza"></div></div></details>
++          <label class="check" for="newsletter"><input id="newsletter" type="checkbox" name="newsletter"><span>Vorrei ricevere la newsletter <small>(facoltativo, non attiva nell’anteprima)</small></span></label>
++          <p class="form-note">Questa prova non richiede un consenso e non iscrive a nessun servizio.</p>
++          <button class="button" id="submit-button" type="submit" disabled>Verifica i campi · prova</button>
++          <noscript><p>Per provare la verifica dei campi abilita JavaScript. L’invio resta inattivo.</p></noscript>
++          <p id="form-status" role="status"></p>
++        </form>
++      </div>
++    </section>
++  </main>
++  <footer id="contatti"><div class="wrap"><span>Studio Energia Esempio · Consulenza energetica per condomini</span><span>Contatti diretti da integrare · Anteprima</span></div></footer>
++  <script>
++    const form = document.getElementById('request-form');
++    document.getElementById('submit-button').disabled = false;
++    form.addEventListener('submit', (event) => {
++      event.preventDefault();
++      document.getElementById('form-status').textContent = 'Campi verificati. Nessuna richiesta inviata: il servizio di invio non è collegato. I dati restano nel modulo.';
++    });
++    form.addEventListener('input', () => { document.getElementById('form-status').textContent = ''; });
++  </script>
++</body>
++</html>

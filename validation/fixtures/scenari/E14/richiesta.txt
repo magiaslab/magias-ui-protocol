@@ -1,0 +1,1 @@
+/magias-ui La sezione "Il percorso" si usa male da tastiera: sistemala. Il codice è in materiale/Percorso.tsx, il contesto in materiale/contesto.md. Puoi modificare i file.

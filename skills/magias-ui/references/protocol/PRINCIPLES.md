@@ -1,6 +1,6 @@
 # Principi culturali e operativi
 
-Magias UI Protocol · nucleo v0.2
+Magias UI Protocol · nucleo v0.3
 
 Le lenti culturali sono analogie contemporanee Magias, non una teoria UI tradizionale. Bitai/ikiji/akirame richiamano una triade discussa nella conversazione; ma/kire/yūgen sono lenti complementari. Fonte primaria di Kuki non letta integralmente: attribuzione filologica NON VERIFICATA. Nessun punteggio iki né obbligo di adottare la lente. [Provenienza e limiti](SOURCES.md).
 

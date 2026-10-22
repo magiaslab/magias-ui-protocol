@@ -1,0 +1,419 @@
+diff -ruN /home/codecip/projects/magiaslab/magias-ui-protocol/repo/validation/fixtures/scenari/E18/materiale/specifica.md /tmp/tmp.Isk6AN1fOq/E18/materiale/specifica.md
+--- /home/codecip/projects/magiaslab/magias-ui-protocol/repo/validation/fixtures/scenari/E18/materiale/specifica.md	1970-01-01 01:00:00.000000000 +0100
++++ /tmp/tmp.Isk6AN1fOq/E18/materiale/specifica.md	2026-10-22 06:41:36.047018280 +0200
+@@ -0,0 +1,415 @@
++# Specifica · Pagina "Servizi"
++
++Magias UI Protocol v0.3 · Modalità **Design** · Data 2026-10-22
++Esito atteso: **specifica pronta** (non implementazione verificata).
++
++---
++
++## 0. Ingresso
++
++| Voce | Valore | Fonte |
++|---|---|---|
++| Scope | Una pagina: `/servizi`. Header, footer e componenti condivisi solo se citati qui | Richiesta |
++| Materiale letto | `materiale/contesto.md`, `materiale/contenuti.md` | — |
++| Progetto | Studio di commercialisti, tre soci | contesto.md |
++| Pubblico | Piccole imprese e professionisti | contesto.md |
++| Tipo pagina | Commerciale-informativa (offerta di servizi professionali) | Derivato |
++| Profilo | Generico (G01–G05). **Non** si applica il profilo ospitalità | contesto.md |
++| Livello di movimento | 1 · Editoriale | contesto.md |
++| Stack | Next.js, Tailwind, shadcn/ui adattati. Sito attuale statico | contesto.md |
++| Librerie di movimento | Nessuna dichiarata. La specifica non ne introduce | Decisione D2 |
++| Analytics | Non dichiarati → le metriche restano un'ipotesi (§9) | — |
++| Strumenti di prova | Nessun eseguibile: tutte le prove runtime sono **NON VERIFICATE** | — |
++
++### Obiettivi (C01)
++
++- **Obiettivo della persona:** capire in poco tempo se lo studio si occupa del suo caso (tipo di attività, regime, dipendenti) e come iniziare.
++- **Obiettivo dello studio:** ricevere richieste di primo appuntamento. È compatibile con una scelta informata perché il primo appuntamento è gratuito e senza impegno dichiarato. Il "senza impegno" va confermato (§8).
++
++---
++
++## 1. Fatti, copy proposto, dati mancanti
++
++Nel testo uso tre marcature:
++
++- **[F]** è un fatto verificato da `contenuti.md` e si può pubblicare.
++- **[P]** è un copy proposto. Va approvato dai soci prima della pubblicazione.
++- **[DC]** è un dato da confermare. Non si pubblica come vero e non entra nei dati strutturati (G03, C05).
++
++### Fatti verificati [F]
++
++1. Servizi:
++   - contabilità ordinaria e semplificata;
++   - dichiarazioni dei redditi;
++   - paghe e consulenza del lavoro, **fino a 15 dipendenti per cliente**;
++   - apertura di partita IVA e regime forfettario;
++   - consulenza per bandi regionali.
++2. Orari: lunedì–venerdì 9–13 e 14:30–18.
++3. Primo appuntamento **gratuito**, **30 minuti**, **in studio o in videochiamata**.
++
++### Da confermare [DC]: non vanno in pagina finché non sono confermati
++
++| Dato | Uso previsto se confermato | Comportamento finché non è confermato |
++|---|---|---|
++| Numero di clienti ("oltre 300"?) | Una riga di prova nell'apertura, con fonte e data nel registro claim (C05) | Lo slot non viene renderizzato. Nessun numero, nessun contatore animato |
++| Anno di fondazione | "Dal [anno]" nell'apertura o nel footer | Lo slot non viene renderizzato |
++
++### Mancanti e decisivi: servono per pubblicare
++
++| ID | Dato | Perché è decisivo | Trattamento provvisorio |
++|---|---|---|---|
++| X1 | Indirizzo dello studio | L'appuntamento "in studio" richiede di sapere dove (C04) | Blocca la pubblicazione |
++| X2 | Telefono ed email | Alternativa al modulo e recupero in caso di errore di invio (C08) | Blocca la pubblicazione |
++| X3 | Regione dei "bandi regionali" | Senza regione il servizio è ambiguo | Copy generico "bandi della Regione [DC]" |
++| X4 | Costi dei servizi o come si definiscono (es. preventivo dopo il primo incontro) | Condizione materiale prima della decisione (C04) | Va scritta una frase reale. Non la invento |
++| X5 | Tempi di risposta alla richiesta | Serve al messaggio di conferma: non si promette ciò che non è garantito (C08) | Messaggio di conferma senza tempi |
++| X6 | Il primo appuntamento è "senza impegno"? | Usato nel copy della CTA | Omettere finché non è confermato |
++| X7 | Voce del sito (tu / lei / impersonale) | Vincolo di voce del progetto (C07) | Assunzione A1 |
++| X8 | Nomi e foto reali dei soci (con diritti) | Prova autentica e "più vivo" senza effetti (§6) | Sezione facoltativa, non renderizzata |
++| X9 | Base giuridica e informativa privacy del modulo | Testo legale del modulo | Link all'informativa esistente, da verificare con il consulente privacy |
++
++### Assunzioni esplicite
++
++- **A1:** il copy proposto si rivolge al lettore con il "lei". È il registro più prudente per uno studio professionale. Si rivede quando X7 è chiarito.
++- **A2:** l'invio del modulo è una **richiesta** di appuntamento e non una prenotazione confermata. Lo studio ricontatta per fissare data e ora. Non esiste un calendario con disponibilità reali, quindi la pagina non ne simula uno.
++
++---
++
++## 2. Architettura della pagina
++
++Una sola colonna di lettura, nello stesso ordine su ogni larghezza (L03). Ogni sezione ha una funzione dichiarata (L01, N03).
++
++| # | Sezione | Funzione | Heading |
++|---|---|---|---|
++| 1 | Apertura | Scopo della pagina, destinatari, passo successivo (C02) | `h1` |
++| 2 | Indice dei servizi | Orientamento: salto diretto al servizio pertinente | nessuno (`nav` con `aria-label="Servizi in questa pagina"`) |
++| 3 | Servizi (5 voci) | Informazione: cosa fa lo studio e con quali limiti | `h2` "Di cosa ci occupiamo", `h3` per voce |
++| 4 | Primo appuntamento | Condizioni dell'offerta e passaggi | `h2` |
++| 5 | Modulo di richiesta + orari e contatti | Azione e alternative | `h2` |
++| 6 | (facoltativa, X8) Chi la seguirà | Prova autentica: i tre soci | `h2` |
++
++Nel prototipo non ci sono una sezione FAQ, testimonianze o loghi di clienti. Non abbiamo contenuti verificati per queste sezioni e non vanno inventati per riempire il layout (C06).
++
++### 2.1 Apertura
++
++- `h1` [P]: **Servizi per piccole imprese e professionisti**
++- Sottotitolo [P]: "Contabilità, dichiarazioni dei redditi, paghe, apertura della partita IVA e bandi regionali. Seguiti direttamente dai tre soci dello studio."
++  - La seconda frase usa il fatto "tre soci" da contesto.md. Il "direttamente" va confermato. Se non è confermato, si toglie.
++- CTA primaria: **"Richieda il primo appuntamento gratuito"**. È un'ancora a `#appuntamento`.
++- Riga di condizioni, vicino alla CTA e in testo vero [F]: "30 minuti · in studio o in videochiamata · gratuito".
++- Slot per [DC] clienti e anno: non renderizzati (G03).
++- Nessuna CTA secondaria concorrente. L'indice dei servizi che segue è orientamento e non compete con la CTA (L05).
++
++### 2.2 Indice dei servizi
++
++È una lista di 5 link ad ancora (`#contabilita`, `#dichiarazioni`, `#paghe`, `#partita-iva`, `#bandi`).
++
++- Su desktop è una riga di link testuali. Su mobile è una lista verticale, perché uno scroll orizzontale nasconderebbe le voci.
++- Le ancore usano lo scroll nativo, con `scroll-margin-top` pari all'altezza dell'header.
++
++### 2.3 Servizi
++
++Ogni voce è una **lista di articoli**, non una griglia di card. Sono testi da leggere in sequenza e di lunghezza diversa, e nessuna voce ha un'azione propria (L02). Su desktop ogni articolo ha due colonne: nome del servizio a sinistra (`h3`) e testo a destra. Su mobile le colonne si impilano.
++
++Struttura di ogni voce:
++
++- `h3`: nome [F]
++- **Per chi**: una riga [P]
++- **Cosa comprende**: 2–4 punti [P]. I soci li scrivono o li approvano. Qui ci sono solo segnaposto prudenti.
++- **Condizioni o limiti** [F], dove esistono, in testo normale e non in nota a piè di pagina.
++- Link "Ne parliamo al primo appuntamento" → `#appuntamento`. È facoltativo, un link testuale e non un bottone.
++
++| Voce | Per chi [P] | Condizione [F]/[DC] |
++|---|---|---|
++| Contabilità ordinaria e semplificata | Imprese e professionisti in regime ordinario o semplificato | — |
++| Dichiarazioni dei redditi | Titolari, soci e professionisti | — |
++| Paghe e consulenza del lavoro | Datori di lavoro con dipendenti | **Fino a 15 dipendenti per cliente** [F]. Va in evidenza nel testo, non nascosto |
++| Apertura di partita IVA e regime forfettario | Chi avvia un'attività o valuta il forfettario | — |
++| Consulenza per bandi regionali | Imprese che vogliono partecipare a bandi della Regione [DC X3] | Regione da confermare |
++
++**Contenuti da non scrivere senza conferma:** esiti dei bandi ("ottenuti X €"), garanzie su scadenze, sconti e risparmi fiscali promessi (C05, N02).
++
++### 2.4 Primo appuntamento
++
++`h2` [P]: "Come funziona il primo appuntamento"
++
++È una lista ordinata (`ol`) di tre passaggi in testo:
++
++1. Lei invia la richiesta con il modulo o per telefono [F per il modulo; telefono X2].
++2. Lo studio la ricontatta per fissare giorno e ora negli orari di apertura [P, A2; tempi X5].
++3. Vi incontrate per 30 minuti, in studio o in videochiamata. È gratuito [F].
++
++Sotto la lista c'è la frase sui costi successivi (X4), **obbligatoria prima della pubblicazione** (C04). Non pubblicare la pagina con un segnaposto vuoto.
++
++### 2.5 Modulo, orari e contatti (`id="appuntamento"`)
++
++Su desktop ci sono due colonne: modulo a sinistra (circa 2/3) e un riquadro "Orari e contatti" a destra. Su mobile il modulo viene prima e il riquadro dopo, nello stesso ordine del DOM.
++
++**Riquadro orari e contatti:**
++
++- Orari [F] in una `dl` o tabella semplice: "Lunedì–venerdì 9:00–13:00 e 14:30–18:00".
++- Indirizzo (X1), telefono `tel:` ed email `mailto:` (X2).
++- Mappa: **non** viene incorporata al caricamento. C'è il link testuale "Apri in Mappe" e l'eventuale iframe si carica solo su richiesta e dopo il consenso pertinente (PF06).
++
++**Campi del modulo** (C09: ogni campo ha uno scopo)
++
++| Campo | Tipo | Obbligatorio | Scopo |
++|---|---|---|---|
++| Nome e cognome | text, `autocomplete="name"` | sì | Sapere chi ricontattare |
++| Come preferisce essere ricontattato | radio: Telefono / Email | sì | Determina quale campo successivo è obbligatorio |
++| Telefono | tel, `autocomplete="tel"` | sì se si sceglie "Telefono" | Ricontatto |
++| Email | email, `autocomplete="email"` | sì se si sceglie "Email" | Ricontatto |
++| Modalità dell'incontro | radio: In studio / In videochiamata [F] | sì | Organizzazione |
++| Servizio di interesse | gruppo di checkbox con i 5 servizi + "Non so ancora" | no | Preparazione dell'incontro |
++| Messaggio | textarea | no | Contesto libero |
++
++- Il campo condizionale (telefono o email) è **sempre visibile**. Cambia solo l'indicazione "obbligatorio" nel label, così la scelta del radio non sposta il layout (PF04).
++- Le scelte del gruppo radio sono equivalenti: **nessuna** è preselezionata in modo da orientare la persona (C03, N02).
++- Privacy: c'è il testo informativo con link all'informativa (X9). Se servisse un consenso, la checkbox è separata e non preselezionata. **Non c'è consenso marketing**: C09.a NON APPLICABILE finché non viene aggiunta una finalità marketing.
++- Componenti shadcn adattati (G02): `RadioGroup` e `Checkbox` su Radix, quindi con semantica nativa equivalente. Per i radio si può usare anche l'input nativo stilizzato, se più semplice. **Niente `Select` custom**: le opzioni sono poche e visibili.
++- Le etichette sono sempre visibili e non sostituite dal placeholder. Ogni campo ha l'indicazione testuale "obbligatorio" o "facoltativo", non solo l'asterisco (A10).
++- Bottone di invio: **"Invia la richiesta"**. Il testo è onesto: si tratta di una richiesta, non di una prenotazione (A2).
++
++**Invio:** Next.js server action su `<form action>`, così il modulo funziona anche senza JavaScript (enhancement progressivo, M03). Il server deduplica con un token di invio generato al render (C08).
++
++---
++
++## 3. Stati (L09)
++
++| Componente | Stati | Note |
++|---|---|---|
++| Link ancora / indice | default, hover, focus-visible, visitato non distinto | Il link è identificabile senza il solo colore: sottolineato (T06) |
++| CTA primaria | default, hover, focus-visible, active | È un'ancora: non ha stati di caricamento |
++| Campo | vuoto, compilato, focus, errore, disabilitato (solo durante l'invio) | L'errore è in testo sotto il campo e collegato con `aria-describedby` (A07, A10) |
++| Radio contatto | nessuna scelta, Telefono, Email | Cambia solo il label "obbligatorio" del campo relativo |
++| Modulo · validazione client | errore | Riepilogo errori in cima al modulo con link ai campi. Il focus va sul riepilogo. I dati restano |
++| Modulo · invio | in corso | Il bottone ha `aria-disabled` e testo "Invio in corso…". Un secondo click non genera un secondo invio |
++| Modulo · successo | conferma reale | Si mostra **solo** dopo la risposta positiva del server. Il messaggio sostituisce il modulo e riceve il focus (`h2`/`role="status"`). Testo [P]: "Richiesta inviata. Lo studio la ricontatterà [tempi X5] per fissare l'appuntamento." Riepilogo dei dati inviati, senza messaggio libero |
++| Modulo · errore server/rete | errore recuperabile | I dati restano. Messaggio: "Non siamo riusciti a inviare la richiesta. Riprovi oppure ci chiami al [X2]." Il bottone torna attivo |
++| Modulo · timeout ambiguo | esito incerto | Non si dichiara successo né fallimento. Il messaggio invita a non reinviare subito e indica il telefono. Il reinvio usa lo stesso token, quindi niente duplicati (C08) |
++| Modulo · senza JS | invio nativo | Pagina di conferma o errore lato server con gli stessi testi |
++| Slot [DC] | assente | Non renderizzato. Non c'è uno stato "placeholder visibile" in produzione |
++
++Stati esclusi, con motivo: "vuoto/nessun risultato" e "caricamento asincrono" per i servizi. Il contenuto è statico e generato al build.
++
++---
++
++## 4. Responsive (L08, A04)
++
++Le larghezze campione sono motivate: 320 (reflow WCAG), 390 (telefono comune), 768 (tablet), 1280 (desktop), 1920 (desktop largo).
++
++| Elemento | ≤ 767 px | 768–1023 px | ≥ 1024 px |
++|---|---|---|---|
++| Apertura | Titolo, sottotitolo, CTA a tutta larghezza, condizioni | Come mobile, CTA larghezza naturale | Testo limitato a circa 60–70 caratteri per riga (T05) |
++| Indice | Lista verticale | Riga che va a capo | Riga |
++| Voce servizio | Una colonna | Una colonna | Due colonne: nome / testo |
++| Modulo + contatti | Modulo, poi contatti | Come mobile | Due colonne |
++| Radio / checkbox | Una per riga, target ≥ 44 px di altezza (A05, raccomandazione touch) | Come mobile | Uno per riga per i radio. Checkbox su due colonne se ci stanno |
++
++Casi estremi da provare: nomi di servizio lunghi su 320 px, testo al 200%, spaziatura testo 1.4.12 (A12), header con altezza diversa (`scroll-margin`), messaggio di errore su due righe.
++
++Header ed eventuale menu: si mantiene il pattern esistente. Se è un menu disclosure, non riceve un focus trap (A08).
++
++---
++
++## 5. Tipografia e token
++
++Si usano i token esistenti del sito, perché non ho ricevuto il design system. Vincoli:
++
++- Ruoli usati: `h1`, `h2`, `h3`, corpo, etichetta del modulo, nota/condizione (T01). La riga di condizioni accanto alla CTA **non** usa un corpo ridotto sotto la leggibilità: è informazione materiale.
++- Contrasti calcolati su ogni stato, compresi focus, errore e testo su sfondo tinto, e registrati nella tabella dei contrasti (G01, A02).
++- Font: licenza verificata (T02.a). Il caricamento non deve far comparire il titolo in ritardo (MV03, PF02).
++
++---
++
++## 6. Movimento
++
++### 6.1 Sulla richiesta "qualcosa di più vivo"
++
++Il titolare ha visto un sito di hotel con video, scroll fluido e scena 3D, cioè i livelli 2–3. Lì il movimento racconta un luogo da vendere. Qui la persona deve capire se lo studio fa al caso suo e chiedere un appuntamento. Non abbiamo filmati né luoghi da raccontare, e non c'è un concetto che una scena 3D spieghi meglio del testo.
++
++**Raccomandazione (D1):** restare al **livello 1**, come dichiarato nel contesto, e ottenere il "più vivo" in tre modi:
++
++1. **Contenuti reali e umani.** Foto vere dei tre soci e dello studio (X8) danno più vita di qualunque effetto. È la leva principale.
++2. **Movimento editoriale curato**, descritto nelle schede sotto: apertura in CSS, titoli che entrano riga per riga, reveal delle voci, sipario sulle foto dei soci, transizioni fra pagine.
++3. **Micro-feedback precisi** su link, CTA e modulo. La pagina deve rispondere bene, non solo muoversi.
++
++**Scartati, con motivo:**
++
++| Effetto | Livello | Motivo |
++|---|---|---|
++| Scena WebGL / 3D | 3 | Nessun contenuto da spiegare. Costo di caricamento e CPU (ML04, PF01). Non pertinente al compito |
++| Scroll fluido (Lenis) | 2 | Interferisce con ancore, tastiera e modulo (ML03). L'indice di ancore è centrale in questa pagina |
++| Video d'apertura | 2 | Nessun filmato reale. Un video di stock sarebbe una prova non autentica (C05) |
++
++**Porta aperta:** se lo studio produce un breve video reale (es. lo studio, i soci al lavoro), si può valutare come **deviazione motivata** dal livello 1 (MV00). In quel caso il video deve avere pulsante di pausa, fermarsi fuori vista e a scheda nascosta (MV05), usare `preload="none"` con poster (PF03) e non stare nella vista del modulo (MV06 per analogia). La decisione spetta al titolare. È registrata in D1.
++
++### 6.2 Profili per fase
++
++| Fase | Sezioni | Profilo |
++|---|---|---|
++| Racconto/orientamento | Apertura, servizi, soci | Livello 1: ingressi brevi, reveal |
++| Azione | Primo appuntamento, modulo | Solo feedback di stato. Nessun reveal sul modulo e sui suoi campi. Nessun movimento continuo nella vista |
++
++Nella pagina non c'è alcun movimento continuo o automatico. MV05 e MV06 sono quindi soddisfatti per costruzione, e vanno riverificati se si aggiunge il video.
++
++### 6.3 Implementazione comune
++
++- Niente GSAP e niente librerie nuove. Si usano CSS, `IntersectionObserver` e varianti Tailwind `motion-safe:` / `motion-reduce:`. Le regole ML01–ML04 sono NON APPLICABILI (nessuna libreria).
++- Attributi con prefisso unico `data-m-*` (`data-m="reveal"`, `data-m="lines"`, `data-m="curtain"`), elencati nel design system (ML02).
++- **Stato iniziale nascosto impostato dallo script**, non dal CSS di partenza. Lo script aggiunge la classe `m-ready` su `<html>` solo se `prefers-reduced-motion: no-preference`, e le regole di nascondimento valgono solo sotto `.m-ready` (MV02).
++- Il cambio di preferenza a pagina aperta (`matchMedia(...).addEventListener('change')`) rimuove `m-ready` e mostra tutto nello stato finale (MV01).
++- Un elemento in attesa di reveal è nascosto con `opacity`/`transform` e mai con `display:none`, `visibility:hidden` o `content-visibility`. Resta così trovabile e focalizzabile. Su `focusin` si rivela subito (MV04).
++- Fallback a un errore dello script: un timeout di sicurezza (es. 1,5 s) e il `catch` nel modulo di movimento rimuovono `m-ready`.
++
++### 6.4 Schede effetto
++
++**E1 · Apertura (titolo riga per riga + sottotitolo + CTA)**
++
++- Fase: racconto. Intento: identità, orientamento.
++- Trigger: primo disegno, solo CSS (`@keyframes`, nessun JS).
++- Proprietà: `opacity` e `transform: translateY` piccolo per ogni riga del titolo, poi sottotitolo e CTA. Durata indicativa per riga 300–500 ms, sfalsamento breve.
++- **Vincolo MV03:** il testo non resta nascosto oltre 300 ms dal primo disegno. L'animazione parte da un'opacità già parziale o con ritardo massimo 0, e la sequenza si chiude rapidamente.
++- Accessibilità: il titolo è spezzato in `span` visivi dentro un `h1` unico. Il testo intero resta nel nome accessibile (`aria-label` sull'`h1` non serve se gli span contengono il testo in ordine: va verificato nell'albero accessibile).
++- La CTA è cliccabile da subito: l'animazione non blocca `pointer-events` (M02.a).
++- Ridotto: nessuno spostamento, tutto visibile allo stato finale.
++- Senza script: identico, perché è solo CSS. Con `prefers-reduced-motion` il CSS non applica l'animazione.
++
++**E2 · Reveal delle voci di servizio e dei passaggi**
++
++- Fase: racconto. Intento: ritmo di lettura, orientamento.
++- Trigger: `IntersectionObserver` con soglia bassa. Una volta sola: non si rinasconde allo scroll inverso.
++- Proprietà: `opacity` + `translateY` contenuto. Un solo effetto per elemento (MV08).
++- Arrivo da ancora dell'indice: la voce di destinazione e quelle sopra si rivelano subito, senza attendere l'osservatore, così chi salta legge immediatamente (M03).
++- Scroll veloce: gli elementi già superati si rivelano allo stato finale senza animazione in coda.
++- Escluso: modulo, riquadro contatti e condizioni della CTA. Le informazioni materiali non sono soggette a reveal.
++
++**E3 · Sipario sulle foto dei soci** (solo se esiste X8)
++
++- `clip-path` da un lato, una volta, all'ingresso in vista. Nessuno zoom o parallax aggiuntivo (MV08).
++- Lo spazio della foto è riservato con `width`/`height` o `aspect-ratio` (PF04). `alt` con il nome del socio, se la foto non è decorativa (A09).
++- Ridotto: foto visibile subito.
++
++**E4 · Micro-feedback**
++
++- Link: sottolineatura che cambia spessore o colore all'hover e al focus.
++- CTA: cambio di colore/ombra all'hover e leggera pressione all'`active`. Feedback locale indicativo 120–180 ms.
++- Radio e checkbox: transizione dello stato selezionato. Lo stato vero è subito nel DOM e annunciato.
++- Invio: il testo del bottone cambia subito. Nessuno spinner decorativo che ritarda il risultato (M02.a).
++- Errori: compaiono senza animazioni di "scossa". Il significato è nel testo (A10).
++- Ridotto: transizioni di colore mantenute, spostamenti rimossi.
++
++**E5 · Transizioni fra pagine** (MAY)
++
++- View Transitions API, con dissolvenza breve, dove il browser la supporta e il router lo consente. Altrimenti navigazione normale.
++- Ridotto: disattivata.
++- Il focus va all'`h1` o all'inizio del contenuto dopo il cambio di pagina, secondo il comportamento del router. Va verificato.
++
++---
++
++## 7. Prestazioni
++
++- L'elemento LCP previsto è l'`h1` (prima schermata solo testo) oppure, se presente, la foto dei soci, caricata con priorità e senza `loading="lazy"` (PF02).
++- Nessuno script di terzi al caricamento. Mappa su richiesta (PF06).
++- Spazio riservato per foto, messaggi di errore nel modulo (area sotto il campo) e banner cookie esistenti (PF04).
++- Obiettivo PF01: LCP ≤ 2,5 s, INP ≤ 200 ms, CLS ≤ 0,1. Misura di laboratorio a campione su telefono di fascia media (livello 1: ML05 a campione).
++
++---
++
++## 8. Registro decisioni
++
++| ID | Decisione | Regole | Ragione | Revisione |
++|---|---|---|---|---|
++| D1 | Restare al livello 1. Niente 3D, scroll fluido né video stock. Video reale possibile come deviazione futura | MV00, M01, C05, ML03, ML04 | Compito informativo e di contatto. Nessun contenuto filmato reale. Le ancore sono centrali | Se arriva un video reale dello studio |
++| D2 | Nessuna libreria di movimento: CSS + IntersectionObserver | M07, MV01 | Effetti di livello 1 bastano. Peso nullo | Se il sito adotta GSAP altrove |
++| D3 | Lista di articoli invece di griglia di card per i servizi | L02 | Testi di lunghezza diversa, nessuna azione per voce | Se si aggiungono pagine di dettaglio per servizio: allora card con link |
++| D4 | Il modulo è una "richiesta", non una prenotazione con calendario | C08, MX05, A2 | Nessun sistema di disponibilità reale | Se si adotta un'agenda online |
++| D5 | Dati [DC] non renderizzati e nessun contatore animato | G03, C05, MX05 | Numeri non verificati | Alla conferma, con fonte e data |
++| D6 | Nessuna preselezione tra studio e videochiamata | C03, N02 | Scelte equivalenti | — |
++
++---
++
++## 9. Misura (ipotesi, C10)
++
++Gli analytics non sono dichiarati, quindi qui c'è solo una proposta, non un risultato atteso.
++
++- Evento: `richiesta_appuntamento_inviata`, emesso **solo** alla risposta positiva del server e deduplicato per token di invio.
++- Denominatore: sessioni con visualizzazione di `/servizi`. Periodo: mensile. Esclusioni: traffico interno e bot.
++- Payload: **nessun** nome, email, telefono o messaggio (C10.a). Al massimo modalità e servizi selezionati.
++- Il traffico è probabilmente basso: valutare la pagina con 3–5 prove qualitative (es. "trovi se lo studio segue un'azienda con 20 dipendenti?" → la risposta attesa è "no, fino a 15"). Niente A/B né affermazioni di uplift (C11).
++
++---
++
++## 10. Registro di applicabilità
++
++Esito della specifica: **PASS (spec)** = il requisito è previsto nella specifica. L'implementazione resta NON VERIFICATA ovunque.
++
++| Regola | Forza | Applicabilità | Esito specifica | Nota |
++|---|---|---|---|---|
++| C01, C02 | MUST | Applicabile | PASS (spec) | §0, §2.1 |
++| C04 | MUST | Applicabile | **APERTO** | Servono X1 (indirizzo) e X4 (costi). Bloccano la pubblicazione |
++| C05, G03 | MUST/SHOULD | Applicabile | PASS (spec) | Dati [DC] esclusi |
++| C08 | MUST | Applicabile | PASS (spec), X2 aperto | Il recupero richiede il telefono |
++| C09 | SHOULD | Applicabile | PASS (spec) | Tabella campi |
++| C09.a | MUST | Non applicabile | — | Nessuna finalità marketing |
++| C10.a | MUST | Condizionale | — | Solo se si implementano analytics |
++| N02, C03 | MUST/SHOULD | Applicabile | PASS (spec) | D6 |
++| M03, M04, MX02–MX04, MX06 | MUST | Applicabile | PASS (spec) | §6.3–6.4 |
++| MV00 | SHOULD | Applicabile | PASS | Livello 1 dichiarato e mantenuto |
++| MV01–MV04 | MUST | Applicabile | PASS (spec) | §6.3 |
++| MV05, MV06, MX09 | MUST | Non applicabile ora | — | Nessun movimento continuo. Diventano applicabili con un video |
++| MV07 | MUST | Non applicabile | — | Nessuna striscia bloccata |
++| MV08 | SHOULD | Applicabile | PASS (spec) | Un effetto per elemento |
++| ML01–ML04 | SHOULD | Non applicabile | — | Nessuna libreria |
++| PF02, PF04, PF06 | SHOULD/MUST | Applicabile | PASS (spec) | §7 |
++| PF01, ML05 | SHOULD | Applicabile | NON VERIFICATO | Richiede una misura |
++| L03, L07, L08, L09 | MUST | Applicabile | PASS (spec) | §2–4 |
++| A01–A12 | MUST | Applicabile | NON VERIFICATO | Previsti in specifica. Il registro WCAG va compilato sull'implementazione |
++| T01, T06 | MUST | Applicabile | PASS (spec) | §5 |
++| T02.a | MUST | Applicabile | NON VERIFICATO | Licenza del font da documentare |
++| G02 | SHOULD | Applicabile | PASS (spec) | shadcn/Radix adattati, nessun select custom |
++
++**Decisione del gate Design:** la specifica è **pronta come struttura**. Ha però incognite decisive (X1, X2, X4) che ho trattato senza inventarle e che **bloccano la pubblicazione**, non la progettazione.
++
++---
++
++## 11. Piano prove sull'implementazione
++
++1. **Senza JavaScript:** contenuti tutti visibili, ancore funzionanti, modulo inviabile con conferma ed errori lato server (MV02, M03).
++2. **Movimento ridotto:**
++   - attivo prima del caricamento: nessuno spostamento, nessuna classe `m-ready`;
++   - cambiato a pagina aperta: tutto visibile subito (MV01, M04).
++3. **Prima schermata** con rete "Slow 4G" e CPU 4× (registrazione): `h1` leggibile entro 300 ms dal primo disegno (MV03).
++4. **Tastiera:**
++   - Tab dall'inizio prima di scorrere: ogni voce non ancora rivelata diventa visibile al focus (MV04);
++   - focus visibile e non coperto dall'header (A03);
++   - ricerca nella pagina di un testo della quinta voce.
++5. **Ancore:** salto a ciascun servizio, con titolo non coperto dall'header e contenuto già visibile.
++6. **Modulo:**
++   - invio vuoto: riepilogo errori con focus;
++   - errore server simulato: dati conservati;
++   - doppio click: un solo record;
++   - timeout simulato: messaggio di esito incerto;
++   - successo solo dopo la risposta reale (C08, L09).
++7. **Screen reader:** NVDA + Firefox e VoiceOver + Safari iOS (da confermare in base al pubblico). Verificare nome dell'`h1` spezzato, stati di radio e checkbox, annuncio degli errori e della conferma (A07, A11).
++8. **Responsive:** 320 / 390 / 768 / 1280 / 1920, testo 200%, text spacing 1.4.12, resize continuo (A04, A12, L08).
++9. **Prestazioni:** Lighthouse o WebPageTest su profilo di telefono di fascia media, due misure con e senza effetti. Registrare LCP, CLS e INP (PF01) e dichiarare che si tratta di dati di laboratorio.
++10. **Contrasti:** calcolo su ogni stato (A02) e confronto con la tabella dei token (G01).
++11. **Contenuti:** ricerca nel codice e nei dati strutturati di "300" e dell'anno di fondazione. Non devono comparire finché non sono confermati (G03).
++
++---
++
++## 12. Prima della pubblicazione: checklist per lo studio
++
++- [ ] Indirizzo, telefono, email (X1, X2)
++- [ ] Frase sui costi dopo il primo appuntamento (X4)
++- [ ] Regione dei bandi (X3)
++- [ ] Tempi di ricontatto, se garantibili (X5)
++- [ ] "Senza impegno" sì/no (X6)
++- [ ] Voce tu/lei (X7)
++- [ ] Testi "Cosa comprende" approvati dai soci
++- [ ] Foto dei soci con diritti d'uso (X8, facoltativo)
++- [ ] Informativa privacy del modulo (X9)
++- [ ] Conferma del numero di clienti e dell'anno di fondazione, con fonte (facoltativo)
++
++Questa specifica non autorizza la pubblicazione: la release è una decisione separata.

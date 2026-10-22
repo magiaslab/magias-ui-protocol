@@ -1,0 +1,81 @@
+diff -ruN /tmp/magias-codex/src/scenari/E15/materiale/BarraPrenota.tsx materiale/BarraPrenota.tsx
+--- /tmp/magias-codex/src/scenari/E15/materiale/BarraPrenota.tsx	2026-10-22 06:31:24
++++ materiale/BarraPrenota.tsx	2026-10-22 06:34:27
+@@ -1,5 +1,6 @@
+ 'use client'
+-import { useState } from 'react'
++import { useId, useState } from 'react'
++import type { FormEvent } from 'react'
+ import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
+ import { Calendar } from '@/components/ui/calendar'
+ import { Button } from '@/components/ui/button'
+@@ -13,30 +14,61 @@
+   const [adulti, setAdulti] = useState(2)
+   const [bambini, setBambini] = useState(0)
+   const [aperto, setAperto] = useState(false)
++  const [messaggio, setMessaggio] = useState('')
++  const [urlRecupero, setUrlRecupero] = useState<string>()
++  const messaggioId = useId()
+   const totale = adulti + bambini
+   const pronto = !!date.from && !!date.to
+ 
++  function cerca(e: FormEvent<HTMLFormElement>) {
++    e.preventDefault()
++    setUrlRecupero(undefined)
++    if (!date.from || !date.to || date.to <= date.from) {
++      setMessaggio(!date.from
++        ? 'Seleziona la data di arrivo e quella di partenza.'
++        : !date.to
++          ? 'Seleziona la data di partenza.'
++          : 'La partenza deve essere successiva all’arrivo.')
++      setAperto(true)
++      return
++    }
++    try {
++      const url = linkMotore({ ...date, adulti, bambini })
++      // Conserva un accesso diretto anche quando il browser blocca la scheda.
++      setUrlRecupero(url)
++      const scheda = window.open(url, '_blank')
++      if (scheda) scheda.opener = null
++      setMessaggio(scheda
++        ? 'Ricerca aperta in una nuova scheda. Se non la vedi, usa il collegamento qui sotto.'
++        : 'Se la nuova scheda non si apre, usa il collegamento qui sotto.')
++    } catch {
++      setMessaggio('Non è stato possibile aprire la ricerca. Le tue scelte sono conservate: riprova.')
++    }
++  }
++
+   return (
+-    <form className="flex items-end gap-3" onSubmit={(e) => { e.preventDefault(); window.open(linkMotore({ ...date, adulti, bambini }), '_blank') }}>
++    <form className="flex flex-wrap items-end gap-3" onSubmit={cerca}>
+       <Popover open={aperto} onOpenChange={setAperto}>
+         <PopoverTrigger asChild>
+-          <Button variant="outline" type="button">{pronto ? `${date.from!.toLocaleDateString('it')} – ${date.to!.toLocaleDateString('it')}` : 'Date'}</Button>
++          <Button variant="outline" type="button" aria-describedby={messaggioId}>{pronto ? `${date.from!.toLocaleDateString('it')} – ${date.to!.toLocaleDateString('it')}` : date.from ? `Arrivo: ${date.from.toLocaleDateString('it')} – scegli la partenza` : 'Date'}</Button>
+         </PopoverTrigger>
+-        <PopoverContent><Calendar mode="range" numberOfMonths={2} selected={date as any} onSelect={(r: any) => setDate(r ?? {})} /></PopoverContent>
++        <PopoverContent><Calendar mode="range" numberOfMonths={2} selected={date} onSelect={(r) => { setDate(r ?? {}); setMessaggio(''); setUrlRecupero(undefined) }} /></PopoverContent>
+       </Popover>
+       <div>
+         <span>Adulti</span>
+-        <Button type="button" size="icon" onClick={() => setAdulti(adulti - 1)} disabled={adulti <= 1}>−</Button>
++        <Button type="button" size="icon" onClick={() => { setAdulti(adulti - 1); setUrlRecupero(undefined); setMessaggio('') }} disabled={adulti <= 1}>−</Button>
+         <span>{adulti}</span>
+-        <Button type="button" size="icon" onClick={() => setAdulti(adulti + 1)} disabled={totale >= MAX}>+</Button>
++        <Button type="button" size="icon" onClick={() => { setAdulti(adulti + 1); setUrlRecupero(undefined); setMessaggio('') }} disabled={totale >= MAX}>+</Button>
+       </div>
+       <div>
+         <span>Bambini</span>
+-        <Button type="button" size="icon" onClick={() => setBambini(bambini - 1)} disabled={bambini <= 0}>−</Button>
++        <Button type="button" size="icon" onClick={() => { setBambini(bambini - 1); setUrlRecupero(undefined); setMessaggio('') }} disabled={bambini <= 0}>−</Button>
+         <span>{bambini}</span>
+-        <Button type="button" size="icon" onClick={() => setBambini(bambini + 1)} disabled={totale >= MAX}>+</Button>
++        <Button type="button" size="icon" onClick={() => { setBambini(bambini + 1); setUrlRecupero(undefined); setMessaggio('') }} disabled={totale >= MAX}>+</Button>
+       </div>
+-      <Button type="submit" disabled={!pronto}>Cerca</Button>
++      <Button type="submit" aria-describedby={messaggioId}>Cerca</Button>
++      <p className="basis-full" id={messaggioId} role="status" aria-live="polite" aria-atomic="true">{messaggio}</p>
++      {urlRecupero && <a className="underline" href={urlRecupero}>Continua sul motore di prenotazione in questa scheda</a>}
+     </form>
+   )
+ }

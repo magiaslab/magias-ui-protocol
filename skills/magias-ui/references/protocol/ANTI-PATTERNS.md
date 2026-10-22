@@ -1,6 +1,6 @@
 # Anti-pattern come segnali
 
-Magias UI Protocol · v0.2 · nucleo v0.2
+Magias UI Protocol · v0.3 · nucleo v0.3
 
 La presenza di un pattern non è un fallimento. Un FAIL deve indicare requisito applicabile o danno osservato. [Catalogo dei segnali](ANTI-PATTERN-SIGNALS.md). Non sommare alias di uno stesso problema.
 

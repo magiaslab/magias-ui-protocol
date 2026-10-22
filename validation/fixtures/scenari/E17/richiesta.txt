@@ -1,0 +1,1 @@
+/magias-ui Usa Review Mode. La home si apre lenta sul telefono. Guarda il codice della prima schermata in materiale/ (contesto.md, layout.tsx, Apertura.tsx, motore-movimento.ts, globals.css) e dimmi cosa non va.

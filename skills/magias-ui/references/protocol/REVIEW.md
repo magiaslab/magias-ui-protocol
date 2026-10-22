@@ -1,6 +1,6 @@
 # Review e quality gate
 
-Magias UI Protocol · v0.2 · nucleo v0.2
+Magias UI Protocol · v0.3 · nucleo v0.3
 
 [Gate per modalità](QUALITY-GATES.md) e [report](templates/REVIEW-REPORT.md) governano la consegna. Un audit completo può contenere FAIL; un prototipo non prova runtime. I controlli documentali del pacchetto non provano il funzionamento dei siti.
 

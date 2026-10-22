@@ -1,4 +1,4 @@
-# Registro decisioni v0.2
+# Registro decisioni v0.3
 
 ID decisione, data, responsabile, versione/revisione e scope: [...].
 Regola e forza: [...]. Bisogno e alternative: [...].

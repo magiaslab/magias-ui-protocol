@@ -1,0 +1,1 @@
+/magias-ui Usa Review Mode. Valuta la scena 3D della home in materiale/ScenaCampi.tsx. Il contesto del progetto è in materiale/contesto.md.

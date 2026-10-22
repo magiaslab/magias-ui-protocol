@@ -1,0 +1,309 @@
+diff -ruN /home/codecip/projects/magiaslab/magias-ui-protocol/repo/validation/fixtures/scenari/E12/materiale/home.html /tmp/tmp.Isk6AN1fOq/E12/materiale/home.html
+--- /home/codecip/projects/magiaslab/magias-ui-protocol/repo/validation/fixtures/scenari/E12/materiale/home.html	2026-10-21 22:40:31.194017522 +0200
++++ /tmp/tmp.Isk6AN1fOq/E12/materiale/home.html	2026-10-22 06:46:17.312567334 +0200
+@@ -1,9 +1,283 @@
+-<!doctype html><html lang="it"><head><meta charset="utf-8"><title>Studio Energia Esempio</title></head><body>
+-<header><strong>Studio Energia Esempio</strong><nav><a href="#servizi">Servizi</a><a href="#casi">Casi</a><a href="#contatti">Contatti</a></nav><a href="#sopralluogo">Richiedi sopralluogo</a></header>
+-<section class="hero"><h1>RIQUALIFICHIAMO IL TUO CONDOMINIO!!!</h1><p>Risparmio garantito fino al 70%* con i migliori incentivi del mercato</p><a href="#sopralluogo">SCOPRI DI PIÙ</a><a href="#casi">GUARDA I CASI</a><a href="#contatti">CHIAMACI</a></section>
+-<section id="numeri"><div>+250 condomini</div><div>+12.000 famiglie</div><div>98% clienti soddisfatti</div><div>100% professionalità</div></section>
+-<section id="servizi"><h2>Servizi</h2><div class="card">Diagnosi energetica</div><div class="card">Cappotto termico</div><div class="card">Impianti</div><div class="card">Pratiche incentivi</div><div class="card">Assistenza assemblee</div><div class="card">Monitoraggio consumi</div></section>
+-<section id="casi"><h2>Casi</h2><div class="slider autoplay">Via Roma 12 · Viale dei Pini 4 · Piazza Centrale 7</div></section>
+-<section id="sopralluogo"><h2>Richiedi un sopralluogo gratuito</h2><form><input placeholder="Nome"><input placeholder="Email"><input placeholder="Telefono"><input placeholder="Indirizzo condominio"><input placeholder="Numero unità"><select><option>Come ci hai conosciuto?</option></select><label><input type="checkbox" checked> Accetto privacy e newsletter</label><button>INVIA</button></form></section>
+-<p><small>*risparmio massimo osservato su un caso</small></p>
+-</body></html>
++<!doctype html>
++<html lang="it">
++<head>
++<meta charset="utf-8">
++<meta name="viewport" content="width=device-width, initial-scale=1">
++<title>Studio Energia Esempio · Riqualificazione energetica dei condomini</title>
++<meta name="description" content="Diagnosi, progetto, pratiche e assistenza in assemblea per la riqualificazione energetica dei condomini. Richiedi un sopralluogo gratuito.">
++<style>
++  /* Token primitivi: identità esistente (verde petrolio e bianco). */
++  :root {
++    --petrolio-900: #0b3a45;
++    --petrolio-700: #0f4c5c;
++    --petrolio-100: #e6eef0;
++    --bianco: #ffffff;
++    --inchiostro: #1c2629;
++    --grigio-600: #4f5d61;
++    --grigio-300: #c9d3d6;
++    --avviso: #8a5a00;
++
++    /* Token semantici */
++    --sfondo: var(--bianco);
++    --testo: var(--inchiostro);
++    --testo-tenue: var(--grigio-600);
++    --accento: var(--petrolio-700);
++    --accento-scuro: var(--petrolio-900);
++    --superficie: var(--petrolio-100);
++    --filetto: var(--grigio-300);
++
++    /* Sostituire con il sans geometrico del marchio, se disponibile con licenza web. */
++    --font: "Futura PT", "Avenir Next", Avenir, "Century Gothic", system-ui, sans-serif;
++
++    --spazio-1: .5rem;
++    --spazio-2: 1rem;
++    --spazio-3: 1.5rem;
++    --spazio-4: 2.5rem;
++    --spazio-5: 4rem;
++    --misura: 38rem;
++  }
++
++  *, *::before, *::after { box-sizing: border-box; }
++  html { -webkit-text-size-adjust: 100%; }
++  body {
++    margin: 0;
++    font-family: var(--font);
++    font-size: 1.0625rem;
++    line-height: 1.6;
++    color: var(--testo);
++    background: var(--sfondo);
++  }
++  h1, h2, h3 { line-height: 1.2; font-weight: 600; margin: 0 0 var(--spazio-2); }
++  h1 { font-size: clamp(1.75rem, 1.2rem + 2.6vw, 2.75rem); letter-spacing: -.01em; max-width: 20ch; }
++  h2 { font-size: clamp(1.35rem, 1.1rem + 1vw, 1.75rem); }
++  h3 { font-size: 1.0625rem; }
++  p { margin: 0 0 var(--spazio-2); max-width: var(--misura); }
++  a { color: var(--accento); text-underline-offset: .2em; }
++  a:hover { color: var(--accento-scuro); }
++  :focus-visible { outline: 3px solid var(--accento); outline-offset: 3px; }
++
++  .contenitore { max-width: 68rem; margin: 0 auto; padding: 0 var(--spazio-3); }
++  section { padding: var(--spazio-5) 0; }
++  section + section { border-top: 1px solid var(--filetto); }
++  .occhiello { font-size: .875rem; letter-spacing: .08em; text-transform: uppercase; color: var(--testo-tenue); margin-bottom: var(--spazio-1); }
++
++  .salta { position: absolute; left: var(--spazio-2); top: -4rem; background: var(--accento); color: var(--bianco); padding: var(--spazio-1) var(--spazio-2); z-index: 10; }
++  .salta:focus { top: var(--spazio-2); }
++
++  /* Testata */
++  header .contenitore { display: flex; flex-wrap: wrap; align-items: center; gap: var(--spazio-1) var(--spazio-3); padding-block: var(--spazio-2); }
++  .marchio { font-weight: 600; color: var(--testo); text-decoration: none; margin-right: auto; }
++  header nav ul { display: flex; gap: var(--spazio-3); list-style: none; margin: 0; padding: 0; }
++  header nav a { color: var(--testo); text-decoration: none; display: inline-block; padding: .5rem 0; }
++  header nav a:hover { text-decoration: underline; }
++
++  /* Azioni */
++  .azione {
++    display: inline-block; padding: .8rem 1.4rem; min-height: 44px;
++    background: var(--accento); color: var(--bianco); border: 2px solid var(--accento);
++    font: inherit; font-weight: 600; text-decoration: none; border-radius: 2px; cursor: pointer;
++  }
++  .azione:hover { background: var(--accento-scuro); border-color: var(--accento-scuro); color: var(--bianco); }
++  .azione--compatta { padding: .5rem 1rem; }
++  .collegamento-secondario { display: inline-block; padding: .8rem 0; font-weight: 600; }
++
++  /* Apertura */
++  .apertura { padding-top: var(--spazio-4); }
++  .apertura .sottotitolo { font-size: 1.1875rem; color: var(--testo-tenue); }
++  .apertura .azioni { display: flex; flex-wrap: wrap; align-items: center; gap: var(--spazio-1) var(--spazio-3); margin-top: var(--spazio-3); }
++
++  /* Dati in sintesi */
++  .dati { display: grid; grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr)); gap: var(--spazio-3); margin: var(--spazio-4) 0 0; padding: var(--spazio-3) 0 0; border-top: 1px solid var(--filetto); }
++  .dati dt { font-size: .9375rem; color: var(--testo-tenue); }
++  .dati dd { margin: 0; font-size: 1.75rem; font-weight: 600; color: var(--accento); }
++
++  /* Componente unico per i dati da confermare prima della pubblicazione (G03). */
++  .da-confermare { outline: 2px dashed var(--avviso); outline-offset: 2px; }
++  .da-confermare::after { content: " [da confermare]"; font-size: .75rem; font-weight: 400; color: var(--avviso); }
++
++  /* Metodo e servizi */
++  .fasi { list-style: none; padding: 0; margin: var(--spazio-3) 0 0; display: grid; gap: var(--spazio-4) var(--spazio-3); grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr)); counter-reset: fase; }
++  .fasi > li { counter-increment: fase; border-top: 2px solid var(--accento); padding-top: var(--spazio-2); }
++  .fasi > li > h3::before { content: counter(fase) " · "; color: var(--accento); }
++  .fasi ul { margin: 0; padding-left: 1.1rem; }
++  .fasi ul li + li { margin-top: .25rem; }
++
++  /* Casi */
++  .casi { list-style: none; padding: 0; margin: var(--spazio-3) 0 0; display: grid; gap: var(--spazio-3); grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr)); }
++  .casi article { background: var(--superficie); padding: var(--spazio-3); height: 100%; }
++  .casi figure { margin: calc(var(--spazio-3) * -1) calc(var(--spazio-3) * -1) var(--spazio-2); aspect-ratio: 4 / 3; background: var(--grigio-300); display: grid; place-items: center; color: var(--testo-tenue); font-size: .875rem; }
++  .casi h3 { margin-bottom: var(--spazio-1); }
++  .casi p { margin: 0; color: var(--testo-tenue); }
++
++  /* Modulo */
++  .modulo-sezione { background: var(--superficie); border-top: 0 !important; }
++  .modulo-griglia { display: grid; gap: var(--spazio-4); }
++  @media (min-width: 52rem) { .modulo-griglia { grid-template-columns: 1fr 1.3fr; } }
++  form { display: grid; gap: var(--spazio-3); max-width: 34rem; }
++  .campo { display: grid; gap: .35rem; }
++  .campo label { font-weight: 600; }
++  .campo .nota { font-size: .9375rem; color: var(--testo-tenue); margin: 0; }
++  input[type="text"], input[type="email"], input[type="tel"], input[type="number"] {
++    font: inherit; padding: .7rem .8rem; min-height: 44px; width: 100%;
++    border: 1px solid var(--grigio-600); border-radius: 2px; background: var(--bianco); color: var(--testo);
++  }
++  .scelta { display: flex; gap: .6rem; align-items: flex-start; }
++  .scelta input { width: 1.25rem; height: 1.25rem; margin-top: .2rem; flex: none; accent-color: var(--accento); }
++  .facoltativo { font-weight: 400; color: var(--testo-tenue); }
++  .privacy { font-size: .9375rem; color: var(--testo-tenue); }
++
++  /* Contatti */
++  footer { background: var(--accento-scuro); color: var(--bianco); padding: var(--spazio-5) 0 var(--spazio-4); }
++  footer a { color: var(--bianco); }
++  footer a:hover { color: var(--petrolio-100); }
++  footer .da-confermare::after { color: #ffd68a; }
++  footer .da-confermare { outline-color: #ffd68a; }
++  footer address { font-style: normal; display: grid; gap: var(--spazio-1); }
++
++  /* Solo transizioni di feedback brevi; nessun movimento autonomo in pagina. */
++  @media (prefers-reduced-motion: no-preference) {
++    .azione, a { transition: background-color .15s ease, color .15s ease, border-color .15s ease; }
++  }
++</style>
++</head>
++<body>
++<a class="salta" href="#principale">Vai al contenuto</a>
++
++<header>
++  <div class="contenitore">
++    <a class="marchio" href="#">Studio Energia Esempio</a>
++    <nav aria-label="Principale">
++      <ul>
++        <li><a href="#servizi">Servizi</a></li>
++        <li><a href="#casi">Casi</a></li>
++        <li><a href="#contatti">Contatti</a></li>
++      </ul>
++    </nav>
++    <a class="azione azione--compatta" href="#sopralluogo">Richiedi sopralluogo</a>
++  </div>
++</header>
++
++<main id="principale">
++  <section class="apertura" aria-labelledby="titolo-apertura">
++    <div class="contenitore">
++      <p class="occhiello">Consulenza energetica per condomini</p>
++      <h1 id="titolo-apertura">Riqualifichiamo il tuo condominio, dalla diagnosi al cantiere.</h1>
++      <p class="sottotitolo">Analizziamo l’edificio, progettiamo gli interventi, seguiamo le pratiche per gli incentivi e affianchiamo l’amministratore in assemblea. Un unico gruppo di sei persone, dall’inizio alla fine.</p>
++      <div class="azioni">
++        <a class="azione" href="#sopralluogo">Richiedi un sopralluogo gratuito</a>
++        <a class="collegamento-secondario" href="#casi">Guarda i lavori fatti</a>
++      </div>
++
++      <dl class="dati">
++        <div><dt>Condomini seguiti</dt><dd><span class="da-confermare">250</span></dd></div>
++        <div><dt>Famiglie coinvolte</dt><dd><span class="da-confermare">12.000</span></dd></div>
++      </dl>
++    </div>
++  </section>
++
++  <section id="servizi" aria-labelledby="titolo-servizi">
++    <div class="contenitore">
++      <h2 id="titolo-servizi">Cosa facciamo</h2>
++      <p>Ti seguiamo in tre fasi. Puoi affidarci tutto il percorso o solo la parte che ti serve.</p>
++      <ol class="fasi">
++        <li>
++          <h3>Prima di decidere</h3>
++          <ul>
++            <li>Diagnosi energetica</li>
++            <li>Assistenza alle assemblee</li>
++          </ul>
++        </li>
++        <li>
++          <h3>Durante i lavori</h3>
++          <ul>
++            <li>Cappotto termico</li>
++            <li>Impianti</li>
++            <li>Pratiche per gli incentivi</li>
++          </ul>
++        </li>
++        <li>
++          <h3>Dopo il cantiere</h3>
++          <ul>
++            <li>Monitoraggio dei consumi</li>
++          </ul>
++        </li>
++      </ol>
++    </div>
++  </section>
++
++  <section id="casi" aria-labelledby="titolo-casi">
++    <div class="contenitore">
++      <h2 id="titolo-casi">Lavori fatti</h2>
++      <ul class="casi">
++        <li><article>
++          <figure><!-- Foto reale del cantiere con alt descrittivo --><span>Foto cantiere</span></figure>
++          <h3>Via Roma 12</h3>
++          <p class="da-confermare">Interventi, anno e risultato misurato</p>
++        </article></li>
++        <li><article>
++          <figure><span>Foto cantiere</span></figure>
++          <h3>Viale dei Pini 4</h3>
++          <p class="da-confermare">Interventi, anno e risultato misurato</p>
++        </article></li>
++        <li><article>
++          <figure><span>Foto cantiere</span></figure>
++          <h3>Piazza Centrale 7</h3>
++          <p class="da-confermare">Interventi, anno e risultato misurato</p>
++        </article></li>
++      </ul>
++    </div>
++  </section>
++
++  <section id="sopralluogo" class="modulo-sezione" aria-labelledby="titolo-sopralluogo">
++    <div class="contenitore modulo-griglia">
++      <div>
++        <h2 id="titolo-sopralluogo">Richiedi un sopralluogo gratuito</h2>
++        <p>Lasciaci i dati del condominio: ti ricontattiamo per fissare data e ora del sopralluogo.</p>
++        <p class="privacy">I campi senza indicazione sono obbligatori.</p>
++      </div>
++      <form>
++        <div class="campo">
++          <label for="nome">Nome e cognome</label>
++          <input id="nome" name="nome" type="text" autocomplete="name" required>
++        </div>
++        <div class="campo">
++          <label for="email">Email</label>
++          <input id="email" name="email" type="email" autocomplete="email" required>
++        </div>
++        <div class="campo">
++          <label for="telefono">Telefono <span class="facoltativo">(facoltativo)</span></label>
++          <input id="telefono" name="telefono" type="tel" autocomplete="tel" aria-describedby="nota-telefono">
++          <p class="nota" id="nota-telefono">Se preferisci essere richiamato.</p>
++        </div>
++        <div class="campo">
++          <label for="indirizzo">Indirizzo del condominio</label>
++          <input id="indirizzo" name="indirizzo" type="text" autocomplete="street-address" required>
++        </div>
++        <div class="campo">
++          <label for="unita">Numero di unità <span class="facoltativo">(facoltativo)</span></label>
++          <input id="unita" name="unita" type="number" inputmode="numeric" min="1" aria-describedby="nota-unita">
++          <p class="nota" id="nota-unita">Anche indicativo: ci aiuta a preparare il sopralluogo.</p>
++        </div>
++        <p class="privacy">Usiamo questi dati solo per rispondere alla richiesta. <a class="da-confermare" href="#privacy">Informativa privacy</a></p>
++        <div class="scelta">
++          <input id="newsletter" name="newsletter" type="checkbox">
++          <label for="newsletter">Voglio ricevere anche la newsletter <span class="facoltativo">(facoltativo)</span></label>
++        </div>
++        <div><button class="azione" type="submit">Invia la richiesta</button></div>
++      </form>
++    </div>
++  </section>
++</main>
++
++<footer id="contatti">
++  <div class="contenitore">
++    <h2>Contatti</h2>
++    <address>
++      <span>Telefono: <span class="da-confermare">numero</span></span>
++      <span>Email: <span class="da-confermare">indirizzo email</span></span>
++      <span>Sede: <span class="da-confermare">indirizzo</span></span>
++    </address>
++  </div>
++</footer>
++</body>
++</html>
+diff -ruN /home/codecip/projects/magiaslab/magias-ui-protocol/repo/validation/fixtures/scenari/E12/materiale/home.originale.html /tmp/tmp.Isk6AN1fOq/E12/materiale/home.originale.html
+--- /home/codecip/projects/magiaslab/magias-ui-protocol/repo/validation/fixtures/scenari/E12/materiale/home.originale.html	1970-01-01 01:00:00.000000000 +0100
++++ /tmp/tmp.Isk6AN1fOq/E12/materiale/home.originale.html	2026-10-22 06:45:24.100068478 +0200
+@@ -0,0 +1,9 @@
++<!doctype html><html lang="it"><head><meta charset="utf-8"><title>Studio Energia Esempio</title></head><body>
++<header><strong>Studio Energia Esempio</strong><nav><a href="#servizi">Servizi</a><a href="#casi">Casi</a><a href="#contatti">Contatti</a></nav><a href="#sopralluogo">Richiedi sopralluogo</a></header>
++<section class="hero"><h1>RIQUALIFICHIAMO IL TUO CONDOMINIO!!!</h1><p>Risparmio garantito fino al 70%* con i migliori incentivi del mercato</p><a href="#sopralluogo">SCOPRI DI PIÙ</a><a href="#casi">GUARDA I CASI</a><a href="#contatti">CHIAMACI</a></section>
++<section id="numeri"><div>+250 condomini</div><div>+12.000 famiglie</div><div>98% clienti soddisfatti</div><div>100% professionalità</div></section>
++<section id="servizi"><h2>Servizi</h2><div class="card">Diagnosi energetica</div><div class="card">Cappotto termico</div><div class="card">Impianti</div><div class="card">Pratiche incentivi</div><div class="card">Assistenza assemblee</div><div class="card">Monitoraggio consumi</div></section>
++<section id="casi"><h2>Casi</h2><div class="slider autoplay">Via Roma 12 · Viale dei Pini 4 · Piazza Centrale 7</div></section>
++<section id="sopralluogo"><h2>Richiedi un sopralluogo gratuito</h2><form><input placeholder="Nome"><input placeholder="Email"><input placeholder="Telefono"><input placeholder="Indirizzo condominio"><input placeholder="Numero unità"><select><option>Come ci hai conosciuto?</option></select><label><input type="checkbox" checked> Accetto privacy e newsletter</label><button>INVIA</button></form></section>
++<p><small>*risparmio massimo osservato su un caso</small></p>
++</body></html>

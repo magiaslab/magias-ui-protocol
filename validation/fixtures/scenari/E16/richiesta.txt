@@ -1,0 +1,1 @@
+/magias-ui Usa Review Mode. Controlla come il sito passa gli ospiti al motore di prenotazione. Materiale in materiale/: contesto.md, i tre file che costruiscono i link e la nota del motore.

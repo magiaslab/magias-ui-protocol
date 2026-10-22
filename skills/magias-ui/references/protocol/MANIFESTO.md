@@ -1,6 +1,6 @@
 # Manifesto
 
-Magias UI Protocol · v0.2
+Magias UI Protocol · v0.3
 
 1. Partire dal compito e preservare la scelta informata.
 2. Accessibilità, verità, integrità e controllo fanno parte del progetto.

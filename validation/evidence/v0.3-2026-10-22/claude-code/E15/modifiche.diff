@@ -1,0 +1,60 @@
+diff -ruN /home/codecip/projects/magiaslab/magias-ui-protocol/repo/validation/fixtures/scenari/E15/materiale/BarraPrenota.tsx /tmp/tmp.Isk6AN1fOq/E15/materiale/BarraPrenota.tsx
+--- /home/codecip/projects/magiaslab/magias-ui-protocol/repo/validation/fixtures/scenari/E15/materiale/BarraPrenota.tsx	2026-10-22 06:30:28.530716791 +0200
++++ /tmp/tmp.Isk6AN1fOq/E15/materiale/BarraPrenota.tsx	2026-10-22 06:36:19.198399693 +0200
+@@ -1,5 +1,5 @@
+ 'use client'
+-import { useState } from 'react'
++import { useState, type FormEvent } from 'react'
+ import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
+ import { Calendar } from '@/components/ui/calendar'
+ import { Button } from '@/components/ui/button'
+@@ -13,16 +13,37 @@
+   const [adulti, setAdulti] = useState(2)
+   const [bambini, setBambini] = useState(0)
+   const [aperto, setAperto] = useState(false)
++  const [avviso, setAvviso] = useState('')
+   const totale = adulti + bambini
+   const pronto = !!date.from && !!date.to
++  // Il calendario accetta arrivo e partenza nello stesso giorno: il motore no.
++  const notti = pronto ? Math.round((date.to!.getTime() - date.from!.getTime()) / 86400000) : 0
++
++  function cerca(e: FormEvent) {
++    e.preventDefault()
++    if (notti < 1) {
++      setAvviso(!date.from ? 'Scegli le date di arrivo e partenza.' : !date.to ? 'Scegli la data di partenza.' : 'La partenza deve essere almeno una notte dopo l’arrivo.')
++      setAperto(true)
++      return
++    }
++    setAvviso('')
++    const url = linkMotore({ ...date, adulti, bambini })
++    // Se il browser blocca la nuova scheda (in-app browser, blocco popup) il motore si apre nella stessa.
++    const scheda = window.open(url, '_blank')
++    if (scheda) scheda.opener = null
++    else window.location.assign(url)
++  }
+ 
+   return (
+-    <form className="flex items-end gap-3" onSubmit={(e) => { e.preventDefault(); window.open(linkMotore({ ...date, adulti, bambini }), '_blank') }}>
++    <form className="flex items-end gap-3" onSubmit={cerca}>
+       <Popover open={aperto} onOpenChange={setAperto}>
+         <PopoverTrigger asChild>
+           <Button variant="outline" type="button">{pronto ? `${date.from!.toLocaleDateString('it')} – ${date.to!.toLocaleDateString('it')}` : 'Date'}</Button>
+         </PopoverTrigger>
+-        <PopoverContent><Calendar mode="range" numberOfMonths={2} selected={date as any} onSelect={(r: any) => setDate(r ?? {})} /></PopoverContent>
++        <PopoverContent>
++          {avviso && <p>{avviso}</p>}
++          <Calendar mode="range" numberOfMonths={2} selected={date as any} onSelect={(r: any) => { setDate(r ?? {}); setAvviso('') }} />
++        </PopoverContent>
+       </Popover>
+       <div>
+         <span>Adulti</span>
+@@ -36,7 +57,8 @@
+         <span>{bambini}</span>
+         <Button type="button" size="icon" onClick={() => setBambini(bambini + 1)} disabled={totale >= MAX}>+</Button>
+       </div>
+-      <Button type="submit" disabled={!pronto}>Cerca</Button>
++      <Button type="submit">Cerca<span className="sr-only"> (si apre in una nuova scheda)</span></Button>
++      <p role="status" className="sr-only">{avviso}</p>
+     </form>
+   )
+ }

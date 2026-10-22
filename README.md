@@ -4,7 +4,7 @@
 
 Un protocollo e una skill per progettare, revisionare e correggere interfacce web con agenti AI, preservando identità, accessibilità e compiti delle persone.
 
-**Beta 0.1.0-beta.1 · nucleo regole v0.2 · licenza MIT.** La skill è indipendente dal framework e usa le capacità disponibili nell’ambiente. I 12 scenari di prova sono superati in Claude Code; in Codex 11 su 12; le altre prove restano dichiarate nello [stato di validazione](validation/RESULTS.md).
+**Beta 0.1.0-beta.1 · nucleo regole v0.3 in preparazione (rilasciato: v0.2) · licenza MIT.** La skill è indipendente dal framework e usa le capacità disponibili nell’ambiente. I 12 scenari di prova sono superati in Claude Code; in Codex 11 su 12; le altre prove restano dichiarate nello [stato di validazione](validation/RESULTS.md).
 
 ## La filosofia di partenza: iki
 
@@ -55,8 +55,11 @@ Un audit completo può contenere FAIL. Una specifica pronta non dimostra il funz
 
 ## Cosa contiene
 
-- **77 regole** con ID, forza MUST/SHOULD/MAY, ambito, eccezioni, metodo di verifica e livello di automazione.
+- **117 regole** con ID, forza MUST/SHOULD/MAY, ambito, eccezioni, metodo di verifica e livello di automazione: 77 del nucleo v0.2, invariate, e 40 nuove della v0.3 ([migrazione](docs/MIGRATION-0.3.md)).
 - Moduli per principi, layout, tipografia, movimento, CRO e accessibilità.
+- Modulo **movimento ricco e 3D**: livelli di movimento da 0 a 3, garanzie valide a ogni livello, regole per GSAP, scroll fluido e WebGL quando il progetto li usa.
+- Modulo **prestazioni** con soglie Core Web Vitals.
+- Profili **generico** e **ospitalità**, da dichiarare nel contesto di progetto.
 - Contratto del movimento con pausa manuale, sospensione durante un compito, preferenza ridotta e condizioni di ripresa.
 - Template per contesto, decisioni, audit e registro WCAG 2.2 A/AA.
 - Scenari anonimi e prove osservate, separati dai risultati attesi.

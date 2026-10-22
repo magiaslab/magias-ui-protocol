@@ -41,7 +41,7 @@ def validate():
     data = json.loads((proto / "rules.json").read_text())
     rules = data["rules"]
     require(len(rules) == len({r["id"] for r in rules}), "Duplicate rule IDs")
-    require(len(rules) == 77 and data["protocol_version"] == "0.2", "Unexpected protocol version/coverage")
+    require(len(rules) == 117 and data["protocol_version"] == "0.3", "Unexpected protocol version/coverage")
     with (proto / "RULE-MATRIX.csv").open(newline="") as handle:
         rows = list(csv.DictReader(handle))
     require(len(rows) == len(rules) and {r["id"] for r in rows} == {r["id"] for r in rules}, "Matrix coverage mismatch")
@@ -64,7 +64,7 @@ def validate():
             target = (path.parent / href.split("#")[0]).resolve()
             require(target.is_relative_to(ROOT), "Link escapes package: " + href)
             require(target.exists(), "Broken link in " + str(path.relative_to(ROOT)) + ": " + href)
-    print("PASS: metadata, license, 77 rules, matrix, modules and local links")
+    print("PASS: metadata, license, 117 rules, matrix, modules and local links")
 
 if __name__ == "__main__":
     validate()

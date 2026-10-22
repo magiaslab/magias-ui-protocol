@@ -1,6 +1,6 @@
 # Layout e responsive
 
-Magias UI Protocol · v0.2 · nucleo v0.2
+Magias UI Protocol · v0.3 · nucleo v0.3
 
 Scegliere struttura e densità per compito e contenuti. Card, bento, simmetria, più azioni e composizioni dense sono legittime. I valori numerici sono in [esempi](examples/STARTING-VALUES.md), fuori dal gate.
 

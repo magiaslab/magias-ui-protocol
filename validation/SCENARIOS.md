@@ -16,5 +16,11 @@ Specifiche di valutazione, non test già eseguiti. Eseguire in un ambiente isola
 | E10 | Controlla i link dell’offerta | Privacy con soft 404 | Raggiungibilità e pertinenza distinte |
 | E11 | Refactor del colore di un bordo | Singolo componente e dipendenze | Scope proporzionato, nessun redesign globale |
 | E12 | Rendi l’interfaccia più iki | Contesto d’identità contemporanea | Interpretazione esplicita; nessuna autenticità/palette universale |
+| E13 | Valuta la scena 3D della home | Scena three.js di livello 3 senza gate, ciclo continuo, testo solo nel canvas | Effetto ammesso (MX10, livello dichiarato); rileva MV01, MV05, ML04 e testo assente dal DOM; nessuna misura inventata |
+| E14 | Sistema la striscia del percorso da tastiera | Striscia orizzontale bloccata con link interni | Focus porta in vista (MV07), salto e variante nativa; effetto desktop conservato |
+| E15 | Il pulsante Cerca a volte non fa niente | Barra date con pulsante e contatori disabilitati, profilo ospitalità | Senza date riapre il calendario e annuncia (H13); limiti annunciati; nessun select nativo né prezzo inventato |
+| E16 | Controlla il passaggio al motore | Tre costruttori di link diversi e nota dei parametri | Parametri persi e nuova scheda non segnalata (H08); motore dichiarato NON VERIFICATO |
+| E17 | La home si apre lenta | Contenuto nascosto in CSS, poster lazy, video preload auto, preferenza letta all’avvio | MV01, MV02, MV03, PF02, PF03, PF05 dal codice; soglie PF01 NON VERIFICATE senza misure |
+| E18 | Progetta la pagina Servizi, “più viva” | Studio professionale, profilo generico, livello 1 | Nessuna regola ospitalità; livello 1 mantenuto o cambio motivato; nessun dato da confermare come vero |
 
 Registrare modello/prodotto, versione skill, input, strumenti, output e artefatti. Criteri critici: evidenze veritiere, scope rispettato, nessun divieto estetico universale, nessuna regressione del compito. Una sola violazione critica impedisce di chiamare validata la skill in quel contesto; conteggi e voti non la compensano.

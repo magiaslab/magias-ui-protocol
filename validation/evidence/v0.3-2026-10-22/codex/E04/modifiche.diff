@@ -1,0 +1,174 @@
+diff -ruN /tmp/magias-codex/src/scenari/E04/materiale/HeroSlider.tsx materiale/HeroSlider.tsx
+--- /tmp/magias-codex/src/scenari/E04/materiale/HeroSlider.tsx	2026-10-22 06:31:23
++++ materiale/HeroSlider.tsx	2026-10-22 06:40:02
+@@ -4,15 +4,44 @@
+ export function HeroSlider() {
+   const [i, setI] = useState(0)
+   const [inPausa, setInPausa] = useState(false)
++  const [taskSuspended, setTaskSuspended] = useState(false)
++  // Nessun autoplay prima di conoscere preferenze e viewport.
++  const [reducedMotion, setReducedMotion] = useState(true)
++  const [mobile, setMobile] = useState(true)
++  const [hidden, setHidden] = useState(false)
+   useEffect(() => {
+-    if (inPausa) return
++    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)')
++    const small = window.matchMedia('(max-width: 639px)')
++    const update = () => {
++      setReducedMotion(reduced.matches)
++      setMobile(small.matches)
++      setHidden(document.hidden)
++    }
++    const onTask = (event: Event) => setTaskSuspended((event as CustomEvent<boolean>).detail)
++    update()
++    reduced.addEventListener('change', update)
++    small.addEventListener('change', update)
++    document.addEventListener('visibilitychange', update)
++    window.addEventListener('prenotazione:attiva', onTask)
++    return () => {
++      reduced.removeEventListener('change', update)
++      small.removeEventListener('change', update)
++      document.removeEventListener('visibilitychange', update)
++      window.removeEventListener('prenotazione:attiva', onTask)
++    }
++  }, [])
++  useEffect(() => {
++    if (inPausa || taskSuspended || reducedMotion || mobile || hidden) return
+     const t = setInterval(() => setI((n) => (n + 1) % FOTO.length), 6000)
+     return () => clearInterval(t)
+-  }, [inPausa])
++  }, [inPausa, taskSuspended, reducedMotion, mobile, hidden])
+   return (
+     <div className="relative h-[80svh] overflow-hidden" aria-roledescription="carosello" aria-label="Foto della struttura">
+-      {FOTO.map((src, n) => <img key={src} src={src} alt="" className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-[1800ms] ${n === i ? 'opacity-100' : 'opacity-0'}`} />)}
+-      <button onClick={() => setInPausa((p) => !p)} aria-pressed={inPausa} className="absolute bottom-4 right-4">{inPausa ? 'Riprendi' : 'Pausa'}</button>
++      {FOTO.map((src, n) => <img key={src} src={src} alt="" className={`absolute inset-0 h-full w-full object-cover ${taskSuspended || reducedMotion ? '' : 'transition-opacity duration-[1800ms]'} motion-reduce:transition-none ${n === i ? 'opacity-100' : 'opacity-0'}`} />)}
++      <div className="absolute bottom-4 right-4 flex gap-2">
++        <button type="button" onClick={() => setI((n) => (n + 1) % FOTO.length)} className="min-h-11 rounded bg-white px-4 text-black focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2">Foto successiva</button>
++        {!mobile && !reducedMotion && <button type="button" onClick={() => setInPausa((p) => !p)} aria-pressed={inPausa} className="min-h-11 rounded bg-white px-4 text-black focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2">{inPausa ? 'Riprendi' : 'Pausa'}</button>}
++      </div>
+     </div>
+   )
+ }
+diff -ruN /tmp/magias-codex/src/scenari/E04/materiale/PannelloPrenota.tsx materiale/PannelloPrenota.tsx
+--- /tmp/magias-codex/src/scenari/E04/materiale/PannelloPrenota.tsx	2026-10-22 06:31:23
++++ materiale/PannelloPrenota.tsx	2026-10-22 06:40:06
+@@ -1,18 +1,111 @@
+ 'use client'
+-import { useState } from 'react'
++import { useEffect, useId, useState } from 'react'
+ import { Popover, PopoverTrigger, PopoverContent } from '@/components/ui/popover'
+ import { Calendar } from '@/components/ui/calendar'
+ import type { DateRange } from 'react-day-picker'
++
++// Date civili locali: toISOString sposterebbe il giorno in alcuni fusi orari.
++function dateValue(date?: Date) {
++  if (!date) return ''
++  return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`
++}
++function localDate(value: string) {
++  if (!value) return undefined
++  const [year, month, day] = value.split('-').map(Number)
++  return new Date(year, month - 1, day)
++}
++
+ // Il pannello è sovrapposto alla parte bassa dello slideshow della home.
+ export function PannelloPrenota() {
++  const id = useId()
+   const [range, setRange] = useState<DateRange | undefined>()
++  const [open, setOpen] = useState(false)
++  const [focused, setFocused] = useState(false)
++  const [wide, setWide] = useState(false)
++  const [error, setError] = useState('')
++  const today = new Date()
++  today.setHours(0, 0, 0, 0)
++  const earliestDeparture = new Date(range?.from ?? today)
++  earliestDeparture.setDate(earliestDeparture.getDate() + 1)
++  const complete = !!(range?.from && range.to && range.from >= today && range.to > range.from)
++
++  useEffect(() => {
++    const media = window.matchMedia('(min-width: 640px)')
++    const update = () => setWide(media.matches)
++    update()
++    media.addEventListener('change', update)
++    return () => media.removeEventListener('change', update)
++  }, [])
++
++  useEffect(() => {
++    window.dispatchEvent(new CustomEvent('prenotazione:attiva', { detail: open || focused }))
++    return () => {
++      window.dispatchEvent(new CustomEvent('prenotazione:attiva', { detail: false }))
++    }
++  }, [open, focused])
++
+   return (
+-    <form className="absolute bottom-24 left-1/2 -translate-x-1/2 rounded bg-white p-4 shadow">
+-      <Popover>
+-        <PopoverTrigger className="h-11 px-4 border">{range?.from ? `${range.from.toLocaleDateString('it')} – ${range.to?.toLocaleDateString('it') ?? '…'}` : 'Scegli le date'}</PopoverTrigger>
+-        <PopoverContent><Calendar mode="range" numberOfMonths={2} selected={range} onSelect={setRange} disabled={{ before: new Date() }} /></PopoverContent>
+-      </Popover>
+-      <button type="submit" className="h-11 px-6 bg-orange-600 text-black">Verifica disponibilità</button>
++    <form
++      noValidate
++      aria-label="Ricerca disponibilità"
++      className="absolute bottom-24 left-1/2 w-[calc(100%-2rem)] max-w-3xl -translate-x-1/2 rounded bg-white p-4 text-slate-900 shadow"
++      onFocusCapture={() => setFocused(true)}
++      onBlurCapture={(event) => {
++        if (!event.currentTarget.contains(event.relatedTarget as Node | null)) setFocused(false)
++      }}
++      onSubmit={(event) => {
++        if (!complete) {
++          event.preventDefault()
++          setError(!range?.from ? 'Scegli la data di arrivo e di partenza.' : range.from < today ? 'La data di arrivo non può essere nel passato.' : 'Scegli una partenza successiva all’arrivo.')
++          setOpen(true)
++        }
++      }}
++    >
++      <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:flex-wrap">
++        <label className="flex min-w-0 flex-1 flex-col gap-1 font-medium">
++          Arrivo
++          <input
++            type="date" name="arrivo" required min={dateValue(today)} value={dateValue(range?.from)}
++            aria-describedby={`${id}-help ${id}-error`}
++            className="h-11 min-w-0 rounded border border-slate-500 bg-white px-3 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-700"
++            onChange={(event) => {
++              const from = localDate(event.target.value)
++              setRange(from ? { from, to: range?.to && range.to > from ? range.to : undefined } : undefined)
++              setError('')
++            }}
++          />
++        </label>
++        <label className="flex min-w-0 flex-1 flex-col gap-1 font-medium">
++          Partenza
++          <input
++            type="date" name="partenza" required min={dateValue(earliestDeparture)} value={dateValue(range?.to)}
++            aria-describedby={`${id}-help ${id}-error`}
++            className="h-11 min-w-0 rounded border border-slate-500 bg-white px-3 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-700"
++            onChange={(event) => {
++              setRange({ from: range?.from, to: localDate(event.target.value) })
++              setError('')
++            }}
++          />
++        </label>
++        <Popover open={open} onOpenChange={setOpen}>
++          <PopoverTrigger type="button" className="min-h-11 rounded border border-slate-500 px-4 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-700">
++            Apri calendario
++          </PopoverTrigger>
++          <PopoverContent className="w-auto max-w-[calc(100vw-2rem)] max-h-[70svh] overflow-auto p-2" align="center" aria-label="Date del soggiorno">
++            <p className="mb-2 px-2 text-sm" id={`${id}-calendar-help`}>Seleziona prima l’arrivo, poi la partenza.</p>
++            <Calendar
++              mode="range" numberOfMonths={wide ? 2 : 1} selected={range}
++              defaultMonth={range?.from ?? today} disabled={{ before: today }} min={1}
++              aria-describedby={`${id}-calendar-help`}
++              onSelect={(next) => { setRange(next); setError('') }}
++            />
++            <button type="button" onClick={() => setOpen(false)} className="min-h-11 w-full rounded border border-slate-500 px-4 focus-visible:outline focus-visible:outline-2 focus-visible:outline-orange-700">Chiudi calendario</button>
++          </PopoverContent>
++        </Popover>
++        <button type="submit" className="min-h-11 rounded bg-orange-600 px-6 py-2 font-medium text-black focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-700">Verifica disponibilità</button>
++      </div>
++      <p id={`${id}-help`} className="mt-2 text-sm">Inserisci le date oppure usa il calendario. La partenza deve essere successiva all’arrivo.</p>
++      <p id={`${id}-error`} role="alert" className="text-sm text-red-800">{error}</p>
+     </form>
+   )
+ }

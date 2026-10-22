@@ -4,7 +4,7 @@
 
 A protocol and skill for AI-assisted web interface design, review and refactoring, preserving identity, accessibility and people’s tasks.
 
-**Beta 0.1.0-beta.1 · rule core v0.2 · MIT license.** The skill is framework-independent and works with the capabilities available in its environment. All 12 trial scenarios pass in Claude Code and 11 of 12 in Codex; remaining checks are declared in the [validation record](validation/RESULTS.md).
+**Beta 0.1.0-beta.1 · rule core v0.3 in preparation (released: v0.2) · MIT license.** The skill is framework-independent and works with the capabilities available in its environment. All 12 trial scenarios pass in Claude Code and 11 of 12 in Codex; remaining checks are declared in the [validation record](validation/RESULTS.md).
 
 ## The starting philosophy: iki
 
@@ -34,8 +34,11 @@ A complete audit may contain FAIL results. A ready specification does not prove 
 
 ## What is included
 
-- 77 rules with IDs, MUST/SHOULD/MAY strength, scope, exceptions, verification methods and automation levels.
+- 117 rules with IDs, MUST/SHOULD/MAY strength, scope, exceptions, verification methods and automation levels: the 77 v0.2 core rules, unchanged, plus 40 new v0.3 rules ([migration notes, Italian](docs/MIGRATION-0.3.md)).
 - Principles, layout, typography, motion, CRO and accessibility modules.
+- A rich motion and 3D module: motion levels 0–3, guarantees that hold at every level, and rules for GSAP, smooth scrolling and WebGL when a project uses them.
+- A performance module with Core Web Vitals thresholds.
+- Generic and hospitality profiles, declared in the project context.
 - A motion contract covering manual pause, task suspension, reduced-motion preferences and resumption.
 - Context, decision, audit and WCAG 2.2 A/AA register templates.
 - Anonymous scenarios and recorded observations, separate from expected results.

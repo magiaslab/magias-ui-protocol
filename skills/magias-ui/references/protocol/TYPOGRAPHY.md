@@ -1,6 +1,6 @@
 # Tipografia
 
-Magias UI Protocol · v0.2 · nucleo v0.2
+Magias UI Protocol · v0.3 · nucleo v0.3
 
 La leggibilità è un risultato da verificare; scala, numero di font, maiuscolo e unità CSS sono mezzi contestuali. I font utilizzati devono avere diritti compatibili con l’uso: requisito distinto T02.a, esplicitato sotto. [Esempi](examples/STARTING-VALUES.md).
 

@@ -1,4 +1,4 @@
-# Report di review v0.2
+# Report di review v0.3
 
 Modalità, gate, versione, scope, revisione materiale, data e revisore: [...].
 Esito: specifica pronta / audit completo / modifica verificata / da correggere / gate aperto.

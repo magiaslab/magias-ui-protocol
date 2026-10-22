@@ -1,0 +1,194 @@
+diff -ruN /home/codecip/projects/magiaslab/magias-ui-protocol/repo/validation/fixtures/scenari/E04/materiale/HeroSlider.tsx /tmp/tmp.Isk6AN1fOq/E04/materiale/HeroSlider.tsx
+--- /home/codecip/projects/magiaslab/magias-ui-protocol/repo/validation/fixtures/scenari/E04/materiale/HeroSlider.tsx	2026-10-21 22:40:31.191872813 +0200
++++ /tmp/tmp.Isk6AN1fOq/E04/materiale/HeroSlider.tsx	2026-10-22 06:43:11.091203802 +0200
+@@ -1,18 +1,85 @@
+ 'use client'
+-import { useEffect, useState } from 'react'
++import { useEffect, useRef, useState, useSyncExternalStore } from 'react'
+ const FOTO = ['/f/1.webp', '/f/2.webp', '/f/3.webp', '/f/4.webp']
++
++export function useMediaQuery(query: string) {
++  return useSyncExternalStore(
++    (notifica) => {
++      const mq = window.matchMedia(query)
++      mq.addEventListener('change', notifica)
++      return () => mq.removeEventListener('change', notifica)
++    },
++    () => window.matchMedia(query).matches,
++    () => false,
++  )
++}
++
++// task_suspension: i compiti nella stessa vista (es. scelta date) fermano lo slideshow
++// finché sono attivi, senza toccare la pausa manuale della persona.
++const compitiAttivi = new Set<string>()
++const ascoltatori = new Set<() => void>()
++function notificaCompiti() {
++  ascoltatori.forEach((a) => a())
++}
++export function useSospensioneSlider(motivo: string, attiva: boolean) {
++  useEffect(() => {
++    if (!attiva) return
++    compitiAttivi.add(motivo)
++    notificaCompiti()
++    return () => {
++      compitiAttivi.delete(motivo)
++      notificaCompiti()
++    }
++  }, [motivo, attiva])
++}
++function useCompitoInCorso() {
++  return useSyncExternalStore(
++    (a) => {
++      ascoltatori.add(a)
++      return () => ascoltatori.delete(a)
++    },
++    () => compitiAttivi.size > 0,
++    () => false,
++  )
++}
++
+ export function HeroSlider() {
+   const [i, setI] = useState(0)
+   const [inPausa, setInPausa] = useState(false)
++  const [fuoriVista, setFuoriVista] = useState(false)
++  const compitoInCorso = useCompitoInCorso()
++  const movimentoRidotto = useMediaQuery('(prefers-reduced-motion: reduce)')
++  const ref = useRef<HTMLDivElement>(null)
++
++  useEffect(() => {
++    const el = ref.current
++    if (!el) return
++    let visibile = true
++    const aggiorna = () => setFuoriVista(!visibile || document.hidden)
++    const io = new IntersectionObserver(([voce]) => {
++      visibile = voce.isIntersecting
++      aggiorna()
++    })
++    io.observe(el)
++    document.addEventListener('visibilitychange', aggiorna)
++    return () => {
++      io.disconnect()
++      document.removeEventListener('visibilitychange', aggiorna)
++    }
++  }, [])
++
++  // resume_policy: riparte solo quando nessun motivo di arresto è attivo; la pausa manuale resta finché la persona non sceglie "Riprendi".
++  const fermo = inPausa || compitoInCorso || movimentoRidotto || fuoriVista
+   useEffect(() => {
+-    if (inPausa) return
++    if (fermo) return
+     const t = setInterval(() => setI((n) => (n + 1) % FOTO.length), 6000)
+     return () => clearInterval(t)
+-  }, [inPausa])
++  }, [fermo])
++
+   return (
+-    <div className="relative h-[80svh] overflow-hidden" aria-roledescription="carosello" aria-label="Foto della struttura">
+-      {FOTO.map((src, n) => <img key={src} src={src} alt="" className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-[1800ms] ${n === i ? 'opacity-100' : 'opacity-0'}`} />)}
+-      <button onClick={() => setInPausa((p) => !p)} aria-pressed={inPausa} className="absolute bottom-4 right-4">{inPausa ? 'Riprendi' : 'Pausa'}</button>
++    <div ref={ref} className="relative h-[80svh] overflow-hidden" aria-roledescription="carosello" aria-label="Foto della struttura">
++      {FOTO.map((src, n) => <img key={src} src={src} alt="" className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-[1800ms] motion-reduce:transition-none ${n === i ? 'opacity-100' : 'opacity-0'}`} />)}
++      {!movimentoRidotto && <button onClick={() => setInPausa((p) => !p)} aria-pressed={inPausa} className="absolute bottom-4 right-4">{inPausa ? 'Riprendi' : 'Pausa'}</button>}
+     </div>
+   )
+ }
+diff -ruN /home/codecip/projects/magiaslab/magias-ui-protocol/repo/validation/fixtures/scenari/E04/materiale/PannelloPrenota.tsx /tmp/tmp.Isk6AN1fOq/E04/materiale/PannelloPrenota.tsx
+--- /home/codecip/projects/magiaslab/magias-ui-protocol/repo/validation/fixtures/scenari/E04/materiale/PannelloPrenota.tsx	2026-10-21 22:40:31.191911494 +0200
++++ /tmp/tmp.Isk6AN1fOq/E04/materiale/PannelloPrenota.tsx	2026-10-22 06:43:44.637269283 +0200
+@@ -1,18 +1,89 @@
+ 'use client'
+-import { useState } from 'react'
++import { useId, useState, type FormEvent } from 'react'
++import { it } from 'date-fns/locale'
+ import { Popover, PopoverTrigger, PopoverContent } from '@/components/ui/popover'
+ import { Calendar } from '@/components/ui/calendar'
+ import type { DateRange } from 'react-day-picker'
++import { useMediaQuery, useSospensioneSlider } from './HeroSlider'
++
++const formatoData = new Intl.DateTimeFormat('it-IT', { weekday: 'short', day: 'numeric', month: 'short' })
++// Data locale in formato AAAA-MM-GG (toISOString sposterebbe il giorno per il fuso orario).
++const isoLocale = (d: Date) => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`
++const notti = (r: DateRange) => (r.from && r.to ? Math.round((Date.UTC(r.to.getFullYear(), r.to.getMonth(), r.to.getDate()) - Date.UTC(r.from.getFullYear(), r.from.getMonth(), r.from.getDate())) / 86400000) : 0)
++
+ // Il pannello è sovrapposto alla parte bassa dello slideshow della home.
+ export function PannelloPrenota() {
+   const [range, setRange] = useState<DateRange | undefined>()
++  const [aperto, setAperto] = useState(false)
++  const [focusDentro, setFocusDentro] = useState(false)
++  const [errore, setErrore] = useState(false)
++  const dueMesi = useMediaQuery('(min-width: 640px)')
++  const idErrore = useId()
++  // Mentre si scelgono le date lo slideshow dietro il pannello resta fermo.
++  useSospensioneSlider('prenotazione', aperto || focusDentro)
++
++  const n = range ? notti(range) : 0
++  const completo = n > 0
++
++  function seleziona(r: DateRange | undefined) {
++    setRange(r)
++    if (r && notti(r) > 0) {
++      setErrore(false)
++      setAperto(false)
++    }
++  }
++
++  function invia(e: FormEvent<HTMLFormElement>) {
++    if (completo) return
++    e.preventDefault()
++    setErrore(true)
++    setAperto(true)
++  }
++
+   return (
+-    <form className="absolute bottom-24 left-1/2 -translate-x-1/2 rounded bg-white p-4 shadow">
+-      <Popover>
+-        <PopoverTrigger className="h-11 px-4 border">{range?.from ? `${range.from.toLocaleDateString('it')} – ${range.to?.toLocaleDateString('it') ?? '…'}` : 'Scegli le date'}</PopoverTrigger>
+-        <PopoverContent><Calendar mode="range" numberOfMonths={2} selected={range} onSelect={setRange} disabled={{ before: new Date() }} /></PopoverContent>
++    <form
++      onSubmit={invia}
++      onFocus={() => setFocusDentro(true)}
++      onBlur={(e) => { if (!e.currentTarget.contains(e.relatedTarget as Node | null)) setFocusDentro(false) }}
++      className="absolute bottom-24 left-1/2 flex w-[calc(100%-2rem)] max-w-xl -translate-x-1/2 flex-col gap-3 rounded bg-white p-4 shadow sm:flex-row sm:flex-wrap sm:items-stretch"
++    >
++      <Popover open={aperto} onOpenChange={setAperto}>
++        <PopoverTrigger
++          aria-describedby={errore ? idErrore : undefined}
++          className="flex min-h-11 flex-1 flex-col items-start justify-center border border-neutral-500 px-4 py-1 text-left"
++        >
++          <span className="text-xs text-neutral-700">Arrivo – partenza</span>
++          <span className="tabular-nums">
++            {range?.from
++              ? `${formatoData.format(range.from)} – ${completo && range.to ? `${formatoData.format(range.to)} · ${n} ${n === 1 ? 'notte' : 'notti'}` : 'scegli la partenza'}`
++              : 'Scegli le date'}
++          </span>
++        </PopoverTrigger>
++        <PopoverContent className="w-auto p-0" align="start">
++          <Calendar
++            mode="range"
++            locale={it}
++            min={1}
++            numberOfMonths={dueMesi ? 2 : 1}
++            defaultMonth={range?.from}
++            selected={range}
++            onSelect={seleziona}
++            disabled={{ before: new Date() }}
++          />
++        </PopoverContent>
+       </Popover>
+-      <button type="submit" className="h-11 px-6 bg-orange-600 text-black">Verifica disponibilità</button>
++      {completo && range?.from && range.to && (
++        <>
++          <input type="hidden" name="arrivo" value={isoLocale(range.from)} />
++          <input type="hidden" name="partenza" value={isoLocale(range.to)} />
++        </>
++      )}
++      <button type="submit" className="min-h-11 px-6 bg-orange-600 text-black">Verifica disponibilità</button>
++      {errore && !completo && (
++        <p id={idErrore} role="alert" className="text-sm text-red-700 sm:basis-full">
++          Scegli la data di arrivo e quella di partenza.
++        </p>
++      )}
+     </form>
+   )
+ }

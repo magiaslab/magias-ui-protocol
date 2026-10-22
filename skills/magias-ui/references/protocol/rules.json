@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "protocol_version": "0.2",
+  "protocol_version": "0.3",
   "status": "private-documentary-candidate",
   "rules": [
     {
@@ -1960,6 +1960,940 @@
       ],
       "aliases": [],
       "dependencies": []
+    },
+    {
+      "id": "MV00",
+      "version": "0.3",
+      "strength": "SHOULD",
+      "assertion": "Dichiarare nel contesto di progetto il livello di movimento (0 Fermo, 1 Editoriale, 2 Ricco, 3 Immersivo) e motivare le pagine che se ne discostano.",
+      "scope": "Progetto e pagine",
+      "exceptions": "Pagine con fasi diverse possono avere livelli diversi; il livello non è un obiettivo da raggiungere",
+      "method": "Contesto compilato e confronto fra livello dichiarato ed effetti presenti",
+      "automation": "H",
+      "origin": "Magias heuristic/option",
+      "source": "MOTION-3D.md",
+      "previous": null,
+      "change": "Livelli di movimento per progetto, al posto di una scelta effetto per effetto",
+      "modes": [
+        "Design",
+        "Review",
+        "Refactor"
+      ],
+      "aliases": [],
+      "dependencies": []
+    },
+    {
+      "id": "MV01",
+      "version": "0.3",
+      "strength": "MUST",
+      "assertion": "Con preferenza di movimento ridotto non caricare né avviare le librerie di movimento non necessarie e mostrare lo stato finale o il fallback; ascoltare il cambio di preferenza mentre la pagina è aperta.",
+      "scope": "Livelli 1–3",
+      "exceptions": "Movimento essenziale con alternativa; transizioni brevi di stato ammesse",
+      "method": "Preferenza attiva prima del caricamento e cambiata a pagina aperta: richieste di rete, loop fermi, contenuti completi",
+      "automation": "S",
+      "origin": "Magias policy",
+      "source": "MOTION-3D.md",
+      "previous": null,
+      "change": "La preferenza letta solo all'avvio lasciava attivi scroll fluido e loop",
+      "modes": [
+        "Design",
+        "Review",
+        "Refactor"
+      ],
+      "aliases": [],
+      "dependencies": [
+        "M04",
+        "MX04"
+      ]
+    },
+    {
+      "id": "MV02",
+      "version": "0.3",
+      "strength": "MUST",
+      "assertion": "Senza script o con script fallito la pagina resta completa: lo stato iniziale nascosto di un effetto lo imposta lo script, non il CSS di partenza.",
+      "scope": "Contenuti con effetti d'ingresso",
+      "exceptions": "Applicazioni che dichiarano la dipendenza da JavaScript e il loro degrado",
+      "method": "Pagina con JavaScript disattivato o bloccato e con errore nel modulo di movimento",
+      "automation": "S",
+      "origin": "Magias policy",
+      "source": "MOTION-3D.md",
+      "previous": null,
+      "change": "Rende verificabile il degrado richiesto da M03",
+      "modes": [
+        "Design",
+        "Review",
+        "Refactor"
+      ],
+      "aliases": [],
+      "dependencies": [
+        "M03"
+      ]
+    },
+    {
+      "id": "MV03",
+      "version": "0.3",
+      "strength": "MUST",
+      "assertion": "Il contenuto principale della prima schermata è leggibile al primo disegno senza attendere JavaScript; un'animazione d'ingresso non lo nasconde oltre 300 ms. Un titolo spezzato in parti conserva il testo intero per le tecnologie assistive.",
+      "scope": "Prima schermata e titoli animati",
+      "exceptions": "Sipari e dissolvenze ammessi entro il limite; contenuti secondari esclusi",
+      "method": "Registrazione del caricamento con rete e CPU rallentate; albero accessibile del titolo",
+      "automation": "S",
+      "origin": "Magias policy",
+      "source": "MOTION-3D.md",
+      "previous": null,
+      "change": "Il testo d'apertura restava nascosto finché il motore non partiva",
+      "modes": [
+        "Design",
+        "Review",
+        "Refactor"
+      ],
+      "aliases": [],
+      "dependencies": [
+        "MV02",
+        "PF02"
+      ]
+    },
+    {
+      "id": "MV04",
+      "version": "0.3",
+      "strength": "MUST",
+      "assertion": "Un elemento in attesa di animazione resta raggiungibile da tastiera e trovabile con la ricerca nella pagina; se riceve il focus diventa visibile.",
+      "scope": "Reveal e contenuti in attesa",
+      "exceptions": "Contenuti volutamente chiusi da un controllo esplicito, come accordion e dialog",
+      "method": "Tab attraverso la pagina prima dello scroll e ricerca nella pagina di un testo non ancora rivelato",
+      "automation": "S",
+      "origin": "Magias policy",
+      "source": "MOTION-3D.md",
+      "previous": null,
+      "change": "visibility:hidden in attesa del reveal toglieva i contenuti a focus e ricerca",
+      "modes": [
+        "Design",
+        "Review",
+        "Refactor"
+      ],
+      "aliases": [],
+      "dependencies": [
+        "A03",
+        "MX02"
+      ]
+    },
+    {
+      "id": "MV05",
+      "version": "0.3",
+      "strength": "MUST",
+      "assertion": "Ogni movimento continuo o automatico che dura più di 5 secondi ha un comando di pausa, si ferma fuori dalla vista e quando la scheda è nascosta.",
+      "scope": "Video, loop, marquee, slideshow, scene 3D che si muovono da sole",
+      "exceptions": "Movimento essenziale; media scelti e avviati dalla persona",
+      "method": "Pausa e ripresa da tastiera, scroll oltre l'elemento, scheda in background, consumo CPU",
+      "automation": "S",
+      "origin": "Magias policy",
+      "source": "MOTION-3D.md",
+      "previous": null,
+      "change": "Loop e video continuavano senza pausa e fuori schermo",
+      "modes": [
+        "Design",
+        "Review",
+        "Refactor"
+      ],
+      "aliases": [],
+      "dependencies": [
+        "MX09",
+        "MX08"
+      ]
+    },
+    {
+      "id": "MV06",
+      "version": "0.3",
+      "strength": "MUST",
+      "assertion": "Nella fase di prenotazione o acquisto nessun movimento continuo o legato allo scroll agisce su date, prezzi, quantità e pulsanti; i movimenti concorrenti nella stessa vista si sospendono con task_suspension, senza annullare una pausa manuale.",
+      "scope": "Fase transazionale",
+      "exceptions": "Feedback di stato, apertura di pannelli e micro-conferme; movimento nelle altre fasi della pagina",
+      "method": "Prova del compito con slideshow o video attivi: target fermi, sospensione e ripresa, pausa manuale conservata",
+      "automation": "S",
+      "origin": "Magias policy",
+      "source": "MOTION-3D.md",
+      "previous": null,
+      "change": "Rende obbligatoria nella sola fase transazionale la sospensione che M05 e MX07 raccomandano",
+      "modes": [
+        "Design",
+        "Review",
+        "Refactor"
+      ],
+      "aliases": [],
+      "dependencies": [
+        "M05",
+        "MX07",
+        "MX06",
+        "MX05"
+      ]
+    },
+    {
+      "id": "MV07",
+      "version": "0.3",
+      "strength": "MUST",
+      "assertion": "Una striscia orizzontale bloccata porta in vista l'elemento che riceve il focus, si può saltare e ha una variante a scroll nativo per schermi stretti e movimento ridotto.",
+      "scope": "Sezioni con pinning e scorrimento orizzontale",
+      "exceptions": "Strisce senza elementi interattivi possono omettere il salto se brevi",
+      "method": "Tab attraverso la striscia, link di salto, viewport stretta e preferenza ridotta",
+      "automation": "S",
+      "origin": "Magias policy",
+      "source": "MOTION-3D.md",
+      "previous": null,
+      "change": "Nelle strisce bloccate il focus finiva su elementi fuori vista",
+      "modes": [
+        "Design",
+        "Review",
+        "Refactor"
+      ],
+      "aliases": [],
+      "dependencies": [
+        "M03",
+        "A03"
+      ]
+    },
+    {
+      "id": "MV08",
+      "version": "0.3",
+      "strength": "SHOULD",
+      "assertion": "Applicare un solo effetto di movimento per elemento; dissolvenza, sipario, zoom e parallax non si sommano sulla stessa immagine.",
+      "scope": "Immagini e blocchi animati",
+      "exceptions": "Composizioni coordinate dichiarate come un unico effetto nel contratto",
+      "method": "Inventario degli effetti per elemento e osservazione durante lo scroll",
+      "automation": "H",
+      "origin": "Magias heuristic/option",
+      "source": "MOTION-3D.md",
+      "previous": null,
+      "change": "Effetti sovrapposti sulla stessa foto",
+      "modes": [
+        "Design",
+        "Review",
+        "Refactor"
+      ],
+      "aliases": [],
+      "dependencies": [
+        "M05"
+      ]
+    },
+    {
+      "id": "ML01",
+      "version": "0.3",
+      "strength": "SHOULD",
+      "assertion": "Se il progetto usa GSAP: un solo punto di registrazione dei plugin usati, import dinamico dopo il caricamento dei font, gsap.matchMedia per preferenza e breakpoint, revert nel cleanup, durate ed easing presi dai token tramite un ponte unico.",
+      "scope": "Progetti con GSAP",
+      "exceptions": "Librerie equivalenti con lo stesso contratto; progetti esistenti in migrazione",
+      "method": "Lettura del modulo di movimento, cambio di pagina ripetuto, confronto fra token e valori usati",
+      "automation": "S",
+      "origin": "Magias heuristic/option",
+      "source": "MOTION-3D.md",
+      "previous": null,
+      "change": "Regole di libreria, non obblighi di adozione",
+      "modes": [
+        "Design",
+        "Review",
+        "Refactor"
+      ],
+      "aliases": [],
+      "dependencies": [
+        "MV01",
+        "M07"
+      ]
+    },
+    {
+      "id": "ML02",
+      "version": "0.3",
+      "strength": "SHOULD",
+      "assertion": "Usare un vocabolario di attributi per gli effetti con un prefisso unico (es. data-m-*), elencato nel design system del progetto; niente attributi documentati e non implementati.",
+      "scope": "Effetti dichiarati nel markup",
+      "exceptions": "Componenti che incapsulano l'effetto senza attributi",
+      "method": "Ricerca degli attributi nel codice e confronto con il documento del design system",
+      "automation": "A",
+      "origin": "Magias heuristic/option",
+      "source": "MOTION-3D.md",
+      "previous": null,
+      "change": "Attributi di movimento in collisione con quelli del tracciamento",
+      "modes": [
+        "Design",
+        "Review",
+        "Refactor"
+      ],
+      "aliases": [],
+      "dependencies": [
+        "G04"
+      ]
+    },
+    {
+      "id": "ML03",
+      "version": "0.3",
+      "strength": "SHOULD",
+      "assertion": "Se il progetto usa scroll fluido (es. Lenis): solo con puntatore fine, ancore gestite, sospensione in dialog, popover e menu aperti, aree con scroll proprio escluse, un solo ciclo di animazione condiviso, ritorno in cima al cambio di pagina.",
+      "scope": "Progetti con scroll fluido",
+      "exceptions": "Nessun obbligo di scroll fluido; touch con scroll nativo",
+      "method": "Tastiera, ancore, dialog, aree scrollabili interne, touch e cambio pagina",
+      "automation": "S",
+      "origin": "Magias heuristic/option",
+      "source": "MOTION-3D.md",
+      "previous": null,
+      "change": "Regole di libreria, non obblighi di adozione",
+      "modes": [
+        "Design",
+        "Review",
+        "Refactor"
+      ],
+      "aliases": [],
+      "dependencies": [
+        "M03",
+        "MV01"
+      ]
+    },
+    {
+      "id": "ML04",
+      "version": "0.3",
+      "strength": "SHOULD",
+      "assertion": "Se il progetto usa scene WebGL (es. three.js): caricare la scena solo se movimento ridotto è spento, WebGL disponibile, risparmio dati spento e la sezione è vicina alla vista; limitare la densità di pixel, fermare il ciclo fuori vista, liberare le risorse all'uscita e offrire un fallback con lo stesso contenuto e testo vero nel DOM.",
+      "scope": "Livello 3 e scene decorative o esplicative",
+      "exceptions": "Scene che sono il prodotto stesso (configuratori) con budget dichiarato",
+      "method": "Rete e CPU rallentate, scheda in background, uscita e rientro nella pagina, contenuto senza WebGL",
+      "automation": "S",
+      "origin": "Magias heuristic/option",
+      "source": "MOTION-3D.md",
+      "previous": null,
+      "change": "Regole di libreria, non obblighi di adozione",
+      "modes": [
+        "Design",
+        "Review",
+        "Refactor"
+      ],
+      "aliases": [],
+      "dependencies": [
+        "MV05",
+        "PF01"
+      ]
+    },
+    {
+      "id": "ML05",
+      "version": "0.3",
+      "strength": "SHOULD",
+      "assertion": "Per i livelli 2 e 3 misurare prima e dopo il movimento LCP, INP e CLS su un telefono di fascia media, con le soglie di PF01.",
+      "scope": "Livelli 2 e 3",
+      "exceptions": "Livelli 0 e 1 con misura a campione",
+      "method": "Due misure ripetibili con e senza movimento nello stesso ambiente",
+      "automation": "S",
+      "origin": "Magias heuristic/option",
+      "source": "MOTION-3D.md",
+      "previous": null,
+      "change": "Collega il costo del movimento a soglie misurabili",
+      "modes": [
+        "Design",
+        "Review",
+        "Refactor"
+      ],
+      "aliases": [],
+      "dependencies": [
+        "M07",
+        "PF01"
+      ]
+    },
+    {
+      "id": "PF01",
+      "version": "0.3",
+      "strength": "SHOULD",
+      "assertion": "Puntare a LCP ≤ 2,5 s, INP ≤ 200 ms e CLS ≤ 0,1 al 75° percentile dei dati reali, o in laboratorio su telefono di fascia media se mancano; motivare e registrare le deviazioni.",
+      "scope": "Pagine pubbliche",
+      "exceptions": "Applicazioni interne con budget proprio; pagine senza traffico misurabile",
+      "method": "Dati di campo se disponibili, altrimenti laboratorio con rete e CPU dichiarate",
+      "automation": "S",
+      "origin": "Magias heuristic/option",
+      "source": "PERFORMANCE.md",
+      "previous": null,
+      "change": "Prime soglie numeriche del protocollo",
+      "modes": [
+        "Design",
+        "Review",
+        "Refactor"
+      ],
+      "aliases": [],
+      "dependencies": []
+    },
+    {
+      "id": "PF02",
+      "version": "0.3",
+      "strength": "SHOULD",
+      "assertion": "L'elemento più grande della prima schermata non è caricato in modo differito, ha priorità di caricamento e non dipende da JavaScript per comparire.",
+      "scope": "Prima schermata",
+      "exceptions": "Prima schermata solo testuale",
+      "method": "Individuazione dell'elemento LCP e della sua catena di richieste",
+      "automation": "S",
+      "origin": "Magias heuristic/option",
+      "source": "PERFORMANCE.md",
+      "previous": null,
+      "change": "Nuova regola",
+      "modes": [
+        "Design",
+        "Review",
+        "Refactor"
+      ],
+      "aliases": [],
+      "dependencies": [
+        "MV03"
+      ]
+    },
+    {
+      "id": "PF03",
+      "version": "0.3",
+      "strength": "SHOULD",
+      "assertion": "I video non essenziali non si precaricano per intero: preload none o metadata, poster come immagine iniziale, riproduzione solo in vista.",
+      "scope": "Video decorativi e di apertura",
+      "exceptions": "Video che sono il contenuto principale scelto dalla persona",
+      "method": "Richieste di rete al caricamento e durante lo scroll",
+      "automation": "S",
+      "origin": "Magias heuristic/option",
+      "source": "PERFORMANCE.md",
+      "previous": null,
+      "change": "Video precaricati e in riproduzione fuori schermo",
+      "modes": [
+        "Design",
+        "Review",
+        "Refactor"
+      ],
+      "aliases": [],
+      "dependencies": [
+        "MV05"
+      ]
+    },
+    {
+      "id": "PF04",
+      "version": "0.3",
+      "strength": "MUST",
+      "assertion": "Riservare lo spazio di immagini, media, barre e banner che compaiono dopo il primo disegno, così che non spostino i contenuti su cui la persona sta agendo.",
+      "scope": "Elementi caricati o inseriti dopo il primo disegno",
+      "exceptions": "Spostamenti causati dalla persona entro il tempo atteso dal browser",
+      "method": "Registrazione degli spostamenti di layout durante caricamento e interazione",
+      "automation": "S",
+      "origin": "Magias policy",
+      "source": "PERFORMANCE.md",
+      "previous": null,
+      "change": "Gli spostamenti di layout cambiano il bersaglio di un tocco",
+      "modes": [
+        "Design",
+        "Review",
+        "Refactor"
+      ],
+      "aliases": [],
+      "dependencies": [
+        "MX06"
+      ]
+    },
+    {
+      "id": "PF05",
+      "version": "0.3",
+      "strength": "SHOULD",
+      "assertion": "Nei cicli di animazione e negli handler di scroll non leggere il layout per ogni elemento a ogni frame: leggere in blocco, memorizzare e ricalcolare solo al resize.",
+      "scope": "Motori di movimento e handler di scroll",
+      "exceptions": "Letture uniche fuori dal ciclo",
+      "method": "Profilo delle prestazioni durante lo scroll: layout forzati e durata dei frame",
+      "automation": "S",
+      "origin": "Magias heuristic/option",
+      "source": "PERFORMANCE.md",
+      "previous": null,
+      "change": "Letture di layout per ogni immagine nel motore di movimento",
+      "modes": [
+        "Design",
+        "Review",
+        "Refactor"
+      ],
+      "aliases": [],
+      "dependencies": [
+        "M07"
+      ]
+    },
+    {
+      "id": "PF06",
+      "version": "0.3",
+      "strength": "SHOULD",
+      "assertion": "Caricare mappe, widget di prenotazione, chat e altri script di terzi su intenzione o dopo il consenso pertinente, con un'alternativa testuale o un link nel frattempo.",
+      "scope": "Script e iframe di terzi",
+      "exceptions": "Servizi necessari al primo compito della pagina",
+      "method": "Richieste di rete prima dell'interazione e del consenso; contenuto disponibile nell'alternativa",
+      "automation": "S",
+      "origin": "Magias heuristic/option",
+      "source": "PERFORMANCE.md",
+      "previous": null,
+      "change": "Iframe di terzi caricati prima del consenso",
+      "modes": [
+        "Design",
+        "Review",
+        "Refactor"
+      ],
+      "aliases": [],
+      "dependencies": [
+        "C10.a"
+      ]
+    },
+    {
+      "id": "G01",
+      "version": "0.3",
+      "strength": "SHOULD",
+      "assertion": "Separare token primitivi e semantici, azzerando i valori predefiniti del framework; tenere una tabella dei contrasti calcolati con le coppie vietate.",
+      "scope": "Design system di progetto",
+      "exceptions": "Sistemi esistenti con struttura diversa ma equivalente",
+      "method": "Lettura dei token e ricalcolo a campione dei contrasti dichiarati",
+      "automation": "S",
+      "origin": "Magias heuristic/option",
+      "source": "profiles/GENERIC.md",
+      "previous": null,
+      "change": "Struttura del design system comune ai progetti recenti",
+      "modes": [
+        "Design",
+        "Review",
+        "Refactor"
+      ],
+      "aliases": [],
+      "dependencies": [
+        "A02"
+      ]
+    },
+    {
+      "id": "G02",
+      "version": "0.3",
+      "strength": "SHOULD",
+      "assertion": "Costruire i controlli dei moduli (selezioni, date, numeri) con componenti adattati al design system e verificati per semantica, tastiera e lettori di schermo, invece di controlli nativi non stilizzabili che rompono l'identità.",
+      "scope": "Moduli",
+      "exceptions": "Contesti in cui il controllo nativo è la scelta più accessibile o richiesta dal progetto",
+      "method": "Tastiera, lettore di schermo e touch sul componente; confronto con l'identità",
+      "automation": "S",
+      "origin": "Magias heuristic/option",
+      "source": "profiles/GENERIC.md",
+      "previous": null,
+      "change": "Scelta di casa: componenti accessibili adattati, non selettori di sistema",
+      "modes": [
+        "Design",
+        "Review",
+        "Refactor"
+      ],
+      "aliases": [],
+      "dependencies": [
+        "A07",
+        "A08"
+      ]
+    },
+    {
+      "id": "G03",
+      "version": "0.3",
+      "strength": "SHOULD",
+      "assertion": "Marcare i dati da confermare con un componente unico; un dato non verificato non va in pagina come vero né nei dati strutturati.",
+      "scope": "Contenuti con fatti, numeri e condizioni",
+      "exceptions": "Bozze interne non pubblicate",
+      "method": "Ricerca del componente e confronto con i dati strutturati generati",
+      "automation": "S",
+      "origin": "Magias heuristic/option",
+      "source": "profiles/GENERIC.md",
+      "previous": null,
+      "change": "Implementazione di C05 nei dati strutturati",
+      "modes": [
+        "Design",
+        "Review",
+        "Refactor"
+      ],
+      "aliases": [],
+      "dependencies": [
+        "C05"
+      ]
+    },
+    {
+      "id": "G04",
+      "version": "0.3",
+      "strength": "SHOULD",
+      "assertion": "Tenere un documento del design system allineato al codice: componenti, effetti e token citati esistono; un controllo automatico lo verifica.",
+      "scope": "Documentazione del design system",
+      "exceptions": "Progetti senza documento dedicato",
+      "method": "Controllo automatico dei nomi citati contro il codice",
+      "automation": "A",
+      "origin": "Magias heuristic/option",
+      "source": "profiles/GENERIC.md",
+      "previous": null,
+      "change": "Documenti che descrivevano componenti non più presenti",
+      "modes": [
+        "Design",
+        "Review",
+        "Refactor"
+      ],
+      "aliases": [],
+      "dependencies": []
+    },
+    {
+      "id": "G05",
+      "version": "0.3",
+      "strength": "SHOULD",
+      "assertion": "Dichiarare nel contesto di progetto profilo (generico o ospitalità), livello di movimento e librerie usate, e trattare il kit di riferimento come implementazione possibile, non come obbligo.",
+      "scope": "Contesto di progetto",
+      "exceptions": "Interventi minuti su un componente",
+      "method": "Contesto compilato",
+      "automation": "H",
+      "origin": "Magias heuristic/option",
+      "source": "profiles/GENERIC.md",
+      "previous": null,
+      "change": "Profili e livelli diventano dati del contesto",
+      "modes": [
+        "Design",
+        "Review",
+        "Refactor"
+      ],
+      "aliases": [],
+      "dependencies": [
+        "MV00"
+      ]
+    },
+    {
+      "id": "H01",
+      "version": "0.3",
+      "strength": "MUST",
+      "assertion": "Nelle pagine di una struttura la ricerca disponibilità (date e ospiti) è raggiungibile nella prima schermata a 375 e 1366 px, senza movimenti che la coprano o la spostino.",
+      "scope": "Pagine di struttura ricettiva",
+      "exceptions": "Pagine informative o legali senza prenotazione",
+      "method": "Viewport 375 e 1366, caricamento e prime interazioni",
+      "automation": "S",
+      "origin": "Magias policy",
+      "source": "profiles/HOSPITALITY.md",
+      "previous": null,
+      "change": "Dal confronto con le pratiche dei siti di hotel",
+      "modes": [
+        "Design",
+        "Review",
+        "Refactor"
+      ],
+      "aliases": [],
+      "dependencies": [
+        "C02",
+        "MV06"
+      ]
+    },
+    {
+      "id": "H02",
+      "version": "0.3",
+      "strength": "MUST",
+      "assertion": "Il prezzo mostrato prima della scelta è il totale del soggiorno con tasse e oneri obbligatori; il prezzo a notte è secondario; l'imposta di soggiorno pagata in struttura è dichiarata accanto. Uno sconto mostra il prezzo più basso dei 30 giorni precedenti.",
+      "scope": "Prezzi mostrati sul sito",
+      "exceptions": "Se il motore non espone il totale si scrive cosa manca, senza prezzo inventato",
+      "method": "Confronto fra prezzo mostrato e totale al pagamento per un soggiorno di prova",
+      "automation": "H",
+      "origin": "Magias policy",
+      "source": "profiles/HOSPITALITY.md",
+      "previous": null,
+      "change": "Prezzo totale e riduzioni secondo le norme europee sui prezzi",
+      "modes": [
+        "Design",
+        "Review",
+        "Refactor"
+      ],
+      "aliases": [],
+      "dependencies": [
+        "C04"
+      ]
+    },
+    {
+      "id": "H03",
+      "version": "0.3",
+      "strength": "MUST",
+      "assertion": "Ogni tariffa riporta le condizioni di cancellazione con data e ora limite prima della scelta.",
+      "scope": "Tariffe",
+      "exceptions": "Tariffe gestite interamente dal motore esterno: si verifica e si dichiara",
+      "method": "Lettura delle tariffe e del riepilogo",
+      "automation": "H",
+      "origin": "Magias policy",
+      "source": "profiles/HOSPITALITY.md",
+      "previous": null,
+      "change": "Nuova regola",
+      "modes": [
+        "Design",
+        "Review",
+        "Refactor"
+      ],
+      "aliases": [],
+      "dependencies": [
+        "C04"
+      ]
+    },
+    {
+      "id": "H04",
+      "version": "0.3",
+      "strength": "MUST",
+      "assertion": "Il calendario distingue date non disponibili e date valide solo per la partenza, si usa da tastiera, accetta date digitate e non richiede trascinamento.",
+      "scope": "Selettori di date",
+      "exceptions": "Motore esterno: si verifica e si dichiara",
+      "method": "Tastiera, lettore di schermo, touch e digitazione",
+      "automation": "S",
+      "origin": "Magias policy",
+      "source": "profiles/HOSPITALITY.md",
+      "previous": null,
+      "change": "Nuova regola",
+      "modes": [
+        "Design",
+        "Review",
+        "Refactor"
+      ],
+      "aliases": [],
+      "dependencies": [
+        "A03",
+        "A07"
+      ]
+    },
+    {
+      "id": "H05",
+      "version": "0.3",
+      "strength": "SHOULD",
+      "assertion": "Le schede camera usano gli stessi campi nello stesso ordine (m², letti, occupazione, bagno, vista, accessibilità, servizi), dati fissi prima del racconto e foto della tipologia reale.",
+      "scope": "Schede camera",
+      "exceptions": "Strutture con una sola unità",
+      "method": "Confronto fra schede",
+      "automation": "H",
+      "origin": "Magias heuristic/option",
+      "source": "profiles/HOSPITALITY.md",
+      "previous": null,
+      "change": "Nuova regola",
+      "modes": [
+        "Design",
+        "Review",
+        "Refactor"
+      ],
+      "aliases": [],
+      "dependencies": [
+        "C04"
+      ]
+    },
+    {
+      "id": "H06",
+      "version": "0.3",
+      "strength": "SHOULD",
+      "assertion": "Lo slideshow della prima schermata non avanza da solo su mobile e si ferma quando si interagisce con la ricerca disponibilità.",
+      "scope": "Prima schermata con slideshow",
+      "exceptions": "Slideshow fermo o avviato dalla persona",
+      "method": "Viewport mobile e interazione con la ricerca",
+      "automation": "S",
+      "origin": "Magias heuristic/option",
+      "source": "profiles/HOSPITALITY.md",
+      "previous": null,
+      "change": "Nuova regola",
+      "modes": [
+        "Design",
+        "Review",
+        "Refactor"
+      ],
+      "aliases": [],
+      "dependencies": [
+        "MV05",
+        "MV06"
+      ]
+    },
+    {
+      "id": "H07",
+      "version": "0.3",
+      "strength": "SHOULD",
+      "assertion": "Su mobile l'azione Prenota resta raggiungibile in una barra con spazio riservato, area sicura rispettata, senza coprire il campo attivo né il banner del consenso; telefono e messaggi restano nello stesso posto in tutte le pagine.",
+      "scope": "Mobile",
+      "exceptions": "Strutture senza prenotazione online",
+      "method": "Scroll e compilazione su mobile, banner del consenso aperto",
+      "automation": "S",
+      "origin": "Magias heuristic/option",
+      "source": "profiles/HOSPITALITY.md",
+      "previous": null,
+      "change": "Nuova regola",
+      "modes": [
+        "Design",
+        "Review",
+        "Refactor"
+      ],
+      "aliases": [],
+      "dependencies": [
+        "PF04",
+        "A03"
+      ]
+    },
+    {
+      "id": "H08",
+      "version": "0.3",
+      "strength": "MUST",
+      "assertion": "Il passaggio al motore di prenotazione mantiene date, ospiti, lingua e prezzo, segnala l'apertura in una nuova scheda e conserva l'attribuzione; se il motore è di terzi, accessibilità, prezzo e lingua del motore si verificano e i limiti si dichiarano nell'audit.",
+      "scope": "Collegamento al motore di prenotazione",
+      "exceptions": "Motore integrato nel sito: valgono le regole del flusso",
+      "method": "Percorso completo fino al motore con parametri, lingua e misura dell'attribuzione",
+      "automation": "S",
+      "origin": "Magias policy",
+      "source": "profiles/HOSPITALITY.md",
+      "previous": null,
+      "change": "Un solo costruttore del link al motore",
+      "modes": [
+        "Design",
+        "Review",
+        "Refactor"
+      ],
+      "aliases": [],
+      "dependencies": [
+        "C08",
+        "C10"
+      ]
+    },
+    {
+      "id": "H09",
+      "version": "0.3",
+      "strength": "SHOULD",
+      "assertion": "La posizione si legge senza aprire la mappa: indirizzo testuale, distanze dai punti utili e link alla mappa; la mappa interattiva si carica dopo il consenso.",
+      "scope": "Posizione e mappe",
+      "exceptions": "Nessuna",
+      "method": "Pagina senza mappa caricata e prima del consenso",
+      "automation": "S",
+      "origin": "Magias heuristic/option",
+      "source": "profiles/HOSPITALITY.md",
+      "previous": null,
+      "change": "Nuova regola",
+      "modes": [
+        "Design",
+        "Review",
+        "Refactor"
+      ],
+      "aliases": [],
+      "dependencies": [
+        "PF06"
+      ]
+    },
+    {
+      "id": "H10",
+      "version": "0.3",
+      "strength": "SHOULD",
+      "assertion": "Le informazioni di accessibilità della struttura sono misure concrete (gradini, larghezza porte, doccia, parcheggio), non etichette generiche.",
+      "scope": "Informazioni sulla struttura",
+      "exceptions": "Dati non disponibili: si dichiarano mancanti",
+      "method": "Lettura delle informazioni",
+      "automation": "H",
+      "origin": "Magias heuristic/option",
+      "source": "profiles/HOSPITALITY.md",
+      "previous": null,
+      "change": "Nuova regola",
+      "modes": [
+        "Design",
+        "Review",
+        "Refactor"
+      ],
+      "aliases": [],
+      "dependencies": [
+        "G03"
+      ]
+    },
+    {
+      "id": "H11",
+      "version": "0.3",
+      "strength": "MUST",
+      "assertion": "I vantaggi della prenotazione diretta sono concreti e veri alla data; nessun miglior prezzo garantito senza verifica.",
+      "scope": "Promesse di prenotazione diretta",
+      "exceptions": "Nessuna",
+      "method": "Confronto con i canali esterni alla data, con fonte",
+      "automation": "H",
+      "origin": "Magias policy",
+      "source": "profiles/HOSPITALITY.md",
+      "previous": null,
+      "change": "Nuova regola",
+      "modes": [
+        "Design",
+        "Review",
+        "Refactor"
+      ],
+      "aliases": [],
+      "dependencies": [
+        "C05"
+      ]
+    },
+    {
+      "id": "H12",
+      "version": "0.3",
+      "strength": "SHOULD",
+      "assertion": "Extra e richieste speciali sono facoltativi, vengono dopo la scelta della camera e aggiornano subito il totale.",
+      "scope": "Extra e richieste",
+      "exceptions": "Pacchetti venduti come tali",
+      "method": "Percorso con e senza extra; totale aggiornato",
+      "automation": "S",
+      "origin": "Magias heuristic/option",
+      "source": "profiles/HOSPITALITY.md",
+      "previous": null,
+      "change": "Nuova regola",
+      "modes": [
+        "Design",
+        "Review",
+        "Refactor"
+      ],
+      "aliases": [],
+      "dependencies": [
+        "C04",
+        "MX05"
+      ]
+    },
+    {
+      "id": "H13",
+      "version": "0.3",
+      "strength": "SHOULD",
+      "assertion": "Se mancano le date, il pulsante di ricerca non si disabilita: riapre il calendario e annuncia cosa manca; i contatori degli ospiti annunciano il limite invece di diventare inattivi.",
+      "scope": "Barra date e ospiti",
+      "exceptions": "Nessuna",
+      "method": "Invio senza date, contatori al limite, lettore di schermo",
+      "automation": "S",
+      "origin": "Magias heuristic/option",
+      "source": "profiles/HOSPITALITY.md",
+      "previous": null,
+      "change": "Pulsanti disabilitati senza spiegazione nei contatori degli ospiti",
+      "modes": [
+        "Design",
+        "Review",
+        "Refactor"
+      ],
+      "aliases": [],
+      "dependencies": [
+        "A07",
+        "C08"
+      ]
+    },
+    {
+      "id": "H14",
+      "version": "0.3",
+      "strength": "SHOULD",
+      "assertion": "Le recensioni mostrate riportano fonte e data e rimandano all'originale; nessun punteggio senza fonte.",
+      "scope": "Recensioni",
+      "exceptions": "Citazioni con permesso documentato",
+      "method": "Confronto con la fonte",
+      "automation": "H",
+      "origin": "Magias heuristic/option",
+      "source": "profiles/HOSPITALITY.md",
+      "previous": null,
+      "change": "Nuova regola",
+      "modes": [
+        "Design",
+        "Review",
+        "Refactor"
+      ],
+      "aliases": [],
+      "dependencies": [
+        "C05"
+      ]
+    },
+    {
+      "id": "H15",
+      "version": "0.3",
+      "strength": "SHOULD",
+      "assertion": "Ogni lingua ha uno stato pubblicato o bozza; il selettore mostra solo le lingue pubblicate, con il nome della lingua scritto per esteso.",
+      "scope": "Siti multilingua",
+      "exceptions": "Siti in una lingua",
+      "method": "Selettore, link alternati e pagine per lingua",
+      "automation": "S",
+      "origin": "Magias heuristic/option",
+      "source": "profiles/HOSPITALITY.md",
+      "previous": null,
+      "change": "Nuova regola",
+      "modes": [
+        "Design",
+        "Review",
+        "Refactor"
+      ],
+      "aliases": [],
+      "dependencies": [
+        "A06"
+      ]
     }
   ]
 }

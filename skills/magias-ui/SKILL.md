@@ -6,7 +6,7 @@ description: Progetta, implementa e revisiona interfacce web con il Magias UI Pr
 
 # Magias UI
 
-Applica il protocollo v0.2 come processo decisionale. Il progetto corrente determina voce, densità, componenti e carattere; i principi culturali sono lenti facoltative. Animazioni, transizioni, card, simmetria e composizioni dense restano ammesse quando coerenti con il compito.
+Applica il protocollo v0.3 come processo decisionale. Il progetto corrente determina voce, densità, componenti e carattere; i principi culturali sono lenti facoltative. Animazioni, transizioni, card, simmetria e composizioni dense restano ammesse quando coerenti con il compito.
 
 ## Ingresso e modalità
 
@@ -26,7 +26,10 @@ Carica soltanto i moduli necessari:
 
 - Scelte culturali e compositive: [principi](references/protocol/PRINCIPLES.md), [layout](references/protocol/LAYOUT.md), [tipografia](references/protocol/TYPOGRAPHY.md).
 - Movimento: [motion](references/protocol/MOTION.md) e [contratto](references/motion.md). Consultali anche quando la richiesta non lo nomina ma nella stessa vista del compito qualcosa si muove.
+- Livelli di movimento, scroll fluido, GSAP o WebGL: [movimento ricco e 3D](references/protocol/MOTION-3D.md).
+- Caricamento, media pesanti, script di terzi: [prestazioni](references/protocol/PERFORMANCE.md).
 - Offerte, moduli, acquisti o prenotazioni: [CRO](references/protocol/CRO.md).
+- Profilo dichiarato nel contesto: [generico](references/protocol/profiles/GENERIC.md); per strutture ricettive anche [ospitalità](references/protocol/profiles/HOSPITALITY.md). Senza profilo dichiarato valgono solo nucleo e moduli; non applicare il profilo ospitalità a un sito che non lo è.
 - Interazione e barriere: [accessibilità](references/protocol/ACCESSIBILITY.md).
 - Pattern sospetti: [anti-pattern](references/protocol/ANTI-PATTERNS.md).
 

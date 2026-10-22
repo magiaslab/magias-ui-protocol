@@ -1,6 +1,6 @@
 # Accessibilità
 
-Magias UI Protocol · v0.2 · nucleo v0.2
+Magias UI Protocol · v0.3 · nucleo v0.3
 
 Checklist Magias prioritaria, non testo normativo e non certificazione. Per chiudere l’obiettivo AA compilare il [registro dei criteri A/AA](templates/WCAG-REGISTER.csv) con scope, metodo, eccezioni, stato ed evidenza. Fonte: [WCAG 2.2](https://www.w3.org/TR/WCAG22/). M04 è una policy Magias distinta dai criteri normativi. Il testo grande e le eccezioni alle soglie seguono la fonte originale.
 
