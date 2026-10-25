@@ -1,17 +1,18 @@
 # Stato delle verifiche
 
-Aggiornato il 21 ottobre 2026; beta 0.1.0-beta.1, nucleo v0.2.
+Aggiornato il 25 ottobre 2026; beta 0.3.0-beta.1, nucleo v0.3.
 
 | Area | Stato | Evidenza e limite |
 |---|---|---|
 | Struttura skill, licenza e riferimenti | PASS locale | Validatore standard-library; non parser YAML generale |
-| Registro e matrice | PASS locale | 117 regole (nucleo v0.3, ramo in preparazione), corrispondenza dei campi e moduli |
+| Registro e matrice | PASS locale | 117 regole (nucleo v0.3), corrispondenza dei campi e moduli |
 | Confezionamento ZIP | PASS locale | Contenuto confrontato byte per byte; licenza inclusa |
 | Claude Code 2.1.306 | PASS su 12 scenari su 12 | E01–E12 in Design, Review e Refactor su file isolati, una esecuzione ciascuno: [prova del 21 ottobre](evidence/claude-code-2026-10-21/README.md) |
 | Codex CLI 0.163.0-alpha.10.2 | 11 PASS (uno con riserva) su 12, poi E04 corretto | E04 falliva (slideshow non sospeso); dopo la correzione della skill 3 PASS su 3: [prova](evidence/codex-2026-10-21/README.md), [correzione](evidence/correzione-refactor-2026-10-21/README.md) |
 | Codex CLI 0.160.0 | PASS nel campione documentale (8 ottobre) | Una prova composita in Review |
 | Claude Code 2.1.226 | BLOCCATO da autenticazione (9 ottobre) | Superato dalla prova del 21 ottobre con la versione 2.1.306 |
-| Nucleo v0.3, E13–E18 + regressione | Claude Code 9 PASS su 9; Codex 8 PASS, 1 con riserva | Ramo `v0.3`, una esecuzione ciascuno: [prova del 22 ottobre](evidence/v0.3-2026-10-22/README.md) |
+| Nucleo v0.3, E13–E18 + regressione | Claude Code 9 PASS su 9; Codex 8 PASS, 1 con riserva | Una esecuzione ciascuno: [prova del 22 ottobre](evidence/v0.3-2026-10-22/README.md) |
+| Runtime MV e PF con il kit | PASS su tre siti (14/14, 13/13, 16/16) | Bozze di siti di ospitalità in Next 16, build di produzione, Chrome headless via CDP, 22 ottobre: senza JavaScript, riduci movimento all'avvio e a pagina aperta, focus su blocchi in attesa, strisce orizzontali da tastiera, sospensione con calendario, fuori vista e scheda nascosta, niente avanzamento automatico sul telefono, niente animazioni infinite, LCP e CLS in laboratorio. Lettori di schermo, telefono vero, Lighthouse e dati di campo NON VERIFICATI. [Note del kit](https://github.com/magiaslab/magias-ui-kit#validazione-su-un-sito-22-ottobre-2026) |
 | Claude.ai / API | NON VERIFICATO | Non installati/caricati |
 | CI GitHub | PASS remoto | Run 37850941100 del 9 ottobre 2026: validazione e confezionamento riusciti sul commit 11b7769 |
 

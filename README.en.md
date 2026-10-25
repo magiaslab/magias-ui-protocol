@@ -4,7 +4,7 @@
 
 A protocol and skill for AI-assisted web interface design, review and refactoring, preserving identity, accessibility and people’s tasks.
 
-**Beta 0.1.0-beta.1 · rule core v0.3 in preparation (released: v0.2) · MIT license.** The skill is framework-independent and works with the capabilities available in its environment. All 12 trial scenarios pass in Claude Code and 11 of 12 in Codex; remaining checks are declared in the [validation record](validation/RESULTS.md).
+**Beta 0.3.0-beta.1 · rule core v0.3 · MIT license.** The skill is framework-independent and works with the capabilities available in its environment. All 12 trial scenarios pass in Claude Code and 11 of 12 in Codex; the six new v0.3 scenarios pass in Claude Code and in Codex (one with a reservation). Motion was also tested at runtime on three sites with the [reference kit](https://github.com/magiaslab/magias-ui-kit). Remaining checks are declared in the [validation record](validation/RESULTS.md).
 
 ## The starting philosophy: iki
 

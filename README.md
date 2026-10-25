@@ -4,7 +4,7 @@
 
 Un protocollo e una skill per progettare, revisionare e correggere interfacce web con agenti AI, preservando identità, accessibilità e compiti delle persone.
 
-**Beta 0.1.0-beta.1 · nucleo regole v0.3 in preparazione (rilasciato: v0.2) · licenza MIT.** La skill è indipendente dal framework e usa le capacità disponibili nell’ambiente. I 12 scenari di prova sono superati in Claude Code; in Codex 11 su 12; le altre prove restano dichiarate nello [stato di validazione](validation/RESULTS.md).
+**Beta 0.3.0-beta.1 · nucleo regole v0.3 · licenza MIT.** La skill è indipendente dal framework e usa le capacità disponibili nell’ambiente. I 12 scenari di prova sono superati in Claude Code; in Codex 11 su 12; i sei scenari nuovi della v0.3 sono superati in Claude Code e in Codex (uno con riserva). Il movimento è stato provato anche a runtime su tre siti con il [kit di riferimento](https://github.com/magiaslab/magias-ui-kit). Le altre prove restano dichiarate nello [stato di validazione](validation/RESULTS.md).
 
 ## La filosofia di partenza: iki
 

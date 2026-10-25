@@ -21,6 +21,6 @@ Nuovi MUST: MV01–MV07, PF04, H01–H04, H08, H11. Gli altri sono SHOULD.
 
 ## Cosa resta aperto
 
-- Gli scenari E13–E18 sono stati eseguiti una volta in Claude Code e Codex ([prova](../validation/evidence/v0.3-2026-10-22/README.md)). Le garanzie MV e PF non sono ancora provate a runtime su un sito reale.
+- Gli scenari E13–E18 sono stati eseguiti una volta in Claude Code e Codex ([prova](../validation/evidence/v0.3-2026-10-22/README.md)). Le garanzie MV e PF sono state provate a runtime su tre bozze di siti con il kit di riferimento; mancano lettori di schermo, telefono vero e dati di campo.
 - Ricerca organica e visibilità negli assistenti AI non sono nello scope.
-- Un kit di componenti di riferimento è previsto in una repository separata. Il protocollo non lo richiede.
+- Il kit di componenti di riferimento è in una repository separata, [magias-ui-kit](https://github.com/magiaslab/magias-ui-kit). Il protocollo non lo richiede.
